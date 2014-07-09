@@ -54,41 +54,6 @@ public final class Game extends TickingElement {
         super("Game", 20);
     }
 
-    public SimpleEventManager getEventManager() {
-        return eventManager;
-    }
-
-    /**
-     * Starts the game and causes the current thread to wait until the {@link #close()} method is called. When this happens, the thread resumes and the game is stopped. Interrupting the thread will
-     * not cause it to close, only calling {@link #close()} will. Calls to {@link #close()} before open() are not counted.
-     */
-    public void open() {
-        // Only start the game if running has a value of false, in which case it's set to true and the if statement passes
-        if (running.compareAndSet(false, true)) {
-            // Start the threads, which might release permits by calling close() before all are started
-            start();
-            // Attempts to acquire a permit, but since none are available (except for the situation stated above), the thread blocks
-            semaphore.acquireUninterruptibly();
-            // A permit was acquired, which means close() was called; so we stop game. The available permit count returns to zero
-            stop();
-        }
-    }
-
-
-    /**
-     * Wakes up the thread that has opened the game (by having called {@link #open()}) and allows it to resume it's activity to trigger the end of the game.
-     */
-    public void close() {
-        // Only stop the game if running has a value of true, in which case it's set to false and the if statement passes
-        if (running.compareAndSet(true, false)) {
-            // Release a permit (which doesn't need to be held by the thread in the first place),
-            // allowing the main thread to acquire one and resume to close the game
-            stop();
-            semaphore.release();
-            // The available permit count is now non-zero
-        }
-    }
-
     @Override
     public void onStart() {
         running.set(true);
@@ -112,7 +77,6 @@ public final class Game extends TickingElement {
 
     @Override
     public void onTick(long dt) {
-        // Process commands
         for (String rawCommand : rawCommandQueue) {
             try {
                 sender.processCommand(rawCommand);
@@ -126,6 +90,25 @@ public final class Game extends TickingElement {
     public void onStop() {
         console.close();
         eventManager.callEvent(new GameEvent.GameStopEvent(this));
+    }
+
+    public void open() {
+        if (running.compareAndSet(false, true)) {
+            start();
+            semaphore.acquireUninterruptibly();
+            stop();
+        }
+    }
+
+    public void close() {
+        if (running.compareAndSet(true, false)) {
+            stop();
+            semaphore.release();
+        }
+    }
+
+    public SimpleEventManager getEventManager() {
+        return eventManager;
     }
 
     public Queue<String> getRawCommandQueue() {
