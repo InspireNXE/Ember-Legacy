@@ -33,7 +33,6 @@ import com.obsidianbox.ember.command.Commands;
 import com.obsidianbox.ember.command.ConsoleCommandSender;
 import com.obsidianbox.ember.console.GameConsole;
 import com.obsidianbox.ember.event.GameEvent;
-import com.obsidianbox.ember.test.TestListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -74,7 +73,6 @@ public final class Game extends TickingElement {
         rawCommandQueue = new LinkedBlockingQueue<>();
 
         eventManager = new SimpleEventManager(logger);
-        eventManager.registerEvents(new TestListener(), this);
         eventManager.callEvent(new GameEvent.Start(this));
     }
 
