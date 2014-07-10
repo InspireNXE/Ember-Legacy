@@ -35,7 +35,7 @@ public class PluginClassLoader extends URLClassLoader {
     private static final Map<String, Class<?>> NAMES_BY_CLASSES = new HashMap<>();
 
     public PluginClassLoader(URL pluginResource) {
-        super(new URL[] {pluginResource}, PluginClassLoader.class.getClassLoader());
+        super(new URL[]{pluginResource}, PluginClassLoader.class.getClassLoader());
         LOADERS.add(this);
     }
 

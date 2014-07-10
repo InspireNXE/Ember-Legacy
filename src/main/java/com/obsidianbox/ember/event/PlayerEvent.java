@@ -1,6 +1,5 @@
 package com.obsidianbox.ember.event;
 
-import com.flowpowered.permissions.PermissionDomain;
 import com.obsidianbox.ember.Game;
 import com.obsidianbox.ember.physics.Player;
 

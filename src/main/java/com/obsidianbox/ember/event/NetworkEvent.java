@@ -24,8 +24,8 @@
 package com.obsidianbox.ember.event;
 
 import com.obsidianbox.ember.Game;
-import com.obsidianbox.ember.network.GameSession;
 import com.obsidianbox.ember.network.GameProtocol;
+import com.obsidianbox.ember.network.GameSession;
 import io.netty.channel.Channel;
 
 public abstract class NetworkEvent extends GameEvent {
@@ -35,7 +35,7 @@ public abstract class NetworkEvent extends GameEvent {
 
     /**
      * Fired when a new {@link com.obsidianbox.ember.network.GameSession} is about to be created.
-     *
+     * <p/>
      * Use this to set the {@link com.obsidianbox.ember.network.GameProtocol} for the session being created.
      */
     public static class PreSessionCreate extends NetworkEvent {

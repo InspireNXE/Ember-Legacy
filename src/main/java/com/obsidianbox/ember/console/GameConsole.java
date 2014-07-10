@@ -23,30 +23,122 @@
  */
 package com.obsidianbox.ember.console;
 
+import com.flowpowered.chat.ChatReceiver;
+import com.flowpowered.commands.CommandArguments;
+import com.flowpowered.commands.CommandException;
+import com.flowpowered.commands.CommandSender;
 import com.flowpowered.commons.console.CommandCallback;
+import com.flowpowered.commons.console.JLineConsole;
 import com.flowpowered.commons.console.Log4j2JLineConsole;
+import com.flowpowered.permissions.PermissionDomain;
 import com.obsidianbox.ember.Game;
+import com.obsidianbox.ember.event.GameEvent;
 import jline.console.completer.Completer;
 import org.slf4j.LoggerFactory;
 
+import java.lang.reflect.Field;
+import java.util.Collections;
 import java.util.List;
+import java.util.Queue;
+import java.util.Set;
+import java.util.concurrent.LinkedBlockingQueue;
 
-public class GameConsole extends Log4j2JLineConsole {
-    public GameConsole(Game game) {
-        super(new GameCommandCallback(game), new GameCommandCompleter(), LoggerFactory.getLogger("Ember"), System.out, System.in);
+public class GameConsole extends Log4j2JLineConsole implements CommandSender {
+    private static Field COMMAND_CALLBACK_FIELD;
+    static {
+        try {
+            COMMAND_CALLBACK_FIELD = JLineConsole.class.getDeclaredField("callback");
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        }
+    }
+    private final Game game;
+    private final GameCommandCallback callback;
+
+    public GameConsole(Game game) throws IllegalAccessException {
+        super(new GameCommandCallback(), new GameCommandCompleter(), LoggerFactory.getLogger("Ember"), System.out, System.in);
+        this.game = game;
+
+        COMMAND_CALLBACK_FIELD.setAccessible(true);
+        callback = (GameCommandCallback) COMMAND_CALLBACK_FIELD.get(this);
+        COMMAND_CALLBACK_FIELD.setAccessible(false);
+    }
+
+    public Queue<String> getCallbackQueue() {
+        return callback.callbackQueue;
+    }
+
+    @Override
+    public void processCommand(String commandLine) throws CommandException {
+        game.getCommandManager().getRootCommand().execute(this, new CommandArguments(commandLine.split(" ")));
+    }
+
+    @Override
+    public void sendMessage(String message) {
+        final GameEvent.Chat event = new GameEvent.Chat(game, this, message);
+        if (!game.getEventManager().callEvent(event).isCancelled()) {
+            game.logger.info(event.message);
+        }
+    }
+
+    @Override
+    public void sendMessage(ChatReceiver from, String message) {
+        final GameEvent.Chat event = new GameEvent.Chat(game, this, from, message);
+        if (!game.getEventManager().callEvent(event).isCancelled()) {
+            game.logger.info(event.message);
+        }
+    }
+
+    @Override
+    public void sendMessageRaw(String message, String type) {
+        final GameEvent.Chat event = new GameEvent.Chat(game, this, message);
+        if (!game.getEventManager().callEvent(event).isCancelled()) {
+            game.logger.info(event.message);
+        }
+    }
+
+    @Override
+    public String getName() {
+        return "console";
+    }
+
+    @Override
+    public boolean hasPermission(String permission) {
+        return true;
+    }
+
+    @Override
+    public boolean hasPermission(String permission, PermissionDomain domain) {
+        return true;
+    }
+
+    @Override
+    public boolean isInGroup(String group) {
+        return false;
+    }
+
+    @Override
+    public boolean isInGroup(String group, PermissionDomain domain) {
+        return false;
+    }
+
+    @Override
+    public Set<String> getGroups() {
+        return Collections.emptySet();
+    }
+
+    @Override
+    public Set<String> getGroups(PermissionDomain domain) {
+        return Collections.emptySet();
     }
 }
 
 final class GameCommandCallback implements CommandCallback {
-    private final Game game;
-
-    public GameCommandCallback(Game game) {
-        this.game = game;
-    }
+    protected final Queue<String> callbackQueue = new LinkedBlockingQueue<>();
 
     @Override
     public void handleCommand(String command) {
-        game.getRawCommandQueue().offer(command);
+        callbackQueue.offer(command);
     }
 }
 

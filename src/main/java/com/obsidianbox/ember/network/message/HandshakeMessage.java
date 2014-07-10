@@ -25,6 +25,21 @@ package com.obsidianbox.ember.network.message;
 
 import com.flowpowered.networking.Message;
 
+enum HandshakeState {
+    LOGIN((byte) 0),
+    STATUS((byte) 1);
+
+    private final byte flag;
+
+    HandshakeState(byte flag) {
+        this.flag = flag;
+    }
+
+    public byte value() {
+        return flag;
+    }
+}
+
 public class HandshakeMessage implements Message {
     public final byte version;
     public final HandshakeState state;
@@ -58,20 +73,5 @@ public class HandshakeMessage implements Message {
                 "version=" + version +
                 ", state=" + state +
                 '}';
-    }
-}
-
-enum HandshakeState {
-    LOGIN((byte) 0),
-    STATUS((byte) 1);
-
-    private final byte flag;
-
-    HandshakeState(byte flag) {
-        this.flag = flag;
-    }
-
-    public byte value() {
-        return flag;
     }
 }

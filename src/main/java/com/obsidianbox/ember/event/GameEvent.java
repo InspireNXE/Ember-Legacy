@@ -56,7 +56,7 @@ public abstract class GameEvent extends SimpleEvent {
 
     /**
      * Fired when a {@link com.flowpowered.chat.ChatReceiver} is sent a message.
-     *
+     * <p/>
      * Calling {@link com.obsidianbox.ember.event.GameEvent.Chat#setCancelled(boolean)} and passing in true will result in
      * the message not being sent to the {@link com.flowpowered.chat.ChatReceiver}.
      */
@@ -84,7 +84,7 @@ public abstract class GameEvent extends SimpleEvent {
 
     /**
      * Fired when a {@link com.flowpowered.permissions.PermissionSubject} invokes a permission check.
-     *
+     * <p/>
      * Calling {@link com.obsidianbox.ember.event.GameEvent.Permission#setCancelled(boolean)} and passing in true
      * will result in the permission being denied.
      */
@@ -107,6 +107,25 @@ public abstract class GameEvent extends SimpleEvent {
         @Override
         public void setCancelled(boolean cancelled) {
             super.setCancelled(cancelled);
+        }
+    }
+
+    /**
+     * Fired at various spots in the {@link com.obsidianbox.ember.Game} loop.
+     */
+    public static class Tick extends GameEvent {
+        public final Phase phase;
+        public final long dt;
+
+        public Tick(Game game, Phase phase, long dt) {
+            super(game);
+            this.phase = phase;
+            this.dt = dt;
+        }
+
+        public enum Phase {
+            START,
+            END
         }
     }
 }

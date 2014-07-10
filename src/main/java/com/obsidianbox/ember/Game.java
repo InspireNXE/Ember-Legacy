@@ -23,21 +23,15 @@
  */
 package com.obsidianbox.ember;
 
-import com.flowpowered.commands.CommandException;
-import com.flowpowered.commands.CommandManager;
-import com.flowpowered.commands.CommandProvider;
-import com.flowpowered.commands.annotated.AnnotatedCommandExecutorFactory;
 import com.flowpowered.commons.ticking.TickingElement;
 import com.flowpowered.events.SimpleEventManager;
 import com.obsidianbox.ember.command.Commands;
-import com.obsidianbox.ember.command.ConsoleCommandSender;
+import com.obsidianbox.ember.command.GameCommandManager;
 import com.obsidianbox.ember.console.GameConsole;
 import com.obsidianbox.ember.event.GameEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Queue;
-import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -46,9 +40,7 @@ public final class Game extends TickingElement {
     private final Semaphore semaphore = new Semaphore(0);
     private final AtomicBoolean running = new AtomicBoolean(false);
     private GameConsole console;
-    private ConsoleCommandSender sender;
-    private CommandManager commandManager;
-    private Queue<String> rawCommandQueue;
+    private GameCommandManager commandManager;
     private SimpleEventManager eventManager;
 
     public Game() {
@@ -58,33 +50,23 @@ public final class Game extends TickingElement {
     @Override
     public void onStart() {
         running.set(true);
-        console = new GameConsole(this);
-
-        commandManager = new CommandManager(false);
-        final CommandProvider provider = new CommandProvider() {
-            @Override
-            public String getName() {
-                return "game";
-            }
-        };
-        commandManager.setRootCommand(commandManager.getCommand(provider, "root"));
-        sender = new ConsoleCommandSender(this);
-        new AnnotatedCommandExecutorFactory(commandManager, provider, LoggerFactory.getLogger("Ember")).create(new Commands(this));
-        rawCommandQueue = new LinkedBlockingQueue<>();
-
+        try {
+            console = new GameConsole(this);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+        commandManager = new GameCommandManager(this);
+        commandManager.create(new Commands(this));
         eventManager = new SimpleEventManager(logger);
         eventManager.callEvent(new GameEvent.Start(this));
     }
 
     @Override
     public void onTick(long dt) {
-        for (String rawCommand : rawCommandQueue) {
-            try {
-                sender.processCommand(rawCommand);
-            } catch (CommandException e) {
-                logger.error("Exception caught processing command: " + rawCommand, e);
-            }
-        }
+        commandManager.onTick(dt);
+        eventManager.callEvent(new GameEvent.Tick(this, GameEvent.Tick.Phase.START, dt));
+        // TODO All game management here
+        eventManager.callEvent(new GameEvent.Tick(this, GameEvent.Tick.Phase.END, dt));
     }
 
     @Override
@@ -108,12 +90,12 @@ public final class Game extends TickingElement {
         }
     }
 
-    public CommandManager getCommandManager() {
-        return commandManager;
+    public GameConsole getConsole() {
+        return console;
     }
 
-    public Queue<String> getRawCommandQueue() {
-        return rawCommandQueue;
+    public GameCommandManager getCommandManager() {
+        return commandManager;
     }
 
     public SimpleEventManager getEventManager() {

@@ -8,7 +8,6 @@ import com.flowpowered.networking.session.Session;
 import com.flowpowered.permissions.PermissionDomain;
 import com.obsidianbox.ember.Game;
 import com.obsidianbox.ember.event.GameEvent;
-import com.obsidianbox.ember.event.PlayerEvent;
 import com.obsidianbox.ember.physics.util.Transform;
 
 import java.util.Collections;
