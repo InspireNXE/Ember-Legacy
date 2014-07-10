@@ -7,6 +7,7 @@ import com.flowpowered.commands.CommandSender;
 import com.flowpowered.networking.session.Session;
 import com.flowpowered.permissions.PermissionDomain;
 import com.obsidianbox.ember.Game;
+import com.obsidianbox.ember.event.GameEvent;
 import com.obsidianbox.ember.event.PlayerEvent;
 import com.obsidianbox.ember.physics.util.Transform;
 
@@ -41,17 +42,17 @@ public class Player extends Entity implements CommandSender {
 
     @Override
     public void sendMessage(String message) {
-        game.getEventManager().callEvent(new PlayerEvent.ChatEvent(game, this, message));
+        game.getEventManager().callEvent(new GameEvent.Chat(game, this, message));
     }
 
     @Override
     public void sendMessage(ChatReceiver from, String message) {
-        game.getEventManager().callEvent(new PlayerEvent.ChatEvent(game, this, from, message));
+        game.getEventManager().callEvent(new GameEvent.Chat(game, this, from, message));
     }
 
     @Override
     public void sendMessageRaw(String message, String type) {
-
+        game.getEventManager().callEvent(new GameEvent.Chat(game, this, message));
     }
 
     @Override
@@ -87,5 +88,16 @@ public class Player extends Entity implements CommandSender {
     @Override
     public Set<String> getGroups(PermissionDomain domain) {
         return Collections.emptySet();
+    }
+
+    @Override
+    public String toString() {
+        return "Player{" +
+                "name=" + name +
+                ", uuid=" + uuid +
+                ", id=" + id +
+                ", transform=" + transform +
+                ", isSavable=" + isSavable +
+                '}';
     }
 }

@@ -29,34 +29,45 @@ import java.util.Set;
 import com.flowpowered.chat.ChatReceiver;
 import com.flowpowered.commands.CommandArguments;
 import com.flowpowered.commands.CommandException;
-import com.flowpowered.commands.CommandManager;
 import com.flowpowered.commands.CommandSender;
 import com.flowpowered.permissions.PermissionDomain;
+import com.obsidianbox.ember.Game;
+import com.obsidianbox.ember.event.GameEvent;
 
 public class ConsoleCommandSender implements CommandSender {
-    private final CommandManager manager;
+    private final Game game;
 
-    public ConsoleCommandSender(CommandManager manager) {
-        this.manager = manager;
+    public ConsoleCommandSender(Game game) {
+        this.game = game;
     }
 
     @Override
     public void processCommand(String commandLine) throws CommandException {
-        this.manager.getRootCommand().execute(this, new CommandArguments(commandLine.split(" ")));
+        this.game.getCommandManager().getRootCommand().execute(this, new CommandArguments(commandLine.split(" ")));
     }
 
     @Override
     public void sendMessage(String message) {
-        sendMessageRaw(message, "");
+        final GameEvent.Chat event = new GameEvent.Chat(game, this, message);
+        if (!game.getEventManager().callEvent(event).isCancelled()) {
+            game.logger.info(event.message);
+        }
     }
 
     @Override
     public void sendMessage(ChatReceiver from, String message) {
-        sendMessage(message);
+        final GameEvent.Chat event = new GameEvent.Chat(game, this, from, message);
+        if (!game.getEventManager().callEvent(event).isCancelled()) {
+            game.logger.info(event.message);
+        }
     }
 
     @Override
     public void sendMessageRaw(String message, String type) {
+        final GameEvent.Chat event = new GameEvent.Chat(game, this, message);
+        if (!game.getEventManager().callEvent(event).isCancelled()) {
+            game.logger.info(event.message);
+        }
     }
 
     @Override

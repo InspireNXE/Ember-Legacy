@@ -33,6 +33,7 @@ import com.obsidianbox.ember.command.Commands;
 import com.obsidianbox.ember.command.ConsoleCommandSender;
 import com.obsidianbox.ember.console.GameConsole;
 import com.obsidianbox.ember.event.GameEvent;
+import com.obsidianbox.ember.test.TestListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -59,6 +60,7 @@ public final class Game extends TickingElement {
     public void onStart() {
         running.set(true);
         console = new GameConsole(this);
+
         commandManager = new CommandManager(false);
         final CommandProvider provider = new CommandProvider() {
             @Override
@@ -67,13 +69,13 @@ public final class Game extends TickingElement {
             }
         };
         commandManager.setRootCommand(commandManager.getCommand(provider, "root"));
-        sender = new ConsoleCommandSender(commandManager);
+        sender = new ConsoleCommandSender(this);
         new AnnotatedCommandExecutorFactory(commandManager, provider, LoggerFactory.getLogger("Ember")).create(new Commands(this));
         rawCommandQueue = new LinkedBlockingQueue<>();
 
         eventManager = new SimpleEventManager(logger);
-        eventManager.registerEvents(new GameListener(this), this);
-        eventManager.callEvent(new GameEvent.GameStartEvent(this));
+        eventManager.registerEvents(new TestListener(), this);
+        eventManager.callEvent(new GameEvent.Start(this));
     }
 
     @Override
@@ -82,7 +84,7 @@ public final class Game extends TickingElement {
             try {
                 sender.processCommand(rawCommand);
             } catch (CommandException e) {
-                logger.error("Except caught processing command: " + rawCommand, e);
+                logger.error("Exception caught processing command: " + rawCommand, e);
             }
         }
     }
@@ -90,7 +92,7 @@ public final class Game extends TickingElement {
     @Override
     public void onStop() {
         console.close();
-        eventManager.callEvent(new GameEvent.GameStopEvent(this));
+        eventManager.callEvent(new GameEvent.Stop(this));
     }
 
     public void open() {
@@ -112,11 +114,11 @@ public final class Game extends TickingElement {
         return commandManager;
     }
 
-    public SimpleEventManager getEventManager() {
-        return eventManager;
-    }
-
     public Queue<String> getRawCommandQueue() {
         return rawCommandQueue;
+    }
+
+    public SimpleEventManager getEventManager() {
+        return eventManager;
     }
 }

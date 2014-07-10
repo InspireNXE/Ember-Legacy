@@ -32,11 +32,8 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 
 public class GameConsole extends Log4j2JLineConsole {
-    private final Game game;
-
     public GameConsole(Game game) {
         super(new GameCommandCallback(game), new GameCommandCompleter(), LoggerFactory.getLogger("Ember"), System.out, System.in);
-        this.game = game;
     }
 }
 

@@ -40,6 +40,7 @@ public class Commands {
     @CommandDescription (name = "stop", usage = "stop", desc = "Stops the game", help = "Use this command only when you want to stop the game")
     @Permissible("game.command.stop")
     private void onCommandStop(CommandSender sender, CommandArguments args) throws CommandException {
+        sender.sendMessage(sender + " invoked the command stop!");
         game.close();
     }
 }

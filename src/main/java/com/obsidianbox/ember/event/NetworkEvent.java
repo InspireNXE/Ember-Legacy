@@ -38,11 +38,11 @@ public abstract class NetworkEvent extends GameEvent {
      *
      * Use this to set the {@link com.obsidianbox.ember.network.GameProtocol} for the session being created.
      */
-    public static class SessionCreatePreEvent extends NetworkEvent {
+    public static class PreSessionCreate extends NetworkEvent {
         public final Channel channel;
         public GameProtocol protocol;
 
-        public SessionCreatePreEvent(Game game, Channel channel) {
+        public PreSessionCreate(Game game, Channel channel) {
             super(game);
             this.channel = channel;
         }
@@ -51,10 +51,10 @@ public abstract class NetworkEvent extends GameEvent {
     /**
      * Fired when a new {@link com.obsidianbox.ember.network.GameSession} has been created.
      */
-    public static class SessionCreatePostEvent extends NetworkEvent {
+    public static class PostSessionCreate extends NetworkEvent {
         public final GameSession session;
 
-        public SessionCreatePostEvent(Game game, GameSession session) {
+        public PostSessionCreate(Game game, GameSession session) {
             super(game);
             this.session = session;
         }
@@ -63,10 +63,10 @@ public abstract class NetworkEvent extends GameEvent {
     /**
      * Fired when a {@link com.obsidianbox.ember.network.GameSession} has been inactivated.
      */
-    public static class SessionInactivatedEvent extends NetworkEvent {
+    public static class SessionInactivated extends NetworkEvent {
         public final GameSession session;
 
-        public SessionInactivatedEvent(Game game, GameSession session) {
+        public SessionInactivated(Game game, GameSession session) {
             super(game);
             this.session = session;
         }

@@ -23,6 +23,8 @@
  */
 package com.obsidianbox.ember.event;
 
+import com.flowpowered.chat.ChatReceiver;
+import com.flowpowered.commands.CommandSender;
 import com.flowpowered.events.SimpleEvent;
 import com.obsidianbox.ember.Game;
 
@@ -36,18 +38,46 @@ public abstract class GameEvent extends SimpleEvent {
     /**
      * Fired when the {@link com.obsidianbox.ember.Game} starts.
      */
-    public static class GameStartEvent extends GameEvent {
-        public GameStartEvent(Game game) {
+    public static class Start extends GameEvent {
+        public Start(Game game) {
             super(game);
         }
     }
 
     /**
-     * Fires when the {@link com.obsidianbox.ember.Game} stops.
+     * Fired when the {@link com.obsidianbox.ember.Game} stops.
      */
-    public static class GameStopEvent extends GameEvent {
-        public GameStopEvent(Game game) {
+    public static class Stop extends GameEvent {
+        public Stop(Game game) {
             super(game);
+        }
+    }
+
+    /**
+     * Fired when a {@link com.flowpowered.commands.CommandSender} is sent a message.
+     *
+     * Calling {@link com.obsidianbox.ember.event.GameEvent.Chat#setCancelled(boolean)} and passing in true will result in
+     * the message not being sent to the {@link com.flowpowered.commands.CommandSender}.
+     */
+    public static class Chat extends GameEvent {
+        public final CommandSender receiver;
+        public final ChatReceiver sender;
+        public String message;
+
+        public Chat(Game game, CommandSender receiver, String message) {
+            this(game, receiver, null, message);
+        }
+
+        public Chat(Game game, CommandSender receiver, ChatReceiver sender, String message) {
+            super(game);
+            this.receiver = receiver;
+            this.sender = sender;
+            this.message = message;
+        }
+
+        @Override
+        public void setCancelled(boolean cancelled) {
+            super.setCancelled(cancelled);
         }
     }
 }
