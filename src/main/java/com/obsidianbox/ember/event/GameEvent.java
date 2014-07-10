@@ -24,8 +24,9 @@
 package com.obsidianbox.ember.event;
 
 import com.flowpowered.chat.ChatReceiver;
-import com.flowpowered.commands.CommandSender;
 import com.flowpowered.events.SimpleEvent;
+import com.flowpowered.permissions.PermissionDomain;
+import com.flowpowered.permissions.PermissionSubject;
 import com.obsidianbox.ember.Game;
 
 public abstract class GameEvent extends SimpleEvent {
@@ -54,25 +55,53 @@ public abstract class GameEvent extends SimpleEvent {
     }
 
     /**
-     * Fired when a {@link com.flowpowered.commands.CommandSender} is sent a message.
+     * Fired when a {@link com.flowpowered.chat.ChatReceiver} is sent a message.
      *
      * Calling {@link com.obsidianbox.ember.event.GameEvent.Chat#setCancelled(boolean)} and passing in true will result in
-     * the message not being sent to the {@link com.flowpowered.commands.CommandSender}.
+     * the message not being sent to the {@link com.flowpowered.chat.ChatReceiver}.
      */
     public static class Chat extends GameEvent {
-        public final CommandSender receiver;
+        public final ChatReceiver receiver;
         public final ChatReceiver sender;
         public String message;
 
-        public Chat(Game game, CommandSender receiver, String message) {
+        public Chat(Game game, ChatReceiver receiver, String message) {
             this(game, receiver, null, message);
         }
 
-        public Chat(Game game, CommandSender receiver, ChatReceiver sender, String message) {
+        public Chat(Game game, ChatReceiver receiver, ChatReceiver sender, String message) {
             super(game);
             this.receiver = receiver;
             this.sender = sender;
             this.message = message;
+        }
+
+        @Override
+        public void setCancelled(boolean cancelled) {
+            super.setCancelled(cancelled);
+        }
+    }
+
+    /**
+     * Fired when a {@link com.flowpowered.permissions.PermissionSubject} invokes a permission check.
+     *
+     * Calling {@link com.obsidianbox.ember.event.GameEvent.Permission#setCancelled(boolean)} and passing in true
+     * will result in the permission being denied.
+     */
+    public static class Permission extends GameEvent {
+        public final PermissionSubject subject;
+        public final String permission;
+        public final PermissionDomain domain;
+
+        public Permission(Game game, PermissionSubject subject, String permission) {
+            this(game, subject, null, permission);
+        }
+
+        public Permission(Game game, PermissionSubject subject, PermissionDomain domain, String permission) {
+            super(game);
+            this.subject = subject;
+            this.domain = domain;
+            this.permission = permission;
         }
 
         @Override

@@ -62,12 +62,12 @@ public class Player extends Entity implements CommandSender {
 
     @Override
     public boolean hasPermission(String permission) {
-        return !game.getEventManager().callEvent(new PlayerEvent.PermissionEvent(game, this, permission)).isCancelled();
+        return !game.getEventManager().callEvent(new GameEvent.Permission(game, this, permission)).isCancelled();
     }
 
     @Override
     public boolean hasPermission(String permission, PermissionDomain domain) {
-        return !game.getEventManager().callEvent(new PlayerEvent.PermissionEvent(game, this, domain, permission)).isCancelled();
+        return !game.getEventManager().callEvent(new GameEvent.Permission(game, this, domain, permission)).isCancelled();
     }
 
     @Override
