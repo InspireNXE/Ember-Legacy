@@ -45,10 +45,11 @@ public final class Game extends TickingElement {
     public final Logger logger = LoggerFactory.getLogger("Ember");
     private final Semaphore semaphore = new Semaphore(0);
     private final AtomicBoolean running = new AtomicBoolean(false);
-    private Queue<String> rawCommandQueue;
     private GameConsole console;
-    private SimpleEventManager eventManager;
     private ConsoleCommandSender sender;
+    private CommandManager commandManager;
+    private Queue<String> rawCommandQueue;
+    private SimpleEventManager eventManager;
 
     public Game() {
         super("Game", 20);
@@ -58,17 +59,17 @@ public final class Game extends TickingElement {
     public void onStart() {
         running.set(true);
         console = new GameConsole(this);
-        rawCommandQueue = new LinkedBlockingQueue<>();
-        final CommandManager manager = new CommandManager(false);
+        commandManager = new CommandManager(false);
         final CommandProvider provider = new CommandProvider() {
             @Override
             public String getName() {
                 return "game";
             }
         };
-        manager.setRootCommand(manager.getCommand(provider, "root"));
-        sender = new ConsoleCommandSender(manager);
-        new AnnotatedCommandExecutorFactory(manager, provider, LoggerFactory.getLogger("Ember")).create(new Commands(this));
+        commandManager.setRootCommand(commandManager.getCommand(provider, "root"));
+        sender = new ConsoleCommandSender(commandManager);
+        new AnnotatedCommandExecutorFactory(commandManager, provider, LoggerFactory.getLogger("Ember")).create(new Commands(this));
+        rawCommandQueue = new LinkedBlockingQueue<>();
 
         eventManager = new SimpleEventManager(logger);
         eventManager.registerEvents(new GameListener(this), this);
@@ -105,6 +106,10 @@ public final class Game extends TickingElement {
             stop();
             semaphore.release();
         }
+    }
+
+    public CommandManager getCommandManager() {
+        return commandManager;
     }
 
     public SimpleEventManager getEventManager() {

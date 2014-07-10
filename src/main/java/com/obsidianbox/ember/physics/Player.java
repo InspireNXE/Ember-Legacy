@@ -1,6 +1,7 @@
 package com.obsidianbox.ember.physics;
 
 import com.flowpowered.chat.ChatReceiver;
+import com.flowpowered.commands.CommandArguments;
 import com.flowpowered.commands.CommandException;
 import com.flowpowered.commands.CommandSender;
 import com.flowpowered.networking.session.Session;
@@ -9,6 +10,7 @@ import com.obsidianbox.ember.Game;
 import com.obsidianbox.ember.event.PlayerEvent;
 import com.obsidianbox.ember.physics.util.Transform;
 
+import java.util.Collections;
 import java.util.Set;
 import java.util.UUID;
 
@@ -28,19 +30,23 @@ public class Player extends Entity implements CommandSender {
         this.session = session;
     }
 
+    public Session getSession() {
+        return session;
+    }
+
     @Override
     public void processCommand(String commandLine) throws CommandException {
-
+        game.getCommandManager().executeCommand(this, new CommandArguments(commandLine.split(" ")));
     }
 
     @Override
     public void sendMessage(String message) {
-
+        game.getEventManager().callEvent(new PlayerEvent.ChatEvent(game, this, message));
     }
 
     @Override
     public void sendMessage(ChatReceiver from, String message) {
-
+        game.getEventManager().callEvent(new PlayerEvent.ChatEvent(game, this, from, message));
     }
 
     @Override
@@ -75,11 +81,11 @@ public class Player extends Entity implements CommandSender {
 
     @Override
     public Set<String> getGroups() {
-        return null;
+        return Collections.emptySet();
     }
 
     @Override
     public Set<String> getGroups(PermissionDomain domain) {
-        return null;
+        return Collections.emptySet();
     }
 }

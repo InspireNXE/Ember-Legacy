@@ -1,10 +1,11 @@
 package com.obsidianbox.ember.event;
 
+import com.flowpowered.chat.ChatReceiver;
 import com.flowpowered.permissions.PermissionDomain;
 import com.obsidianbox.ember.Game;
 import com.obsidianbox.ember.physics.Player;
 
-public class PlayerEvent extends EntityEvent {
+public abstract class PlayerEvent extends EntityEvent {
     public PlayerEvent(Game game, Player player) {
         super(game, player);
     }
@@ -32,6 +33,24 @@ public class PlayerEvent extends EntityEvent {
         @Override
         public void setCancelled(boolean cancelled) {
             super.setCancelled(cancelled);
+        }
+    }
+
+    /**
+     * Fired when {@link com.obsidianbox.ember.physics.Player#sendMessage(String)} is invoked.
+     */
+    public static class ChatEvent extends PlayerEvent {
+        public final ChatReceiver sender;
+        public final String message;
+
+        public ChatEvent(Game game, Player player, String message) {
+            this(game, player, null, message);
+        }
+
+        public ChatEvent(Game game, Player player, ChatReceiver sender, String message) {
+            super(game, player);
+            this.sender = sender;
+            this.message = message;
         }
     }
 }

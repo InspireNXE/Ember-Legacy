@@ -25,7 +25,7 @@ package com.obsidianbox.ember.event;
 
 import com.obsidianbox.ember.Game;
 
-public class PluginEvent extends GameEvent {
+public abstract class PluginEvent extends GameEvent {
     public PluginEvent(Game game) {
         super(game);
     }
