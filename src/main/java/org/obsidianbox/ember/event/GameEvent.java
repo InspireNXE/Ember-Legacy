@@ -56,7 +56,7 @@ public abstract class GameEvent extends SimpleEvent {
 
     /**
      * Fired when a {@link com.flowpowered.chat.ChatReceiver} is sent a message.
-     * <p/>
+     * <p>
      * Calling {@link org.obsidianbox.ember.event.GameEvent.Chat#setCancelled(boolean)} and passing in true will result in
      * the message not being sent to the {@link com.flowpowered.chat.ChatReceiver}.
      */
@@ -84,7 +84,7 @@ public abstract class GameEvent extends SimpleEvent {
 
     /**
      * Fired when a {@link com.flowpowered.permissions.PermissionSubject} invokes a permission check.
-     * <p/>
+     * <p>
      * Calling {@link org.obsidianbox.ember.event.GameEvent.Permission#setCancelled(boolean)} and passing in true
      * will result in the permission being denied.
      */

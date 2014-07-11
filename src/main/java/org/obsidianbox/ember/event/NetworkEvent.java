@@ -35,7 +35,7 @@ public abstract class NetworkEvent extends GameEvent {
 
     /**
      * Fired when a new {@link org.obsidianbox.ember.network.GameSession} is about to be created.
-     * <p/>
+     * <p>
      * Use this to set the {@link org.obsidianbox.ember.network.GameProtocol} for the session being created.
      */
     public static class PreSessionCreate extends NetworkEvent {
