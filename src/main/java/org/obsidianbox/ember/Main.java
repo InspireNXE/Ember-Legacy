@@ -31,8 +31,9 @@ public class Main {
     public static void main(String[] args) {
         if (Desktop.isDesktopSupported()) {
             Frontend.init(args);
-        }
+        } else {
             Game game = new Game();
-            game.open();
+            game.open(true);
+        }
     }
 }
