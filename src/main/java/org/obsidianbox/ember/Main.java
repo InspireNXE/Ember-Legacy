@@ -23,9 +23,16 @@
  */
 package org.obsidianbox.ember;
 
+import java.awt.Desktop;
+
+import org.obsidianbox.ember.gui.Frontend;
+
 public class Main {
     public static void main(String[] args) {
-        Game game = new Game();
-        game.open();
+        if (Desktop.isDesktopSupported()) {
+            Frontend.init(args);
+        }
+            Game game = new Game();
+            game.open();
     }
 }
