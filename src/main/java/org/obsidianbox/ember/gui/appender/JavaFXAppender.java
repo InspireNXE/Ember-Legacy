@@ -41,6 +41,6 @@ public class JavaFXAppender extends AbstractAppender {
 
     @Override
     public void append(LogEvent event) {
-        //TODO Grinch, send the event to the GUI control
+        frontend.getLogQueue().offer(event.getMessage());
     }
 }

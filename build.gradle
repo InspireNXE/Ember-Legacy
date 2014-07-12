@@ -72,9 +72,9 @@ dependencies {
     compile 'com.flowpowered:flow-networking:1.0.0-SNAPSHOT'
     compile 'com.github.wolf480pl:jline-log4j2-appender:0.0.1-SNAPSHOT'
     compile 'com.lmax:disruptor:3.2.1'
-    compile 'org.apache.logging.log4j:log4j-api:2.0-beta9'
-    compile 'org.apache.logging.log4j:log4j-core:2.0-beta9'
-    compile 'org.apache.logging.log4j:log4j-slf4j-impl:2.0-beta9'
+    compile 'org.apache.logging.log4j:log4j-api:2.0-rc2'
+    compile 'org.apache.logging.log4j:log4j-core:2.0-rc2'
+    compile 'org.apache.logging.log4j:log4j-slf4j-impl:2.0-rc2'
     compile 'junit:junit:4.11'
     testCompile 'junit:junit:4.11'
 }
