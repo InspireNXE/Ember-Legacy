@@ -134,26 +134,26 @@ public class Frontend extends Application {
 
     private void startGame() {
         game = new Game();
-        Appender appender = null;
-        for (Map.Entry<String, Appender> entry : game.logger.getAppenders().entrySet()) {
-            if (entry.getKey().equals("Console")) {
-                appender = entry.getValue();
-            }
-        }
-        if (appender != null && appender instanceof JLineConsoleAppender) {
-            game.logger.addAppender(new JavaFXAppender(this, ((JLineConsoleAppender) appender).getFilter(), appender.getLayout()));
-        }
-        Timer timer = new Timer(true);
-        timer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                if (!logQueue.isEmpty()) {
-                    Platform.runLater(() -> {
-                        pollQueue();
-                    });
-                }
-            }
-        }, 0, 2000);
+//        Appender appender = null;
+//        for (Map.Entry<String, Appender> entry : game.logger.getAppenders().entrySet()) {
+//            if (entry.getKey().equals("Console")) {
+//                appender = entry.getValue();
+//            }
+//        }
+//        if (appender != null && appender instanceof JLineConsoleAppender) {
+//            game.logger.addAppender(new JavaFXAppender(this, ((JLineConsoleAppender) appender).getFilter(), appender.getLayout()));
+//        }
+//        Timer timer = new Timer(true);
+//        timer.scheduleAtFixedRate(new TimerTask() {
+//            @Override
+//            public void run() {
+//                if (!logQueue.isEmpty()) {
+//                    Platform.runLater(() -> {
+//                        pollQueue();
+//                    });
+//                }
+//            }
+//        }, 0, 2000);
         game.open(false);
     }
 

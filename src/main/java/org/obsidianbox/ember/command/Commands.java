@@ -42,4 +42,14 @@ public class Commands {
     private void onCommandStop(CommandSender sender, CommandArguments args) throws CommandException {
         game.close();
     }
+
+    @CommandDescription(name = "listen", usage = "listen [address] <port>", desc = "Listens for connections",
+            help = "Use this command only when you want the game to listen for connections. Submitting this command with active connections will cause" +
+                    "those connections to cease.")
+    @Permissible("game.command.listen")
+    private void onCommandListen(CommandSender sender, CommandArguments args) throws CommandException {
+        for (String string : args.toArray()) {
+            game.logger.info(string);
+        }
+    }
 }

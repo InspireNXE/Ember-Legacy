@@ -23,17 +23,50 @@
  */
 package org.obsidianbox.ember.network;
 
+import com.flowpowered.networking.Message;
+import com.flowpowered.networking.MessageHandler;
 import com.flowpowered.networking.protocol.AbstractProtocol;
 import com.flowpowered.networking.session.PulsingSession;
 import io.netty.channel.Channel;
+import org.obsidianbox.ember.Game;
+import org.obsidianbox.ember.event.NetworkEvent;
 
-public class GameSession extends PulsingSession {
-    public GameSession(Channel channel, AbstractProtocol protocol) {
+public final class GameSession extends PulsingSession {
+    private final Game game;
+
+    public GameSession(Game game, Channel channel, AbstractProtocol protocol) {
         super(channel, protocol);
+        this.game = game;
     }
 
     @Override
     public void disconnect() {
+        game.getEventManager().callEvent(new NetworkEvent.PreSessionDisconnect(game, this));
         super.disconnect();
+    }
+
+    @Override
+    public void onDisconnect() {
+        game.getEventManager().callEvent(new NetworkEvent.PostSessionDisconnect(game, this));
+    }
+
+    @Override
+    public void onReady() {
+        game.getEventManager().callEvent(new NetworkEvent.SessionReady(game, this));
+    }
+
+    @Override
+    public void onInboundThrowable(Throwable throwable) {
+        getLogger().warn("Exception caught inbound for session [" + this + "]", throwable);
+    }
+
+    @Override
+    public void onOutboundThrowable(Throwable throwable) {
+        getLogger().warn("Exception caught outbound for session [" + this + "]", throwable);
+    }
+
+    @Override
+    public void onHandlerThrowable(Message message, MessageHandler<?, ?> handle, Throwable throwable) {
+        getLogger().warn("Exception caught handling message [" + message + "] using handler [" + handle + "]", throwable);
     }
 }

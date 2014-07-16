@@ -73,12 +73,24 @@ public abstract class NetworkEvent extends GameEvent {
     }
 
     /**
-     * Fired when a {@link org.obsidianbox.ember.network.GameSession} is being disconnected.
+     * Fired when a {@link org.obsidianbox.ember.network.GameSession} is about to be disconnected.
      */
-    public static class SessionDisconnect extends NetworkEvent {
+    public static class PreSessionDisconnect extends NetworkEvent {
         public final GameSession session;
 
-        public SessionDisconnect(Game game, GameSession session) {
+        public PreSessionDisconnect(Game game, GameSession session) {
+            super(game);
+            this.session = session;
+        }
+    }
+
+    /**
+     * Fired when a {@link org.obsidianbox.ember.network.GameSession} is disconnected.
+     */
+    public static class PostSessionDisconnect extends NetworkEvent {
+        public final GameSession session;
+
+        public PostSessionDisconnect(Game game, GameSession session) {
             super(game);
             this.session = session;
         }

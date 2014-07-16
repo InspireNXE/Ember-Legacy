@@ -25,13 +25,13 @@ package org.obsidianbox.ember;
 
 import com.flowpowered.commons.ticking.TickingElement;
 import com.flowpowered.events.SimpleEventManager;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.core.Logger;
 import org.obsidianbox.ember.command.Commands;
 import org.obsidianbox.ember.command.GameCommandManager;
 import org.obsidianbox.ember.console.GameConsole;
 import org.obsidianbox.ember.event.GameEvent;
+import org.obsidianbox.ember.network.Network;
 import org.obsidianbox.ember.resource.FileSystem;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
@@ -39,7 +39,7 @@ import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public final class Game extends TickingElement {
-    public final Logger logger = (Logger) LogManager.getLogger("Ember");
+    public final Logger logger = LoggerFactory.getLogger("Ember");
     private final Semaphore semaphore = new Semaphore(0);
     private final AtomicBoolean running = new AtomicBoolean(false);
     private final AtomicBoolean isMain = new AtomicBoolean(false);
@@ -47,9 +47,12 @@ public final class Game extends TickingElement {
     private GameCommandManager commandManager;
     private SimpleEventManager eventManager;
     private FileSystem fileSystem;
+    //Modules
+    public final Network network;
 
     public Game() {
         super("Game", 20);
+        this.network = new Network(this);
     }
 
     @Override
@@ -65,7 +68,7 @@ public final class Game extends TickingElement {
         }
         commandManager = new GameCommandManager(this);
         commandManager.create(new Commands(this));
-        eventManager = new SimpleEventManager(LoggerFactory.getLogger("Ember"));
+        eventManager = new SimpleEventManager(logger);
         fileSystem = new FileSystem(this);
         try {
             fileSystem.init();
@@ -73,6 +76,7 @@ public final class Game extends TickingElement {
             throw new RuntimeException(e);
         }
         eventManager.callEvent(new GameEvent.Start(this));
+        network.start();
     }
 
     @Override

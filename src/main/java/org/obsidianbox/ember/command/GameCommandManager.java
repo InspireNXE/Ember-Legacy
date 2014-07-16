@@ -29,7 +29,6 @@ import com.flowpowered.commands.CommandManager;
 import com.flowpowered.commands.CommandProvider;
 import com.flowpowered.commands.annotated.AnnotatedCommandExecutorFactory;
 import org.obsidianbox.ember.Game;
-import org.slf4j.LoggerFactory;
 
 public class GameCommandManager extends CommandManager {
     private final Game game;
@@ -38,14 +37,9 @@ public class GameCommandManager extends CommandManager {
     public GameCommandManager(Game game) {
         this.game = game;
 
-        final CommandProvider provider = new CommandProvider() {
-            @Override
-            public String getName() {
-                return "game";
-            }
-        };
+        final CommandProvider provider = () -> "game";
         setRootCommand(getCommand(provider, "root"));
-        factory = new AnnotatedCommandExecutorFactory(this, provider, LoggerFactory.getLogger("Ember"));
+        factory = new AnnotatedCommandExecutorFactory(this, provider, game.logger);
     }
 
     public void onTick(long dt) {

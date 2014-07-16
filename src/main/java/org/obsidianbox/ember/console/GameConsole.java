@@ -34,7 +34,6 @@ import com.flowpowered.permissions.PermissionDomain;
 import org.obsidianbox.ember.Game;
 import org.obsidianbox.ember.event.GameEvent;
 import jline.console.completer.Completer;
-import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Field;
 import java.util.Collections;
@@ -56,7 +55,7 @@ public class GameConsole extends Log4j2JLineConsole implements CommandSender {
     private final GameCommandCallback callback;
 
     public GameConsole(Game game) throws IllegalAccessException {
-        super(new GameCommandCallback(), new GameCommandCompleter(), LoggerFactory.getLogger("Ember"), System.out, System.in);
+        super(new GameCommandCallback(), new GameCommandCompleter(), game.logger, System.out, System.in);
         this.game = game;
 
         COMMAND_CALLBACK_FIELD.setAccessible(true);

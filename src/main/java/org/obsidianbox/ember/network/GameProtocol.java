@@ -24,10 +24,10 @@
 package org.obsidianbox.ember.network;
 
 import com.flowpowered.networking.protocol.AbstractProtocol;
-import org.slf4j.LoggerFactory;
+import org.obsidianbox.ember.Game;
 
 public abstract class GameProtocol extends AbstractProtocol {
-    public GameProtocol(String name) {
-        super(name, LoggerFactory.getLogger("Ember"));
+    public GameProtocol(Game game, String name) {
+        super(name, game.logger);
     }
 }
