@@ -56,7 +56,7 @@ public class Network extends TickingElement {
 
     @Override
     public void onStart() {
-
+        game.logger.info("Starting network");
     }
 
     @Override
@@ -69,72 +69,20 @@ public class Network extends TickingElement {
 
     @Override
     public void onStop() {
-
-    }
-
-    public ChannelFuture bind(SocketAddress address) {
-        if (!isRunning()) {
-            throw new IllegalStateException("Attempt made to bind network to address [" + address + "] but network is not running!");
+        game.logger.info("Stopping network");
+        if (listener != null) {
+            listener.disconnect();
         }
-        return server.bind(address);
+        client.shutdown();
+        activeSessions.stream().filter(BasicSession::isActive).forEach(BasicSession::disconnect);
+        server.shutdown();
     }
 
-    public ChannelFuture connect(SocketAddress address) {
-        if (!isRunning()) {
-            throw new IllegalStateException("Attempt made to connect to address [" + address + "] but network is not running!");
-        }
-        return client.connect(address);
-    }
-}
-
-final class GameNetworkServer extends NetworkServer {
-    private final Network network;
-
-    public GameNetworkServer(Network network) {
-        this.network = network;
+    public GameNetworkClient getListeningAdapter() {
+        return client;
     }
 
-    @Override
-    public Session newSession(Channel c) {
-        final GameProtocol protocol = network.game.getEventManager().callEvent(new NetworkEvent.PreSessionCreate(network.game, c)).protocol;
-        if (protocol == null) {
-            network.game.logger.error("No protocol provided for channel [" + c + "], disconnecting...");
-            c.disconnect();
-        }
-        final GameSession session = new GameSession(network.game, c, protocol);
-        network.activeSessions.add(session);
-        return network.game.getEventManager().callEvent(new NetworkEvent.PostSessionCreate(network.game, session)).session;
-    }
-
-    @Override
-    public void sessionInactivated(Session session) {
-        network.game.getEventManager().callEvent(new NetworkEvent.SessionInactivated(network.game, (GameSession) session));
-        network.activeSessions.remove(session);
-    }
-}
-
-
-final class GameNetworkClient extends NetworkClient {
-    private final Network network;
-
-    public GameNetworkClient(Network network) {
-        this.network = network;
-    }
-
-    @Override
-    public Session newSession(Channel c) {
-        final GameProtocol protocol = network.game.getEventManager().callEvent(new NetworkEvent.PreSessionCreate(network.game, c)).protocol;
-        if (protocol == null) {
-            network.game.logger.error("No protocol provided for channel [" + c + "], disconnecting...");
-            c.disconnect();
-        }
-        network.listener = new GameSession(network.game, c, protocol);
-        return network.game.getEventManager().callEvent(new NetworkEvent.PostSessionCreate(network.game, network.listener)).session;
-    }
-
-    @Override
-    public void sessionInactivated(Session session) {
-        network.game.getEventManager().callEvent(new NetworkEvent.SessionInactivated(network.game, (GameSession) session));
-        network.listener = null;
+    public GameNetworkServer getBindingAdapter() {
+        return server;
     }
 }

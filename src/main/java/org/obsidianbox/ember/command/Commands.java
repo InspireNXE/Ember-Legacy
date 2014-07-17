@@ -28,7 +28,12 @@ import com.flowpowered.commands.CommandException;
 import com.flowpowered.commands.CommandSender;
 import com.flowpowered.commands.annotated.CommandDescription;
 import com.flowpowered.commands.annotated.Permissible;
+import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelFutureListener;
+import io.netty.util.concurrent.GenericFutureListener;
 import org.obsidianbox.ember.Game;
+
+import java.net.InetSocketAddress;
 
 public class Commands {
     private final Game game;
@@ -37,19 +42,38 @@ public class Commands {
         this.game = game;
     }
 
-    @CommandDescription(name = "stop", usage = "stop", desc = "Stops the game", help = "Use this command only when you want to stop the game")
+    @CommandDescription(name = "stop", usage = "stop", desc = "Stops the game", help = "Use this command only when you" +
+            " want to stop the game")
     @Permissible("game.command.stop")
     private void onCommandStop(CommandSender sender, CommandArguments args) throws CommandException {
         game.close();
     }
 
     @CommandDescription(name = "listen", usage = "listen [address] <port>", desc = "Listens for connections",
-            help = "Use this command only when you want the game to listen for connections. Submitting this command with active connections will cause" +
-                    "those connections to cease.")
+            help = "Use this command only when you want the game to listen for connections. Submitting this command" +
+                    " with active connections will cause those connections to cease.")
     @Permissible("game.command.listen")
     private void onCommandListen(CommandSender sender, CommandArguments args) throws CommandException {
-        for (String string : args.toArray()) {
-            game.logger.info(string);
+        final InetSocketAddress address;
+        if (!args.advance()) {
+            address = new InetSocketAddress(25566);
+        } else {
+            address = null;
         }
+        game.network.getBindingAdapter().bind(address);
+    }
+
+    @CommandDescription(name = "connect", usage = "connect [address] <port>", desc = "Connects to an address",
+            help = "Use this command only when you want to connect to an address. This will end any connections you" +
+                    " have currently open")
+    @Permissible("game.command.connect")
+    private void onCommandConnect(CommandSender sender, CommandArguments args) throws CommandException {
+        final InetSocketAddress address;
+        if (!args.advance()) {
+            address = new InetSocketAddress(25566);
+        } else {
+            address = null;
+        }
+        game.network.getListeningAdapter().connect(address);
     }
 }

@@ -75,8 +75,8 @@ public final class Game extends TickingElement {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        eventManager.callEvent(new GameEvent.Start(this));
         network.start();
+        eventManager.callEvent(new GameEvent.Start(this));
     }
 
     @Override
@@ -89,8 +89,9 @@ public final class Game extends TickingElement {
 
     @Override
     public void onStop() {
-        console.close();
         eventManager.callEvent(new GameEvent.Stop(this));
+        network.stop();
+        console.close();
     }
 
     public void open(boolean lockMain) {
