@@ -21,25 +21,26 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.obsidianbox.ember.plugin;
+package org.obsidianbox.ember.plugin.loader;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import org.obsidianbox.ember.plugin.PluginContainer;
 
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
-public @interface Plugin {
-    String id();
+import java.io.IOException;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.regex.Pattern;
 
-    String name();
+public class PluginLoader {
+    private static final Pattern ZIP_JAR_PATTERN = Pattern.compile("(.+).(zip|jar)$");
+    private final Map<String, PluginContainer> plugins = new HashMap<>();
 
-    String version() default "";
+    public void load(Path pluginsPath) throws IOException {
+        final DirectoryStream<Path> stream = Files.newDirectoryStream(pluginsPath, entry -> !Files.isDirectory(entry) && ZIP_JAR_PATTERN.matcher(entry.getFileName().toString()).matches());
+        for (Path candidate : stream) {
 
-    @Retention(RetentionPolicy.RUNTIME)
-    @Target(ElementType.FIELD)
-    public @interface Instance {
-        String id();
+        }
     }
 }

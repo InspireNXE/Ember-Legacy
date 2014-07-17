@@ -21,7 +21,24 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.obsidianbox.ember.plugin;
+package org.obsidianbox.ember.plugin.loader;
 
-public class PluginManager {
+import java.nio.file.Path;
+
+/**
+ * Represents a {@link java.nio.file.Path} which is a potential {@link org.obsidianbox.ember.plugin.PluginContainer}.
+ */
+public final class PluginCandidate {
+    protected final Path candidate;
+    protected final Type type;
+
+    protected PluginCandidate(Path candidate, Type type) {
+        this.candidate = candidate;
+        this.type = type;
+    }
+}
+
+enum Type {
+    JAR,
+    ZIP
 }
