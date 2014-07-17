@@ -36,6 +36,7 @@ import javafx.stage.Stage;
 import org.apache.logging.log4j.core.Appender;
 import org.apache.logging.log4j.message.Message;
 import org.obsidianbox.ember.Game;
+import org.obsidianbox.ember.Main;
 import org.obsidianbox.ember.gui.appender.JavaFXAppender;
 
 import java.util.Map;
@@ -45,7 +46,8 @@ import java.util.TimerTask;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class Frontend extends Application {
-    public static void init(String[] args) {
+    public static void init(String[] args) throws Exception {
+        Main.parseArgs(args);
         launch(args);
     }
     private final Queue<Message> logQueue = new LinkedBlockingQueue<>();

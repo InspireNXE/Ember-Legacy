@@ -23,9 +23,26 @@
  */
 package org.obsidianbox.ember;
 
+import joptsimple.OptionParser;
+
+import static java.util.Arrays.asList;
+
 public class Main {
     public static void main(String[] args) {
         Game game = new Game();
         game.open(true);
+    }
+
+    public static void parseArgs(String[] args) throws Exception {
+        final OptionParser parser = new OptionParser() {
+            {
+                acceptsAll(asList("a", "address", "l", "listen"))
+                        .withOptionalArg()
+                        .ofType(String.class);
+                acceptsAll(asList("p", "port"))
+                        .withOptionalArg()
+                        .ofType(Integer.class);
+            }
+        };
     }
 }
