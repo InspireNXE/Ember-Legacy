@@ -95,7 +95,7 @@ license {
     ext.name = project.name
     ext.organization = organization
     ext.url = url
-    ext.year = inceptionYear + '-' + currentYear
+    ext.year = inceptionYear == currentYear ? inceptionYear : inceptionYear + '-' + currentYear
     header rootProject.file('HEADER.txt')
     ignoreFailures true
     strictCheck true

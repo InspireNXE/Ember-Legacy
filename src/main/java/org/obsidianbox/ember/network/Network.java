@@ -1,7 +1,7 @@
 /**
  * This file is part of Ember, licensed under the MIT License (MIT).
  *
- * Copyright (c) 2014-2014 ObsidianBox <http://obsidianbox.org/>
+ * Copyright (c) 2014 ObsidianBox <http://obsidianbox.org/>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,26 +23,19 @@
  */
 package org.obsidianbox.ember.network;
 
-import com.flowpowered.commons.ticking.TickingElement;
-import com.flowpowered.networking.NetworkClient;
-import com.flowpowered.networking.NetworkServer;
-import com.flowpowered.networking.session.BasicSession;
-import com.flowpowered.networking.session.PulsingSession;
-import com.flowpowered.networking.session.Session;
-import io.netty.channel.ChannelFuture;
-import org.obsidianbox.ember.Game;
-import org.obsidianbox.ember.event.NetworkEvent;
-import io.netty.channel.Channel;
-
-import java.net.SocketAddress;
 import java.util.HashSet;
 import java.util.Set;
+
+import com.flowpowered.commons.ticking.TickingElement;
+import com.flowpowered.networking.session.BasicSession;
+import com.flowpowered.networking.session.PulsingSession;
+
+import org.obsidianbox.ember.Game;
 
 public class Network extends TickingElement {
     protected final Game game;
     protected final GameNetworkServer server;
     protected final Set<GameSession> activeSessions = new HashSet<>();
-
     //Receiving messages
     protected final GameNetworkClient client;
     protected GameSession listener;

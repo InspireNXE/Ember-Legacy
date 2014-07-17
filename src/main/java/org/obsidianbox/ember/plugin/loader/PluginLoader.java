@@ -1,7 +1,7 @@
 /**
  * This file is part of Ember, licensed under the MIT License (MIT).
  *
- * Copyright (c) 2014-2014 ObsidianBox <http://obsidianbox.org/>
+ * Copyright (c) 2014 ObsidianBox <http://obsidianbox.org/>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,8 +23,6 @@
  */
 package org.obsidianbox.ember.plugin.loader;
 
-import org.obsidianbox.ember.plugin.PluginContainer;
-
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
@@ -32,6 +30,8 @@ import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
+
+import org.obsidianbox.ember.plugin.PluginContainer;
 
 public class PluginLoader {
     private static final Pattern ZIP_JAR_PATTERN = Pattern.compile("(.+).(zip|jar)$");

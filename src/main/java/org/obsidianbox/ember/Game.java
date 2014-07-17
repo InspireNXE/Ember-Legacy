@@ -1,7 +1,7 @@
 /**
  * This file is part of Ember, licensed under the MIT License (MIT).
  *
- * Copyright (c) 2014-2014 ObsidianBox <http://obsidianbox.org/>
+ * Copyright (c) 2014 ObsidianBox <http://obsidianbox.org/>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,20 +23,22 @@
  */
 package org.obsidianbox.ember;
 
+import java.io.IOException;
+import java.util.concurrent.Semaphore;
+import java.util.concurrent.atomic.AtomicBoolean;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.flowpowered.commons.ticking.TickingElement;
 import com.flowpowered.events.SimpleEventManager;
+
 import org.obsidianbox.ember.command.Commands;
 import org.obsidianbox.ember.command.GameCommandManager;
 import org.obsidianbox.ember.console.GameConsole;
 import org.obsidianbox.ember.event.GameEvent;
 import org.obsidianbox.ember.network.Network;
 import org.obsidianbox.ember.resource.FileSystem;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
-import java.util.concurrent.Semaphore;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public final class Game extends TickingElement {
     public final Logger logger = LoggerFactory.getLogger("Ember");

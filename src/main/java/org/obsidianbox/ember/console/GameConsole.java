@@ -1,7 +1,7 @@
 /**
  * This file is part of Ember, licensed under the MIT License (MIT).
  *
- * Copyright (c) 2014-2014 ObsidianBox <http://obsidianbox.org/>
+ * Copyright (c) 2014 ObsidianBox <http://obsidianbox.org/>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,6 +23,15 @@
  */
 package org.obsidianbox.ember.console;
 
+import java.lang.reflect.Field;
+import java.util.Collections;
+import java.util.List;
+import java.util.Queue;
+import java.util.Set;
+import java.util.concurrent.LinkedBlockingQueue;
+
+import jline.console.completer.Completer;
+
 import com.flowpowered.chat.ChatReceiver;
 import com.flowpowered.commands.CommandArguments;
 import com.flowpowered.commands.CommandException;
@@ -31,19 +40,13 @@ import com.flowpowered.commons.console.CommandCallback;
 import com.flowpowered.commons.console.JLineConsole;
 import com.flowpowered.commons.console.Log4j2JLineConsole;
 import com.flowpowered.permissions.PermissionDomain;
+
 import org.obsidianbox.ember.Game;
 import org.obsidianbox.ember.event.GameEvent;
-import jline.console.completer.Completer;
-
-import java.lang.reflect.Field;
-import java.util.Collections;
-import java.util.List;
-import java.util.Queue;
-import java.util.Set;
-import java.util.concurrent.LinkedBlockingQueue;
 
 public class GameConsole extends Log4j2JLineConsole implements CommandSender {
     private static Field COMMAND_CALLBACK_FIELD;
+
     static {
         try {
             COMMAND_CALLBACK_FIELD = JLineConsole.class.getDeclaredField("callback");
@@ -51,6 +54,7 @@ public class GameConsole extends Log4j2JLineConsole implements CommandSender {
             e.printStackTrace();
         }
     }
+
     private final Game game;
     private final GameCommandCallback callback;
 

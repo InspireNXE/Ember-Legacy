@@ -1,7 +1,7 @@
 /**
  * This file is part of Ember, licensed under the MIT License (MIT).
  *
- * Copyright (c) 2014-2014 ObsidianBox <http://obsidianbox.org/>
+ * Copyright (c) 2014 ObsidianBox <http://obsidianbox.org/>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -28,7 +28,6 @@ import com.flowpowered.networking.Message;
 enum HandshakeState {
     LOGIN((byte) 0),
     STATUS((byte) 1);
-
     private final byte flag;
 
     HandshakeState(byte flag) {
@@ -51,13 +50,16 @@ public class HandshakeMessage implements Message {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         HandshakeMessage that = (HandshakeMessage) o;
 
         return version == that.version && state == that.state;
-
     }
 
     @Override

@@ -1,7 +1,7 @@
 /**
  * This file is part of Ember, licensed under the MIT License (MIT).
  *
- * Copyright (c) 2014-2014 ObsidianBox <http://obsidianbox.org/>
+ * Copyright (c) 2014 ObsidianBox <http://obsidianbox.org/>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -35,7 +35,7 @@ public class PluginClassLoader extends URLClassLoader {
     private static final Map<String, Class<?>> NAMES_BY_CLASSES = new HashMap<>();
 
     public PluginClassLoader(URL pluginResource) {
-        super(new URL[]{pluginResource}, PluginClassLoader.class.getClassLoader());
+        super(new URL[] {pluginResource}, PluginClassLoader.class.getClassLoader());
         LOADERS.add(this);
     }
 

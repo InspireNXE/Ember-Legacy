@@ -1,7 +1,7 @@
 /**
  * This file is part of Ember, licensed under the MIT License (MIT).
  *
- * Copyright (c) 2014-2014 ObsidianBox <http://obsidianbox.org/>
+ * Copyright (c) 2014 ObsidianBox <http://obsidianbox.org/>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,10 +23,10 @@
  */
 package org.obsidianbox.ember.physics;
 
+import java.util.UUID;
+
 import org.obsidianbox.ember.Game;
 import org.obsidianbox.ember.physics.util.Transform;
-
-import java.util.UUID;
 
 public class Entity {
     protected final Game game;
@@ -75,8 +75,12 @@ public class Entity {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Entity)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Entity)) {
+            return false;
+        }
 
         Entity entity = (Entity) o;
         return uuid.equals(entity.uuid);

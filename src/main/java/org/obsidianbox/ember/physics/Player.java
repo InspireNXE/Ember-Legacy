@@ -1,7 +1,7 @@
 /**
  * This file is part of Ember, licensed under the MIT License (MIT).
  *
- * Copyright (c) 2014-2014 ObsidianBox <http://obsidianbox.org/>
+ * Copyright (c) 2014 ObsidianBox <http://obsidianbox.org/>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,21 +23,20 @@
  */
 package org.obsidianbox.ember.physics;
 
+import java.util.Collections;
+import java.util.Set;
+import java.util.UUID;
+
 import com.flowpowered.chat.ChatReceiver;
 import com.flowpowered.commands.CommandArguments;
 import com.flowpowered.commands.CommandException;
 import com.flowpowered.commands.CommandSender;
-import com.flowpowered.networking.session.BasicSession;
 import com.flowpowered.networking.session.PulsingSession;
-import com.flowpowered.networking.session.Session;
 import com.flowpowered.permissions.PermissionDomain;
+
 import org.obsidianbox.ember.Game;
 import org.obsidianbox.ember.event.GameEvent;
 import org.obsidianbox.ember.physics.util.Transform;
-
-import java.util.Collections;
-import java.util.Set;
-import java.util.UUID;
 
 public class Player extends Entity implements CommandSender {
     private final String name;

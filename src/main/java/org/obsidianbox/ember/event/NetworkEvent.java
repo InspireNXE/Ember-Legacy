@@ -1,7 +1,7 @@
 /**
  * This file is part of Ember, licensed under the MIT License (MIT).
  *
- * Copyright (c) 2014-2014 ObsidianBox <http://obsidianbox.org/>
+ * Copyright (c) 2014 ObsidianBox <http://obsidianbox.org/>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,10 +23,11 @@
  */
 package org.obsidianbox.ember.event;
 
+import io.netty.channel.Channel;
+
 import org.obsidianbox.ember.Game;
 import org.obsidianbox.ember.network.GameProtocol;
 import org.obsidianbox.ember.network.GameSession;
-import io.netty.channel.Channel;
 
 public abstract class NetworkEvent extends GameEvent {
     public NetworkEvent(Game game) {
@@ -34,9 +35,8 @@ public abstract class NetworkEvent extends GameEvent {
     }
 
     /**
-     * Fired when a new {@link org.obsidianbox.ember.network.GameSession} is about to be created.
-     * <p>
-     * Use this to set the {@link org.obsidianbox.ember.network.GameProtocol} for the session being created.
+     * Fired when a new {@link org.obsidianbox.ember.network.GameSession} is about to be created. <p> Use this to set the {@link org.obsidianbox.ember.network.GameProtocol} for the session being
+     * created.
      */
     public static class PreSessionCreate extends NetworkEvent {
         public final Channel channel;

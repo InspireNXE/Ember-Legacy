@@ -1,7 +1,7 @@
 /**
  * This file is part of Ember, licensed under the MIT License (MIT).
  *
- * Copyright (c) 2014-2014 ObsidianBox <http://obsidianbox.org/>
+ * Copyright (c) 2014 ObsidianBox <http://obsidianbox.org/>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,9 +23,10 @@
  */
 package org.obsidianbox.ember.gui;
 
-import com.github.wolf480pl.jline_log4j2_appender.JLineConsoleAppender;
+import java.util.Queue;
+import java.util.concurrent.LinkedBlockingQueue;
+
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -33,23 +34,17 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import org.apache.logging.log4j.core.Appender;
 import org.apache.logging.log4j.message.Message;
+
 import org.obsidianbox.ember.Game;
 import org.obsidianbox.ember.Main;
-import org.obsidianbox.ember.gui.appender.JavaFXAppender;
-
-import java.util.Map;
-import java.util.Queue;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.LinkedBlockingQueue;
 
 public class Frontend extends Application {
     public static void init(String[] args) throws Exception {
         Main.parseArgs(args);
         launch(args);
     }
+
     private final Queue<Message> logQueue = new LinkedBlockingQueue<>();
     private Game game;
     private TextArea outputArea;
@@ -81,7 +76,6 @@ public class Frontend extends Application {
         outputArea.setLayoutY(5);
         sayCheckBox.setLayoutX(5);
         inputField.setLayoutX(55);
-
 
         // Scene height resize event
         scene.heightProperty().addListener((observable, oldValue, newValue) -> {
@@ -136,26 +130,26 @@ public class Frontend extends Application {
 
     private void startGame() {
         game = new Game();
-//        Appender appender = null;
-//        for (Map.Entry<String, Appender> entry : game.logger.getAppenders().entrySet()) {
-//            if (entry.getKey().equals("Console")) {
-//                appender = entry.getValue();
-//            }
-//        }
-//        if (appender != null && appender instanceof JLineConsoleAppender) {
-//            game.logger.addAppender(new JavaFXAppender(this, ((JLineConsoleAppender) appender).getFilter(), appender.getLayout()));
-//        }
-//        Timer timer = new Timer(true);
-//        timer.scheduleAtFixedRate(new TimerTask() {
-//            @Override
-//            public void run() {
-//                if (!logQueue.isEmpty()) {
-//                    Platform.runLater(() -> {
-//                        pollQueue();
-//                    });
-//                }
-//            }
-//        }, 0, 2000);
+        //        Appender appender = null;
+        //        for (Map.Entry<String, Appender> entry : game.logger.getAppenders().entrySet()) {
+        //            if (entry.getKey().equals("Console")) {
+        //                appender = entry.getValue();
+        //            }
+        //        }
+        //        if (appender != null && appender instanceof JLineConsoleAppender) {
+        //            game.logger.addAppender(new JavaFXAppender(this, ((JLineConsoleAppender) appender).getFilter(), appender.getLayout()));
+        //        }
+        //        Timer timer = new Timer(true);
+        //        timer.scheduleAtFixedRate(new TimerTask() {
+        //            @Override
+        //            public void run() {
+        //                if (!logQueue.isEmpty()) {
+        //                    Platform.runLater(() -> {
+        //                        pollQueue();
+        //                    });
+        //                }
+        //            }
+        //        }, 0, 2000);
         game.open(false);
     }
 

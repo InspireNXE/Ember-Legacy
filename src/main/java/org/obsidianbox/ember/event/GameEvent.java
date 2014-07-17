@@ -1,7 +1,7 @@
 /**
  * This file is part of Ember, licensed under the MIT License (MIT).
  *
- * Copyright (c) 2014-2014 ObsidianBox <http://obsidianbox.org/>
+ * Copyright (c) 2014 ObsidianBox <http://obsidianbox.org/>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,6 +27,7 @@ import com.flowpowered.chat.ChatReceiver;
 import com.flowpowered.events.SimpleEvent;
 import com.flowpowered.permissions.PermissionDomain;
 import com.flowpowered.permissions.PermissionSubject;
+
 import org.obsidianbox.ember.Game;
 
 public abstract class GameEvent extends SimpleEvent {
@@ -55,9 +56,7 @@ public abstract class GameEvent extends SimpleEvent {
     }
 
     /**
-     * Fired when a {@link com.flowpowered.chat.ChatReceiver} is sent a message.
-     * <p>
-     * Calling {@link org.obsidianbox.ember.event.GameEvent.Chat#setCancelled(boolean)} and passing in true will result in
+     * Fired when a {@link com.flowpowered.chat.ChatReceiver} is sent a message. <p> Calling {@link org.obsidianbox.ember.event.GameEvent.Chat#setCancelled(boolean)} and passing in true will result in
      * the message not being sent to the {@link com.flowpowered.chat.ChatReceiver}.
      */
     public static class Chat extends GameEvent {
@@ -83,10 +82,8 @@ public abstract class GameEvent extends SimpleEvent {
     }
 
     /**
-     * Fired when a {@link com.flowpowered.permissions.PermissionSubject} invokes a permission check.
-     * <p>
-     * Calling {@link org.obsidianbox.ember.event.GameEvent.Permission#setCancelled(boolean)} and passing in true
-     * will result in the permission being denied.
+     * Fired when a {@link com.flowpowered.permissions.PermissionSubject} invokes a permission check. <p> Calling {@link org.obsidianbox.ember.event.GameEvent.Permission#setCancelled(boolean)} and
+     * passing in true will result in the permission being denied.
      */
     public static class Permission extends GameEvent {
         public final PermissionSubject subject;
