@@ -25,8 +25,7 @@ package org.obsidianbox.ember.physics.util;
 
 import com.flowpowered.math.imaginary.Quaternionf;
 import com.flowpowered.math.vector.Vector3f;
-
-import org.obsidianbox.ember.universe.World;
+import org.obsidianbox.ember.world.World;
 
 public class Transform {
     private World world;

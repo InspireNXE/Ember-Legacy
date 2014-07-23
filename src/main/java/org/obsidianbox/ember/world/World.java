@@ -1,7 +1,7 @@
 /**
  * This file is part of Ember, licensed under the MIT License (MIT).
  *
- * Copyright (c) 2014 ObsidianBox <http://obsidianbox.org/>
+ * Copyright (c) 2014-2014 ObsidianBox <http://obsidianbox.org/>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,7 +21,43 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.obsidianbox.ember.universe;
+package org.obsidianbox.ember.world;
 
-public class World {
+import com.flowpowered.commons.ticking.TickingElement;
+import com.flowpowered.math.vector.Vector3i;
+import org.obsidianbox.ember.world.cuboid.Chunk;
+
+import java.util.concurrent.ConcurrentHashMap;
+
+public class World extends TickingElement {
+    public final String identifier;
+    private final ConcurrentHashMap<Vector3i, Chunk> chunks = new ConcurrentHashMap<>();
+
+    public World(String identifier) {
+        super("Ember - World - " + identifier, 20);
+        this.identifier = identifier;
+    }
+
+    @Override
+    public void onStart() {
+
+    }
+
+    @Override
+    public void onTick(long l) {
+
+    }
+
+    @Override
+    public void onStop() {
+
+    }
+
+    public Chunk getChunk(Vector3i position) {
+        Chunk c = chunks.get(position);
+        if (c == null) {
+            c = new Chunk(this, position);
+        }
+        return c;
+    }
 }

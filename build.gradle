@@ -71,7 +71,6 @@ dependencies {
     compile 'com.flowpowered:flow-math:0.1.0-SNAPSHOT'
     compile 'com.flowpowered:flow-networking:1.0.0-SNAPSHOT'
     compile 'com.github.wolf480pl:jline-log4j2-appender:1.0.0-SNAPSHOT'
-    compile 'com.lmax:disruptor:3.2.1'
     compile 'net.sf.jopt-simple:jopt-simple:4.6'
     compile 'org.apache.logging.log4j:log4j-api:2.0-rc2'
     compile 'org.apache.logging.log4j:log4j-core:2.0-rc2'
