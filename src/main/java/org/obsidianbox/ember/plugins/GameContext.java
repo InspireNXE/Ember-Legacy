@@ -21,7 +21,17 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.obsidianbox.ember.plugin;
+package org.obsidianbox.ember.plugins;
 
-public class PluginContainer {
+import com.flowpowered.plugins.Context;
+import com.flowpowered.plugins.Plugin;
+import org.obsidianbox.ember.Game;
+
+public class GameContext extends Context {
+    public final Game game;
+
+    public GameContext(Game game, Plugin<?> plugin) {
+        super(plugin);
+        this.game = game;
+    }
 }

@@ -1,5 +1,5 @@
 // Default tasks
-defaultTasks 'licenseFormatMain', 'clean', 'build', 'shadowJar'
+defaultTasks 'licenseFormat', 'clean', 'build', 'shadowJar'
 
 // Apply plugins
 apply plugin: 'application'
@@ -68,6 +68,7 @@ dependencies {
     compile 'com.flowpowered:flow-chat-commands:0.1.0-SNAPSHOT'
     compile 'com.flowpowered:flow-commons:0.1.0-SNAPSHOT'
     compile 'com.flowpowered:flow-events:0.1.0-SNAPSHOT'
+    compile 'com.flowpowered:flow-plugins:0.1.0-SNAPSHOT'
     compile 'com.flowpowered:flow-math:0.1.0-SNAPSHOT'
     compile 'com.flowpowered:flow-networking:1.0.0-SNAPSHOT'
     compile 'com.github.wolf480pl:jline-log4j2-appender:1.0.0-SNAPSHOT'

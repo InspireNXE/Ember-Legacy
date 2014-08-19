@@ -23,13 +23,22 @@
  */
 package org.obsidianbox.ember.world.voxel;
 
-import org.obsidianbox.ember.world.storage.TypedIdRegistry;
+import com.flowpowered.commons.Named;
+import org.obsidianbox.ember.world.storage.TypeIdNamedRegistry;
 
-public class Material {
-    private static final TypedIdRegistry<Material> REGISTRY = new TypedIdRegistry<>(Material.class);
-    public static final Material AIR = new Material();
+public class Material implements Named {
+    private static final TypeIdNamedRegistry<Material> REGISTRY = new TypeIdNamedRegistry<>(Material.class);
+    public static final Material NONE = new Material("none");
 
-    public Material() {
+    private final String name;
+
+    public Material(String name) {
+        this.name = name;
         REGISTRY.put(this);
+    }
+
+    @Override
+    public String getName() {
+        return name;
     }
 }

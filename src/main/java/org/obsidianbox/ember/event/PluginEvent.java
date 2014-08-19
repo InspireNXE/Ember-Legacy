@@ -21,25 +21,35 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.obsidianbox.ember.plugin;
+package org.obsidianbox.ember.event;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import com.flowpowered.plugins.Plugin;
+import org.obsidianbox.ember.Game;
+import org.obsidianbox.ember.plugins.GameContext;
 
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
-public @interface Plugin {
-    String id();
+public abstract class PluginEvent extends GameEvent {
+    public final Plugin<GameContext> plugin;
 
-    String name();
+    public PluginEvent(Game game, Plugin<GameContext> plugin) {
+        super(game);
+        this.plugin = plugin;
+    }
 
-    String version() default "";
+    /**
+     * Fired when a {@link com.flowpowered.plugins.Plugin} is disabled.
+     */
+    public static class Disabled extends PluginEvent {
+        public Disabled(Game game, Plugin<GameContext> plugin) {
+            super(game, plugin);
+        }
+    }
 
-    @Retention(RetentionPolicy.RUNTIME)
-    @Target(ElementType.FIELD)
-    public @interface Instance {
-        String id();
+    /**
+     * Fired when a {@link com.flowpowered.plugins.Plugin} is enabled.
+     */
+    public static class Enabled extends PluginEvent {
+        public Enabled(Game game, Plugin<GameContext> plugin) {
+            super(game, plugin);
+        }
     }
 }

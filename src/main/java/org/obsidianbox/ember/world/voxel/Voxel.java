@@ -1,7 +1,7 @@
 /**
  * This file is part of Ember, licensed under the MIT License (MIT).
  *
- * Copyright (c) 2014-2014 ObsidianBox <http://obsidianbox.org/>
+ * Copyright (c) 2014 ObsidianBox <http://obsidianbox.org/>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -30,7 +30,7 @@ public class Voxel {
     private Material material;
 
     public Voxel(Vector3i position) {
-        this(position, Material.AIR);
+        this(position, Material.NONE);
     }
 
     public Voxel(Vector3i position, Material material) {
@@ -39,6 +39,11 @@ public class Voxel {
     }
 
     public Material material() {
+        return material;
+    }
+
+    public Material material(Material material) {
+        this.material = material;
         return material;
     }
 }

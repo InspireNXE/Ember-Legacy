@@ -1,7 +1,7 @@
 /**
  * This file is part of Ember, licensed under the MIT License (MIT).
  *
- * Copyright (c) 2014-2014 ObsidianBox <http://obsidianbox.org/>
+ * Copyright (c) 2014 ObsidianBox <http://obsidianbox.org/>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,35 +23,41 @@
  */
 package org.obsidianbox.ember.world.storage;
 
+import com.flowpowered.commons.Named;
 import gnu.trove.map.hash.TShortObjectHashMap;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
-public class TypedIdRegistry<T> {
+public class TypeIdNamedRegistry<T extends Named> {
     public static final short ID_NOT_FOUND = -1;
     private final Class<T> clazz;
-    private final TShortObjectHashMap<T> REGISTRY;
+    private final TShortObjectHashMap<T> ID_MAP;
+    private final Map<String, T> STRING_MAP;
 
-    public TypedIdRegistry(Class<T> clazz) {
+    public TypeIdNamedRegistry(Class<T> clazz) {
         this.clazz = clazz;
-        REGISTRY = new TShortObjectHashMap<>();
+        ID_MAP = new TShortObjectHashMap<>();
+        STRING_MAP = new HashMap<>();
     }
 
-    public TypedIdRegistry(Class<T> clazz, Collection<T> initial) {
+    public TypeIdNamedRegistry(Class<T> clazz, Collection<T> initial) {
         this.clazz = clazz;
-        REGISTRY = new TShortObjectHashMap<>(initial.size());
+        ID_MAP = new TShortObjectHashMap<>(initial.size());
+        STRING_MAP = new HashMap<>(initial.size());
         putAll(initial);
     }
 
     public T get(short key) {
-        return REGISTRY.get(key);
+        return ID_MAP.get(key);
     }
 
     public short get(final T value) {
         // Since java doesn't have closures...
         final IdContainer key = new IdContainer();
         key.id = ID_NOT_FOUND;
-        REGISTRY.forEachEntry((i, t) -> {
+        ID_MAP.forEachEntry((i, t) -> {
             if (value.equals(t)) {
                 key.id = i;
                 return true;
@@ -61,19 +67,24 @@ public class TypedIdRegistry<T> {
         return key.id;
     }
 
+    public T get(String key) {
+        return STRING_MAP.get(key);
+    }
+
     public void put(T t) {
         putIncrement(t);
     }
 
     private void putIncrement(T t) {
-        if (REGISTRY.containsValue(t)) {
+        if (ID_MAP.containsValue(t)) {
             return;
         }
-        short id = (short) REGISTRY.size();
+        STRING_MAP.put(t.getName(), t);
+        short id = (short) ID_MAP.size();
         if (id != 0) {
             id += 1;
         }
-        REGISTRY.put(id, t);
+        ID_MAP.put(id, t);
     }
 
     public void putAll(Collection<T> collection) {
@@ -86,8 +97,8 @@ public class TypedIdRegistry<T> {
     public String toString() {
         return "TypedIdRegistry{" +
                 "Type=" + clazz +
-                "Size=" + REGISTRY.size() +
-                "Values={" + REGISTRY.toString() +
+                "Size=" + ID_MAP.size() +
+                "Values={" + ID_MAP.toString() +
                 "}}";
     }
 }

@@ -21,26 +21,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.obsidianbox.ember.plugin.loader;
+package org.obsidianbox.ember.world.storage;
 
-import java.io.IOException;
-import java.nio.file.DirectoryStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import org.obsidianbox.ember.world.voxel.Material;
+import org.obsidianbox.ember.world.voxel.state.State;
+
 import java.util.HashMap;
 import java.util.Map;
-import java.util.regex.Pattern;
 
-import org.obsidianbox.ember.plugin.PluginContainer;
-
-public class PluginLoader {
-    private static final Pattern ZIP_JAR_PATTERN = Pattern.compile("(.+).(zip|jar)$");
-    private final Map<String, PluginContainer> plugins = new HashMap<>();
-
-    public void load(Path pluginsPath) throws IOException {
-        final DirectoryStream<Path> stream = Files.newDirectoryStream(pluginsPath, entry -> !Files.isDirectory(entry) && ZIP_JAR_PATTERN.matcher(entry.getFileName().toString()).matches());
-        for (Path candidate : stream) {
-
-        }
-    }
+public class MaterialStates {
+    private final Map<Material, State> MATERIAL_STATES = new HashMap<>();
 }

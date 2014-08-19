@@ -24,9 +24,15 @@
 package org.obsidianbox.ember.resource;
 
 import java.io.IOException;
+import java.net.URL;
+import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 import org.obsidianbox.ember.Game;
 
@@ -44,5 +50,30 @@ public class FileSystem {
             game.logger.warn("Plugins directory was not found. Ignore this is this is your first time running Ember. Otherwise, this is a problem.");
             Files.createDirectory(PLUGINS_PATH);
         }
+    }
+
+    /** Utility Methods */
+
+
+    /**
+     * Stolen from flow-engine, credits to Waterpicker (cause I'm lazy) edits by me.
+     * @param path Where to get URLs from
+     * @param blob File extention to look for
+     * @return Collection of urls found
+     */
+    public static Collection<URL> getURLs(Path path, String blob) {
+        final List<URL> result = new ArrayList<>();
+        try (DirectoryStream<Path> stream = Files.newDirectoryStream(path, blob)) {
+            for (Path entry: stream) {
+                result.add(entry.toUri().toURL());
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return Collections.unmodifiableCollection(result);
+    }
+
+    public static URL[] asArray(Collection<URL> collection) {
+        return collection.toArray(new URL[collection.size()]);
     }
 }

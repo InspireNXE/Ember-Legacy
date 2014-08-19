@@ -127,4 +127,6 @@ public final class Game extends TickingElement {
     public SimpleEventManager getEventManager() {
         return eventManager;
     }
+
+    public FileSystem getFileSystem() { return fileSystem; }
 }
