@@ -40,16 +40,16 @@ public final class TypeIdNamedRegistry<T extends Named> {
         STRING_MAP = new HashMap<>();
     }
 
-    public Optional<Map.Entry<Short, T>> get(short key) {
-        return ID_MAP.entrySet().stream().filter(en -> en.getKey() == key).findFirst();
+    public Optional<T> get(short key) {
+        return ID_MAP.entrySet().stream().filter(en -> en.getKey() == key).map(Map.Entry::getValue).findAny();
     }
 
-    public Optional<Map.Entry<Short, T>> get(final T value) {
-        return ID_MAP.entrySet().stream().filter(en -> en.getValue().equals(value)).findFirst();
+    public Optional<Short> get(final T value) {
+        return ID_MAP.entrySet().stream().filter(en -> en.getValue().equals(value)).map(Map.Entry::getKey).findAny();
     }
 
-    public Optional<Map.Entry<String, T>> get(String key) {
-        return STRING_MAP.entrySet().stream().filter(en -> en.getKey().equals(key)).findFirst();
+    public Optional<T> get(String key) {
+        return STRING_MAP.entrySet().stream().filter(en -> en.getKey().equals(key)).map(Map.Entry::getValue).findAny();
     }
 
     public T add(T t) {

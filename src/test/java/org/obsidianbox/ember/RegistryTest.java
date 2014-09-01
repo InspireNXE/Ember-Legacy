@@ -39,8 +39,8 @@ public class RegistryTest {
         final TestA testA = new TestA();
         final TestA addedTestA = regA.add(testA);
         assertTrue(testA.equals(addedTestA));
-        assertTrue(regA.get((short) 0).get().getValue().equals(testA));
-        assertTrue(regA.get("testA").get().getKey().equals(testA.getName()));
+        assertTrue(regA.get((short) 0).get().equals(testA));
+        assertTrue(regA.get("testA").get().getName().equals(testA.getName()));
     }
 }
 
