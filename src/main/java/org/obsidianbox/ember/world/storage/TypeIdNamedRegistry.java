@@ -24,14 +24,12 @@
 package org.obsidianbox.ember.world.storage;
 
 import com.flowpowered.commons.Named;
-import gnu.trove.map.hash.TShortObjectHashMap;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public final class TypeIdNamedRegistry<T extends Named> {
-    public static final short ID_NOT_FOUND = -1;
     private final Class<T> clazz;
     private final Map<Short, T> ID_MAP;
     private final Map<String, T> STRING_MAP;
@@ -42,30 +40,16 @@ public final class TypeIdNamedRegistry<T extends Named> {
         STRING_MAP = new HashMap<>();
     }
 
-    public TypeIdNamedRegistry(Class<T> clazz, Collection<T> initial) {
-        this.clazz = clazz;
-        ID_MAP = new HashMap<>(initial.size());
-        STRING_MAP = new HashMap<>(initial.size());
-        addAll(initial);
+    public Optional<Map.Entry<Short, T>> get(short key) {
+        return ID_MAP.entrySet().stream().filter(en -> en.getKey() == key).findFirst();
     }
 
-    public T get(short key) {
-        return ID_MAP.get(key);
+    public Optional<Map.Entry<Short, T>> get(final T value) {
+        return ID_MAP.entrySet().stream().filter(en -> en.getValue().equals(value)).findFirst();
     }
 
-    public short get(final T value) {
-        short id = ID_NOT_FOUND;
-        for (Map.Entry<Short, T> entry : ID_MAP.entrySet()) {
-            if (entry.getValue().equals(value)) {
-                id = ID_NOT_FOUND;
-                break;
-            }
-        }
-        return id;
-    }
-
-    public T get(String key) {
-        return STRING_MAP.get(key);
+    public Optional<Map.Entry<String, T>> get(String key) {
+        return STRING_MAP.entrySet().stream().filter(en -> en.getKey().equals(key)).findFirst();
     }
 
     public T add(T t) {
@@ -73,9 +57,8 @@ public final class TypeIdNamedRegistry<T extends Named> {
     }
 
     private T addAndIncrementId(T t) {
-        T existing = STRING_MAP.get(t.getName());
-        if (existing != null) {
-            return existing;
+        if (STRING_MAP.keySet().stream().anyMatch(en -> en.equals(t.getName()))) {
+            return t;
         }
         STRING_MAP.put(t.getName(), t);
         short id = (short) ID_MAP.size();
@@ -84,12 +67,6 @@ public final class TypeIdNamedRegistry<T extends Named> {
         }
         ID_MAP.put(id, t);
         return t;
-    }
-
-    public void addAll(Collection<T> collection) {
-        for (T t : collection) {
-            addAndIncrementId(t);
-        }
     }
 
     @Override

@@ -29,7 +29,10 @@ import com.flowpowered.commands.CommandManager;
 import com.flowpowered.commands.CommandProvider;
 import com.flowpowered.commands.annotated.AnnotatedCommandExecutorFactory;
 
+import com.flowpowered.events.EventHandler;
+import com.flowpowered.events.Order;
 import org.obsidianbox.ember.Game;
+import org.obsidianbox.ember.event.GameEvent;
 
 public class GameCommandManager extends CommandManager {
     private final Game game;
@@ -37,19 +40,21 @@ public class GameCommandManager extends CommandManager {
 
     public GameCommandManager(Game game) {
         this.game = game;
-
         final CommandProvider provider = () -> "game";
         setRootCommand(getCommand(provider, "root"));
         factory = new AnnotatedCommandExecutorFactory(this, provider, game.logger);
     }
 
-    public void onTick(long dt) {
-        String rawCommand;
-        while ((rawCommand = game.getConsole().getCallbackQueue().poll()) != null) {
-            try {
-                game.getConsole().processCommand(rawCommand);
-            } catch (CommandException e) {
-                game.logger.error("Exception caught processing command: " + rawCommand, e);
+    @EventHandler (order = Order.EARLIEST)
+    public void onTick(GameEvent.Tick event) {
+        if (event.phase == GameEvent.Tick.Phase.START) {
+            String rawCommand;
+            while ((rawCommand = game.getConsole().getCallbackQueue().poll()) != null) {
+                try {
+                    game.getConsole().processCommand(rawCommand);
+                } catch (CommandException e) {
+                    game.logger.error("Exception caught processing command: " + rawCommand, e);
+                }
             }
         }
     }

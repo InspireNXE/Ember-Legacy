@@ -27,6 +27,7 @@ import com.flowpowered.commons.Named;
 import org.junit.Test;
 import org.obsidianbox.ember.world.storage.TypeIdNamedRegistry;
 
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 public class RegistryTest {
@@ -34,11 +35,12 @@ public class RegistryTest {
 
     @Test
     public void testRegistry() {
-        assertTrue(regA.get(new TestA()) == TypeIdNamedRegistry.ID_NOT_FOUND);
+        assertTrue(!regA.get((short) 0).isPresent());
         final TestA testA = new TestA();
         final TestA addedTestA = regA.add(testA);
         assertTrue(testA.equals(addedTestA));
-        assertTrue(regA.get((short) 0).equals(testA));
+        assertTrue(regA.get((short) 0).get().getValue().equals(testA));
+        assertTrue(regA.get("testA").get().getKey().equals(testA.getName()));
     }
 }
 

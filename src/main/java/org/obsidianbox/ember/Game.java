@@ -44,7 +44,6 @@ public final class Game extends TickingElement {
     public final Logger logger = LoggerFactory.getLogger("Ember");
     private final Semaphore semaphore = new Semaphore(0);
     private final AtomicBoolean running = new AtomicBoolean(false);
-    private final AtomicBoolean isMain = new AtomicBoolean(false);
     private GameConsole console;
     private GameCommandManager commandManager;
     private SimpleEventManager eventManager;
@@ -83,7 +82,6 @@ public final class Game extends TickingElement {
 
     @Override
     public void onTick(long dt) {
-        commandManager.onTick(dt);
         eventManager.callEvent(new GameEvent.Tick(this, GameEvent.Tick.Phase.START, dt));
         // TODO All game management here
         eventManager.callEvent(new GameEvent.Tick(this, GameEvent.Tick.Phase.END, dt));
@@ -96,23 +94,18 @@ public final class Game extends TickingElement {
         console.close();
     }
 
-    public void open(boolean lockMain) {
+    public void open() {
         if (running.compareAndSet(false, true)) {
             start();
-            if (lockMain) {
-                isMain.set(true);
-                semaphore.acquireUninterruptibly();
-                stop();
-            }
+            semaphore.acquireUninterruptibly();
+            stop();
         }
     }
 
     public void close() {
         if (running.compareAndSet(true, false)) {
             stop();
-            if (isMain.compareAndSet(true, false)) {
-                semaphore.release();
-            }
+            semaphore.release();
         }
     }
 
