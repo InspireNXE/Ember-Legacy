@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.obsidianbox.ember.plugins;
+package org.obsidianbox.ember.plugin;
 
 import com.flowpowered.plugins.Context;
 import com.flowpowered.plugins.Plugin;

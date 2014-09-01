@@ -47,18 +47,17 @@ public class FileSystem {
 
     public void init() throws IOException {
         if (!Files.exists(PLUGINS_PATH)) {
-            game.logger.warn("Plugins directory was not found. Ignore this is this is your first time running Ember. Otherwise, this is a problem.");
+            game.logger.warn("Plugins directory was not found. Ignore this is this is your first time running Ember. Otherwise, this may be a problem.");
             Files.createDirectory(PLUGINS_PATH);
         }
     }
 
     /** Utility Methods */
 
-
     /**
      * Stolen from flow-engine, credits to Waterpicker (cause I'm lazy) edits by me.
      * @param path Where to get URLs from
-     * @param blob File extention to look for
+     * @param blob File extension to look for
      * @return Collection of urls found
      */
     public static Collection<URL> getURLs(Path path, String blob) {

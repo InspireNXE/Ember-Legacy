@@ -36,31 +36,27 @@ import com.flowpowered.permissions.PermissionDomain;
 
 import org.obsidianbox.ember.Game;
 import org.obsidianbox.ember.event.GameEvent;
+import org.obsidianbox.ember.network.GameSession;
 import org.obsidianbox.ember.physics.util.Transform;
 
-public class Player extends Entity implements CommandSender {
+public final class Player implements CommandSender {
+    private final Game game;
     private final String name;
-    private final PulsingSession session;
+    private final GameSession session;
 
-    public Player(Game game, int id, Transform transform, String name, PulsingSession session) {
-        super(game, id, transform);
+    public Player(Game game, String name, GameSession session) {
+        this.game = game;
         this.name = name;
         this.session = session;
     }
 
-    protected Player(Game game, UUID uuid, int id, String name, Transform transform, PulsingSession session) {
-        super(game, uuid, id, transform);
-        this.name = name;
-        this.session = session;
-    }
-
-    public PulsingSession getSession() {
+    public GameSession getSession() {
         return session;
     }
 
     public void disconnect() {
         if (!session.isActive()) {
-            game.logger.error("Player [" + name + "] is still in the game with an inactive session! This could be bad");
+            game.logger.error("Player [" + name + "] is still in the game with an inactive session! This could be bad!");
         } else {
             session.disconnect();
         }
@@ -124,11 +120,9 @@ public class Player extends Entity implements CommandSender {
     @Override
     public String toString() {
         return "Player{" +
-                "name=" + name +
-                ", uuid=" + uuid +
-                ", id=" + id +
-                ", transform=" + transform +
-                ", isSavable=" + isSavable +
+                "game=" + game +
+                ", name='" + name + '\'' +
+                ", session=" + session +
                 '}';
     }
 }

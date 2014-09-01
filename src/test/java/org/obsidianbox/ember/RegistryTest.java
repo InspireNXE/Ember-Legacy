@@ -36,7 +36,8 @@ public class RegistryTest {
     public void testRegistry() {
         assertTrue(regA.get(new TestA()) == TypeIdNamedRegistry.ID_NOT_FOUND);
         final TestA testA = new TestA();
-        regA.put(testA);
+        final TestA addedTestA = regA.add(testA);
+        assertTrue(testA.equals(addedTestA));
         assertTrue(regA.get((short) 0).equals(testA));
     }
 }

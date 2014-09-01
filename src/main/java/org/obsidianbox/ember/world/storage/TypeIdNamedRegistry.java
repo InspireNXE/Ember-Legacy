@@ -30,23 +30,23 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-public class TypeIdNamedRegistry<T extends Named> {
+public final class TypeIdNamedRegistry<T extends Named> {
     public static final short ID_NOT_FOUND = -1;
     private final Class<T> clazz;
-    private final TShortObjectHashMap<T> ID_MAP;
+    private final Map<Short, T> ID_MAP;
     private final Map<String, T> STRING_MAP;
 
     public TypeIdNamedRegistry(Class<T> clazz) {
         this.clazz = clazz;
-        ID_MAP = new TShortObjectHashMap<>();
+        ID_MAP = new HashMap<>();
         STRING_MAP = new HashMap<>();
     }
 
     public TypeIdNamedRegistry(Class<T> clazz, Collection<T> initial) {
         this.clazz = clazz;
-        ID_MAP = new TShortObjectHashMap<>(initial.size());
+        ID_MAP = new HashMap<>(initial.size());
         STRING_MAP = new HashMap<>(initial.size());
-        putAll(initial);
+        addAll(initial);
     }
 
     public T get(short key) {
@@ -54,30 +54,28 @@ public class TypeIdNamedRegistry<T extends Named> {
     }
 
     public short get(final T value) {
-        // Since java doesn't have closures...
-        final IdContainer key = new IdContainer();
-        key.id = ID_NOT_FOUND;
-        ID_MAP.forEachEntry((i, t) -> {
-            if (value.equals(t)) {
-                key.id = i;
-                return true;
+        short id = ID_NOT_FOUND;
+        for (Map.Entry<Short, T> entry : ID_MAP.entrySet()) {
+            if (entry.getValue().equals(value)) {
+                id = ID_NOT_FOUND;
+                break;
             }
-            return false;
-        });
-        return key.id;
+        }
+        return id;
     }
 
     public T get(String key) {
         return STRING_MAP.get(key);
     }
 
-    public void put(T t) {
-        putIncrement(t);
+    public T add(T t) {
+        return addAndIncrementId(t);
     }
 
-    private void putIncrement(T t) {
-        if (ID_MAP.containsValue(t)) {
-            return;
+    private T addAndIncrementId(T t) {
+        T existing = STRING_MAP.get(t.getName());
+        if (existing != null) {
+            return existing;
         }
         STRING_MAP.put(t.getName(), t);
         short id = (short) ID_MAP.size();
@@ -85,24 +83,21 @@ public class TypeIdNamedRegistry<T extends Named> {
             id += 1;
         }
         ID_MAP.put(id, t);
+        return t;
     }
 
-    public void putAll(Collection<T> collection) {
+    public void addAll(Collection<T> collection) {
         for (T t : collection) {
-            putIncrement(t);
+            addAndIncrementId(t);
         }
     }
 
     @Override
     public String toString() {
-        return "TypedIdRegistry{" +
-                "Type=" + clazz +
-                "Size=" + ID_MAP.size() +
-                "Values={" + ID_MAP.toString() +
-                "}}";
+        return "TypeIdNamedRegistry{" +
+                "type=" + clazz +
+                ", ID_MAP=" + ID_MAP +
+                ", STRING_MAP=" + STRING_MAP +
+                '}';
     }
-}
-
-final class IdContainer {
-    public short id;
 }

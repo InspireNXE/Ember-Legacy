@@ -1,7 +1,7 @@
 // Default tasks
 defaultTasks 'licenseFormat', 'clean', 'build', 'shadowJar'
 
-// Apply plugins
+// Apply plugin
 apply plugin: 'application'
 apply plugin: 'cobertura'
 apply plugin: 'com.github.johnrengelman.shadow'

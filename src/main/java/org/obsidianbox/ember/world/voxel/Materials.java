@@ -21,27 +21,15 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.obsidianbox.ember.gui.appender;
+package org.obsidianbox.ember.world.voxel;
 
-import java.io.Serializable;
+import org.obsidianbox.ember.world.storage.TypeIdNamedRegistry;
 
-import org.apache.logging.log4j.core.Filter;
-import org.apache.logging.log4j.core.Layout;
-import org.apache.logging.log4j.core.LogEvent;
-import org.apache.logging.log4j.core.appender.AbstractAppender;
+public class Materials {
+    private static final TypeIdNamedRegistry<Material> REGISTRY = new TypeIdNamedRegistry<>(Material.class);
+    public static final Material NONE;
 
-import org.obsidianbox.ember.gui.Frontend;
-
-public class JavaFXAppender extends AbstractAppender {
-    private final Frontend frontend;
-
-    public JavaFXAppender(Frontend frontend, Filter filter, Layout<? extends Serializable> layout) {
-        super("GUI", filter, layout);
-        this.frontend = frontend;
-    }
-
-    @Override
-    public void append(LogEvent event) {
-        frontend.getLogQueue().offer(event.getMessage());
+    static {
+        NONE = REGISTRY.add(new Material("none"));
     }
 }

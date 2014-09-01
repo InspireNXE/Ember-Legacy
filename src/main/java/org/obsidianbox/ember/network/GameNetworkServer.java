@@ -24,7 +24,10 @@
 package org.obsidianbox.ember.network;
 
 import java.net.SocketAddress;
+import java.util.HashSet;
+import java.util.Set;
 
+import com.flowpowered.networking.session.BasicSession;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 
@@ -35,6 +38,7 @@ import org.obsidianbox.ember.event.NetworkEvent;
 
 public final class GameNetworkServer extends NetworkServer {
     private final Network network;
+    protected final Set<GameSession> sessions = new HashSet<>();
 
     public GameNetworkServer(Network network) {
         this.network = network;
@@ -42,20 +46,20 @@ public final class GameNetworkServer extends NetworkServer {
 
     @Override
     public Session newSession(Channel c) {
-        final GameProtocol protocol = network.game.getEventManager().callEvent(new NetworkEvent.PreSessionCreate(network.game, c)).protocol;
+        final GameProtocol protocol = network.game.getEventManager().callEvent(new NetworkEvent.PreSessionCreate(network, c)).protocol;
         if (protocol == null) {
             network.game.logger.error("No protocol provided for channel [" + c + "], disconnecting...");
             c.disconnect();
         }
-        final GameSession session = new GameSession(network.game, c, protocol);
-        network.activeSessions.add(session);
-        return network.game.getEventManager().callEvent(new NetworkEvent.PostSessionCreate(network.game, session)).session;
+        final GameSession session = new GameSession(network, c, protocol);
+        sessions.add(session);
+        return network.game.getEventManager().callEvent(new NetworkEvent.PostSessionCreate(network, session)).session;
     }
 
     @Override
     public void sessionInactivated(Session session) {
-        network.game.getEventManager().callEvent(new NetworkEvent.SessionInactivated(network.game, (GameSession) session));
-        network.activeSessions.remove(session);
+        network.game.getEventManager().callEvent(new NetworkEvent.SessionInactivated(network, (GameSession) session));
+        sessions.remove(session);
     }
 
     @Override
@@ -74,5 +78,14 @@ public final class GameNetworkServer extends NetworkServer {
     @Override
     public void onBindFailure(SocketAddress address, Throwable t) {
         network.game.logger.info("Exception caught while binding to address [" + address + "]. Do you have another instance of Ember running?", t);
+    }
+
+    @Override
+    public void shutdown() {
+        if (!network.isRunning()) {
+            throw new IllegalStateException("Attempt made to shutdown binding adapter but network is not running!");
+        }
+        sessions.stream().filter(BasicSession::isActive).forEach(BasicSession::disconnect);
+        super.shutdown();
     }
 }

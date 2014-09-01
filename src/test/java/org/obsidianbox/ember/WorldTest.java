@@ -28,6 +28,7 @@ import org.junit.Test;
 import org.obsidianbox.ember.world.World;
 import org.obsidianbox.ember.world.cuboid.Chunk;
 import org.obsidianbox.ember.world.voxel.Material;
+import org.obsidianbox.ember.world.voxel.Materials;
 import org.obsidianbox.ember.world.voxel.Voxel;
 
 import static org.junit.Assert.assertTrue;
@@ -37,9 +38,9 @@ public class WorldTest {
 
     @Test
     public void testVoxel() {
-        final Voxel a = new Voxel(new Vector3i(0, 0, 0), Material.NONE);
+        final Voxel a = new Voxel(new Vector3i(0, 0, 0), Materials.NONE);
         assertTrue(a.position.equals(new Vector3i(0, 0, 0)));
-        assertTrue(a.material().equals(Material.NONE));
+        assertTrue(a.material().equals(Materials.NONE));
     }
 
     @Test

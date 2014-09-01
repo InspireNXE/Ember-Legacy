@@ -34,27 +34,27 @@ import org.obsidianbox.ember.Game;
 import org.obsidianbox.ember.event.NetworkEvent;
 
 public final class GameSession extends PulsingSession {
-    private final Game game;
+    private final Network network;
 
-    public GameSession(Game game, Channel channel, AbstractProtocol protocol) {
+    public GameSession(Network network, Channel channel, AbstractProtocol protocol) {
         super(channel, protocol);
-        this.game = game;
+        this.network = network;
     }
 
     @Override
     public void disconnect() {
-        game.getEventManager().callEvent(new NetworkEvent.PreSessionDisconnect(game, this));
+        network.game.getEventManager().callEvent(new NetworkEvent.PreSessionDisconnect(network, this));
         super.disconnect();
     }
 
     @Override
     public void onDisconnect() {
-        game.getEventManager().callEvent(new NetworkEvent.PostSessionDisconnect(game, this));
+        network.game.getEventManager().callEvent(new NetworkEvent.PostSessionDisconnect(network, this));
     }
 
     @Override
     public void onReady() {
-        game.getEventManager().callEvent(new NetworkEvent.SessionReady(game, this));
+        network.game.getEventManager().callEvent(new NetworkEvent.SessionReady(network, this));
     }
 
     @Override

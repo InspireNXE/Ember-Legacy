@@ -30,7 +30,7 @@ public class Voxel {
     private Material material;
 
     public Voxel(Vector3i position) {
-        this(position, Material.NONE);
+        this(position, Materials.NONE);
     }
 
     public Voxel(Vector3i position, Material material) {

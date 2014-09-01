@@ -25,7 +25,7 @@ package org.obsidianbox.ember.event;
 
 import com.flowpowered.plugins.Plugin;
 import org.obsidianbox.ember.Game;
-import org.obsidianbox.ember.plugins.GameContext;
+import org.obsidianbox.ember.plugin.GameContext;
 
 public abstract class PluginEvent extends GameEvent {
     public final Plugin<GameContext> plugin;

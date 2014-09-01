@@ -52,13 +52,7 @@ public class Commands {
                     " with active connections will cause those connections to cease.")
     @Permissible("game.command.listen")
     private void onCommandListen(CommandSender sender, CommandArguments args) throws CommandException {
-        final InetSocketAddress address;
-        if (!args.advance()) {
-            address = new InetSocketAddress(25566);
-        } else {
-            address = null;
-        }
-        game.network.getBindingAdapter().bind(address);
+        game.network.bind(new InetSocketAddress(args.popInteger("address", 25500)));
     }
 
     @CommandDescription(name = "connect", usage = "connect [address] <port>", desc = "Connects to an address",
@@ -66,12 +60,13 @@ public class Commands {
                     " have currently open")
     @Permissible("game.command.connect")
     private void onCommandConnect(CommandSender sender, CommandArguments args) throws CommandException {
-        final InetSocketAddress address;
-        if (!args.advance()) {
-            address = new InetSocketAddress(25566);
-        } else {
-            address = null;
-        }
-        game.network.getListeningAdapter().connect(address);
+        game.network.connect(new InetSocketAddress(args.popInteger("address", 25500)));
+    }
+
+    @CommandDescription(name = "disconnect", usage = "disconnect", desc = "Disconnects from an address",
+            help = "Use this command only when you want to disconnect.")
+    @Permissible("game.command.connect")
+    private void onCommandDisconnect(CommandSender sender, CommandArguments args) throws CommandException {
+        game.network.disconnect();
     }
 }

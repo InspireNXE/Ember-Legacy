@@ -35,6 +35,7 @@ import org.obsidianbox.ember.event.NetworkEvent;
 
 public final class GameNetworkClient extends NetworkClient {
     private final Network network;
+    protected GameSession session;
 
     public GameNetworkClient(Network network) {
         this.network = network;
@@ -42,19 +43,19 @@ public final class GameNetworkClient extends NetworkClient {
 
     @Override
     public Session newSession(Channel c) {
-        final GameProtocol protocol = network.game.getEventManager().callEvent(new NetworkEvent.PreSessionCreate(network.game, c)).protocol;
+        final GameProtocol protocol = network.game.getEventManager().callEvent(new NetworkEvent.PreSessionCreate(network, c)).protocol;
         if (protocol == null) {
             network.game.logger.error("No protocol provided for channel [" + c + "], disconnecting...");
             c.disconnect();
         }
-        network.listener = new GameSession(network.game, c, protocol);
-        return network.game.getEventManager().callEvent(new NetworkEvent.PostSessionCreate(network.game, network.listener)).session;
+        session = new GameSession(network, c, protocol);
+        return network.game.getEventManager().callEvent(new NetworkEvent.PostSessionCreate(network, session)).session;
     }
 
     @Override
     public void sessionInactivated(Session session) {
-        network.game.getEventManager().callEvent(new NetworkEvent.SessionInactivated(network.game, (GameSession) session));
-        network.listener = null;
+        network.game.getEventManager().callEvent(new NetworkEvent.SessionInactivated(network, (GameSession) session));
+        session = null;
     }
 
     @Override
@@ -62,6 +63,7 @@ public final class GameNetworkClient extends NetworkClient {
         if (!network.isRunning()) {
             throw new IllegalStateException("Attempt made to connect to address [" + address + "] but network is not running!");
         }
+        session = null;
         return super.connect(address);
     }
 
@@ -73,5 +75,17 @@ public final class GameNetworkClient extends NetworkClient {
     @Override
     public void onConnectFailure(SocketAddress address, Throwable t) {
         network.game.logger.error("Exception caught while connecting to address [" + address + "]", t);
+    }
+
+    @Override
+    public void shutdown() {
+        if (!network.isRunning()) {
+            throw new IllegalStateException("Attempt made to shutdown listening adapter but network is not running!");
+        }
+        if (session != null) {
+            session.disconnect();
+        }
+        session = null;
+        super.shutdown();
     }
 }

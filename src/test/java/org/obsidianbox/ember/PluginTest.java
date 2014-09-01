@@ -24,42 +24,25 @@
 package org.obsidianbox.ember;
 
 import com.flowpowered.plugins.ContextCreator;
+import com.flowpowered.plugins.Plugin;
 import com.flowpowered.plugins.PluginLoader;
-import com.flowpowered.plugins.annotated.Disable;
-import com.flowpowered.plugins.annotated.Enable;
-import com.flowpowered.plugins.annotated.Plugin;
 import com.flowpowered.plugins.simple.SimplePluginLoader;
 import org.junit.Test;
-import org.obsidianbox.ember.plugins.GameContext;
-import org.obsidianbox.ember.plugins.GamePluginManager;
+import org.obsidianbox.ember.plugin.GameContext;
+import org.obsidianbox.ember.plugin.GamePluginManager;
 
 import static org.junit.Assert.fail;
 
 public class PluginTest {
     @Test
-    public void test()  {
+    public void test() {
         final Game game = new Game();
         final TestGamePluginManager manager = new TestGamePluginManager(game);
 
         manager.addLoader(new SimplePluginLoader<>(manager.getCreator(), getClass().getClassLoader()));
-        //TODO Figure out how to test this by providing this class as a Path?
-        //manager.addLoader(new AnnotatedPluginLoader<>(manager.getCreator(), getClass().getClassLoader()));
-        com.flowpowered.plugins.Plugin<GameContext> plugin = manager.getPlugin("plugin");
+        final Plugin<GameContext> plugin = manager.getPlugin("plugin");
         if (plugin != null) {
             fail("This should be null...");
-        }
-    }
-
-    @Plugin(name = "plugin_test")
-    public static class AnnotatedPluginTest {
-        @Enable
-        public void enable(GameContext context) {
-
-        }
-
-        @Disable
-        public void disable(GameContext context) {
-
         }
     }
 

@@ -26,8 +26,17 @@ package org.obsidianbox.ember.event;
 import org.obsidianbox.ember.Game;
 import org.obsidianbox.ember.physics.Player;
 
-public abstract class PlayerEvent extends EntityEvent {
+public abstract class PlayerEvent extends GameEvent {
+    public final Player player;
+
     public PlayerEvent(Game game, Player player) {
-        super(game, player);
+        super(game);
+        this.player = player;
+    }
+
+    public static class Login extends PlayerEvent {
+        public Login(Game game, Player player) {
+            super(game, player);
+        }
     }
 }

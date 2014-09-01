@@ -23,22 +23,19 @@
  */
 package org.obsidianbox.ember.network;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import com.flowpowered.commons.ticking.TickingElement;
 import com.flowpowered.networking.session.BasicSession;
 import com.flowpowered.networking.session.PulsingSession;
 
+import io.netty.channel.ChannelFuture;
 import org.obsidianbox.ember.Game;
 
+import java.net.SocketAddress;
+
 public class Network extends TickingElement {
-    protected final Game game;
-    protected final GameNetworkServer server;
-    protected final Set<GameSession> activeSessions = new HashSet<>();
-    //Receiving messages
+    public final Game game;
     protected final GameNetworkClient client;
-    protected GameSession listener;
+    protected final GameNetworkServer server;
 
     public Network(Game game) {
         super("Network", 20);
@@ -54,28 +51,38 @@ public class Network extends TickingElement {
 
     @Override
     public void onTick(long dt) {
-        if (listener != null) {
-            listener.pulse();
+        if (client.session != null) {
+            client.session.pulse();
         }
-        activeSessions.stream().filter(BasicSession::isActive).forEach(PulsingSession::pulse);
+        server.sessions.stream().filter(BasicSession::isActive).forEach(PulsingSession::pulse);
     }
 
     @Override
     public void onStop() {
         game.logger.info("Stopping network");
-        if (listener != null) {
-            listener.disconnect();
-        }
         client.shutdown();
-        activeSessions.stream().filter(BasicSession::isActive).forEach(BasicSession::disconnect);
         server.shutdown();
     }
 
-    public GameNetworkClient getListeningAdapter() {
-        return client;
+    public void disconnect() {
+        client.shutdown();
     }
 
-    public GameNetworkServer getBindingAdapter() {
-        return server;
+    public ChannelFuture connect(SocketAddress address) {
+        if (!isRunning()) {
+            start();
+        }
+        return client.connect(address);
+    }
+
+    public ChannelFuture bind(SocketAddress address) {
+        if (!isRunning()) {
+            start();
+        }
+        return server.bind(address);
+    }
+
+    public void unbind() {
+        server.shutdown();
     }
 }

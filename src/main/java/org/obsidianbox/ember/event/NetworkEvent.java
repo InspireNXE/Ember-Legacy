@@ -28,10 +28,11 @@ import io.netty.channel.Channel;
 import org.obsidianbox.ember.Game;
 import org.obsidianbox.ember.network.GameProtocol;
 import org.obsidianbox.ember.network.GameSession;
+import org.obsidianbox.ember.network.Network;
 
 public abstract class NetworkEvent extends GameEvent {
-    public NetworkEvent(Game game) {
-        super(game);
+    public NetworkEvent(Network network) {
+        super(network.game);
     }
 
     /**
@@ -42,8 +43,8 @@ public abstract class NetworkEvent extends GameEvent {
         public final Channel channel;
         public GameProtocol protocol;
 
-        public PreSessionCreate(Game game, Channel channel) {
-            super(game);
+        public PreSessionCreate(Network network, Channel channel) {
+            super(network);
             this.channel = channel;
         }
     }
@@ -54,8 +55,8 @@ public abstract class NetworkEvent extends GameEvent {
     public static class PostSessionCreate extends NetworkEvent {
         public final GameSession session;
 
-        public PostSessionCreate(Game game, GameSession session) {
-            super(game);
+        public PostSessionCreate(Network network, GameSession session) {
+            super(network);
             this.session = session;
         }
     }
@@ -66,8 +67,8 @@ public abstract class NetworkEvent extends GameEvent {
     public static class SessionReady extends NetworkEvent {
         public final GameSession session;
 
-        public SessionReady(Game game, GameSession session) {
-            super(game);
+        public SessionReady(Network network, GameSession session) {
+            super(network);
             this.session = session;
         }
     }
@@ -78,8 +79,8 @@ public abstract class NetworkEvent extends GameEvent {
     public static class PreSessionDisconnect extends NetworkEvent {
         public final GameSession session;
 
-        public PreSessionDisconnect(Game game, GameSession session) {
-            super(game);
+        public PreSessionDisconnect(Network network, GameSession session) {
+            super(network);
             this.session = session;
         }
     }
@@ -90,8 +91,8 @@ public abstract class NetworkEvent extends GameEvent {
     public static class PostSessionDisconnect extends NetworkEvent {
         public final GameSession session;
 
-        public PostSessionDisconnect(Game game, GameSession session) {
-            super(game);
+        public PostSessionDisconnect(Network network, GameSession session) {
+            super(network);
             this.session = session;
         }
     }
@@ -102,8 +103,8 @@ public abstract class NetworkEvent extends GameEvent {
     public static class SessionInactivated extends NetworkEvent {
         public final GameSession session;
 
-        public SessionInactivated(Game game, GameSession session) {
-            super(game);
+        public SessionInactivated(Network network, GameSession session) {
+            super(network);
             this.session = session;
         }
     }

@@ -27,14 +27,10 @@ import com.flowpowered.commons.Named;
 import org.obsidianbox.ember.world.storage.TypeIdNamedRegistry;
 
 public class Material implements Named {
-    private static final TypeIdNamedRegistry<Material> REGISTRY = new TypeIdNamedRegistry<>(Material.class);
-    public static final Material NONE = new Material("none");
-
     private final String name;
 
     public Material(String name) {
         this.name = name;
-        REGISTRY.put(this);
     }
 
     @Override

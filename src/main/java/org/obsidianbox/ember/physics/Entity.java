@@ -28,7 +28,7 @@ import java.util.UUID;
 import org.obsidianbox.ember.Game;
 import org.obsidianbox.ember.physics.util.Transform;
 
-public class Entity {
+public final class Entity {
     protected final Game game;
     protected final UUID uuid;
     protected final int id;
