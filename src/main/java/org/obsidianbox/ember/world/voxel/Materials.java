@@ -23,13 +23,13 @@
  */
 package org.obsidianbox.ember.world.voxel;
 
-import org.obsidianbox.ember.world.storage.TypeIdNamedRegistry;
+import org.obsidianbox.ember.world.storage.ImmutableTypedStringMap;
 
 public class Materials {
-    private static final TypeIdNamedRegistry<Material> REGISTRY = new TypeIdNamedRegistry<>(Material.class);
+    private static final ImmutableTypedStringMap<Material> REGISTRY = new ImmutableTypedStringMap<>();
     public static final Material NONE;
 
     static {
-        NONE = REGISTRY.add(new Material("none"));
+        NONE = REGISTRY.add("none", new Material("none"));
     }
 }

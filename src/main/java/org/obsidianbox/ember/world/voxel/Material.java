@@ -23,18 +23,10 @@
  */
 package org.obsidianbox.ember.world.voxel;
 
-import com.flowpowered.commons.Named;
-import org.obsidianbox.ember.world.storage.TypeIdNamedRegistry;
-
-public class Material implements Named {
-    private final String name;
+public class Material {
+    public final String name;
 
     public Material(String name) {
         this.name = name;
-    }
-
-    @Override
-    public String getName() {
-        return name;
     }
 }

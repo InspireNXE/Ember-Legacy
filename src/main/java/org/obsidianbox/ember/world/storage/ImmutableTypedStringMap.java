@@ -23,58 +23,57 @@
  */
 package org.obsidianbox.ember.world.storage;
 
-import com.flowpowered.commons.Named;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Stream;
 
-public final class TypeIdNamedRegistry<T extends Named> {
-    private final Class<T> clazz;
-    private final Map<Short, T> ID_MAP;
-    private final Map<String, T> STRING_MAP;
+/**
+ * Represents a {@link java.util.Map} of {@link T} references keyed to {@link java.lang.String}s. This map is concrete;
+ * no references are allowed to be removed.
+ */
+public final class ImmutableTypedStringMap<T> {
+    private final Map<String, T> wrapped = new HashMap<>();
 
-    public TypeIdNamedRegistry(Class<T> clazz) {
-        this.clazz = clazz;
-        ID_MAP = new HashMap<>();
-        STRING_MAP = new HashMap<>();
+    public Optional<T> get(String value) {
+        return wrapped.entrySet().stream().filter(en -> en.getKey().equals(value)).map(Map.Entry::getValue).findAny();
     }
 
-    public Optional<T> get(short key) {
-        return ID_MAP.entrySet().stream().filter(en -> en.getKey() == key).map(Map.Entry::getValue).findAny();
+    public Optional<String> get(T value) {
+        return wrapped.entrySet().stream().filter(en -> en.getValue().equals(value)).map(Map.Entry::getKey).findAny();
     }
 
-    public Optional<Short> get(final T value) {
-        return ID_MAP.entrySet().stream().filter(en -> en.getValue().equals(value)).map(Map.Entry::getKey).findAny();
-    }
-
-    public Optional<T> get(String key) {
-        return STRING_MAP.entrySet().stream().filter(en -> en.getKey().equals(key)).map(Map.Entry::getValue).findAny();
-    }
-
-    public T add(T t) {
-        return addAndIncrementId(t);
-    }
-
-    private T addAndIncrementId(T t) {
-        if (STRING_MAP.keySet().stream().anyMatch(en -> en.equals(t.getName()))) {
-            return t;
+    public T add(String key, T value) {
+        if (wrapped.keySet().stream().anyMatch(en -> en.equals(key))) {
+            return value;
         }
-        STRING_MAP.put(t.getName(), t);
-        short id = (short) ID_MAP.size();
-        if (id != 0) {
-            id += 1;
-        }
-        ID_MAP.put(id, t);
-        return t;
+        wrapped.put(key, value);
+        return value;
+    }
+
+    public Stream<Map.Entry<String, T>> stream() {
+        return wrapped.entrySet().stream();
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ImmutableTypedStringMap that = (ImmutableTypedStringMap) o;
+
+        return wrapped.equals(that.wrapped);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return wrapped.hashCode();
+    }
+
+
+    @Override
     public String toString() {
-        return "TypeIdNamedRegistry{" +
-                "type=" + clazz +
-                ", ID_MAP=" + ID_MAP +
-                ", STRING_MAP=" + STRING_MAP +
-                '}';
+        return "ImmutableTypedStringMap " + wrapped;
     }
 }

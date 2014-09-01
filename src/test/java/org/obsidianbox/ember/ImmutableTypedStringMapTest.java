@@ -23,30 +23,23 @@
  */
 package org.obsidianbox.ember;
 
-import com.flowpowered.commons.Named;
 import org.junit.Test;
-import org.obsidianbox.ember.world.storage.TypeIdNamedRegistry;
 
-import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
-public class RegistryTest {
-    private final TypeIdNamedRegistry<TestA> regA = new TypeIdNamedRegistry<>(TestA.class);
+public class ImmutableTypedStringMapTest {
+    private final org.obsidianbox.ember.world.storage.ImmutableTypedStringMap<TestA> regA = new org.obsidianbox.ember.world.storage.ImmutableTypedStringMap<>();
 
     @Test
     public void testRegistry() {
-        assertTrue(!regA.get((short) 0).isPresent());
         final TestA testA = new TestA();
-        final TestA addedTestA = regA.add(testA);
+        final TestA addedTestA = regA.add("testA", testA);
         assertTrue(testA.equals(addedTestA));
-        assertTrue(regA.get((short) 0).get().equals(testA));
-        assertTrue(regA.get("testA").get().getName().equals(testA.getName()));
+        assertTrue(regA.get("testA").get().equals(testA));
+        assertTrue(regA.get(testA).get().equals("testA"));
+        assertTrue(regA.stream().anyMatch(en -> en.getKey().equals("testA")));
     }
 }
 
-final class TestA implements Named {
-    @Override
-    public String getName() {
-        return "testA";
-    }
+final class TestA {
 }
