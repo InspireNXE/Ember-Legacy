@@ -15,6 +15,7 @@ public abstract class PlayerComponent extends Component<Player> {
             e.printStackTrace();
         }
         FIELD_HOLDER.setAccessible(false);
+        holder.game.getEventManager().registerEvents(this, this);
         holder.game.getEventManager().callEvent(new ComponentEvent.Attached(holder.game, this));
     }
 
@@ -22,6 +23,7 @@ public abstract class PlayerComponent extends Component<Player> {
     protected final void detach() {
         final Player holder = getHolder().get();
         getHolder().get().game.getEventManager().callEvent(new ComponentEvent.Detach(holder.game, this));
+        holder.game.getEventManager().unRegisterEventsByOwner(this);
 
         FIELD_HOLDER.setAccessible(true);
         try {

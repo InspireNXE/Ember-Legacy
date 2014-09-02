@@ -15,6 +15,7 @@ public abstract class EntityComponent extends Component<Entity> {
             e.printStackTrace();
         }
         FIELD_HOLDER.setAccessible(false);
+        holder.game.getEventManager().registerEvents(this, this);
         holder.game.getEventManager().callEvent(new ComponentEvent.Attached(holder.game, this));
     }
 
@@ -22,6 +23,7 @@ public abstract class EntityComponent extends Component<Entity> {
     protected final void detach() {
         final Entity holder = getHolder().get();
         getHolder().get().game.getEventManager().callEvent(new ComponentEvent.Detach(holder.game, this));
+        holder.game.getEventManager().unRegisterEventsByListener(this);
 
         FIELD_HOLDER.setAccessible(true);
         try {
