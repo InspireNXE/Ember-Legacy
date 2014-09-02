@@ -24,11 +24,12 @@
 package org.obsidianbox.ember;
 
 import org.junit.Test;
+import org.obsidianbox.ember.util.ImmutableTypedStringMap;
 
 import static org.junit.Assert.assertTrue;
 
 public class ImmutableTypedStringMapTest {
-    private final org.obsidianbox.ember.world.storage.ImmutableTypedStringMap<TestA> regA = new org.obsidianbox.ember.world.storage.ImmutableTypedStringMap<>();
+    private final ImmutableTypedStringMap<TestA> regA = new ImmutableTypedStringMap<>();
 
     @Test
     public void testRegistry() {

@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.obsidianbox.ember.world.storage;
+package org.obsidianbox.ember.util;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -23,9 +23,7 @@
  */
 package org.obsidianbox.ember.physics;
 
-import java.util.Collections;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 import com.flowpowered.chat.ChatReceiver;
 import com.flowpowered.commands.CommandArguments;
@@ -35,14 +33,16 @@ import com.flowpowered.networking.session.PulsingSession;
 import com.flowpowered.permissions.PermissionDomain;
 
 import org.obsidianbox.ember.Game;
+import org.obsidianbox.ember.component.IComponentHolder;
 import org.obsidianbox.ember.event.GameEvent;
 import org.obsidianbox.ember.network.GameSession;
 import org.obsidianbox.ember.physics.util.Transform;
 
-public final class Player implements CommandSender {
-    private final Game game;
-    private final String name;
-    private final GameSession session;
+public final class Player implements CommandSender, IComponentHolder<PlayerComponent> {
+    public final Game game;
+    public final String name;
+    public final GameSession session;
+    private final Set<PlayerComponent> components = new HashSet<>();
 
     public Player(Game game, String name, GameSession session) {
         this.game = game;
@@ -124,5 +124,10 @@ public final class Player implements CommandSender {
                 ", name='" + name + '\'' +
                 ", session=" + session +
                 '}';
+    }
+
+    @Override
+    public Collection<PlayerComponent> getComponents() {
+        return components;
     }
 }

@@ -23,7 +23,7 @@
  */
 package org.obsidianbox.ember.world.voxel;
 
-import org.obsidianbox.ember.world.storage.ImmutableTypedStringMap;
+import org.obsidianbox.ember.util.ImmutableTypedStringMap;
 
 public class Materials {
     private static final ImmutableTypedStringMap<Material> REGISTRY = new ImmutableTypedStringMap<>();

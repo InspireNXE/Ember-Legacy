@@ -73,6 +73,6 @@ public class FileSystem {
     }
 
     public static URL[] asArray(Collection<URL> collection) {
-        return collection.toArray(new URL[collection.size()]);
+        return (URL[]) collection.stream().toArray();
     }
 }

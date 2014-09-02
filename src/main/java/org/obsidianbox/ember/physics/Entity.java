@@ -23,17 +23,22 @@
  */
 package org.obsidianbox.ember.physics;
 
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 import org.obsidianbox.ember.Game;
+import org.obsidianbox.ember.component.IComponentHolder;
 import org.obsidianbox.ember.physics.util.Transform;
 
-public final class Entity {
-    protected final Game game;
-    protected final UUID uuid;
-    protected final int id;
-    protected Transform transform;
-    protected boolean isSavable = false;
+public final class Entity implements IComponentHolder<EntityComponent> {
+    public final Game game;
+    public final UUID uuid;
+    public final int id;
+    private Transform transform;
+    private boolean isSavable = false;
+    private final Set<EntityComponent> components = new HashSet<>();
 
     public Entity(Game game, int id, Transform transform) {
         this.game = game;
@@ -47,18 +52,6 @@ public final class Entity {
         this.uuid = uuid;
         this.id = id;
         this.transform = transform;
-    }
-
-    public Game getGame() {
-        return game;
-    }
-
-    public UUID getUUID() {
-        return uuid;
-    }
-
-    protected int getID() {
-        return id;
     }
 
     public Transform getTransform() {
@@ -75,15 +68,8 @@ public final class Entity {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof Entity)) {
-            return false;
-        }
+        return this == o || o instanceof Entity && uuid.equals(((Entity) o).uuid);
 
-        Entity entity = (Entity) o;
-        return uuid.equals(entity.uuid);
     }
 
     @Override
@@ -99,5 +85,10 @@ public final class Entity {
                 ", transform=" + transform +
                 ", isSavable=" + isSavable +
                 '}';
+    }
+
+    @Override
+    public Collection<EntityComponent> getComponents() {
+        return components;
     }
 }

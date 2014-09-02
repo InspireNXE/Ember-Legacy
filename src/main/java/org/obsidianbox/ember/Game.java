@@ -52,7 +52,7 @@ public final class Game extends TickingElement {
     public final Network network;
 
     public Game() {
-        super("Game", 20);
+        super("game", 20);
         this.network = new Network(this);
     }
 

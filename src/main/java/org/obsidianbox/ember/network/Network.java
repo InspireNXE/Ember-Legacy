@@ -38,7 +38,7 @@ public class Network extends TickingElement {
     protected final GameNetworkServer server;
 
     public Network(Game game) {
-        super("Network", 20);
+        super("network", 20);
         this.game = game;
         server = new GameNetworkServer(this);
         client = new GameNetworkClient(this);
