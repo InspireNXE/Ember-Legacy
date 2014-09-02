@@ -33,12 +33,13 @@ import com.flowpowered.networking.session.PulsingSession;
 import com.flowpowered.permissions.PermissionDomain;
 
 import org.obsidianbox.ember.Game;
+import org.obsidianbox.ember.IGameObject;
 import org.obsidianbox.ember.component.IComponentHolder;
 import org.obsidianbox.ember.event.GameEvent;
 import org.obsidianbox.ember.network.GameSession;
 import org.obsidianbox.ember.physics.util.Transform;
 
-public final class Player implements CommandSender, IComponentHolder<PlayerComponent> {
+public final class Player implements CommandSender, IComponentHolder<PlayerComponent>, IGameObject {
     public final Game game;
     public final String name;
     public final GameSession session;
@@ -48,6 +49,11 @@ public final class Player implements CommandSender, IComponentHolder<PlayerCompo
         this.game = game;
         this.name = name;
         this.session = session;
+    }
+
+    @Override
+    public Game getGame() {
+        return game;
     }
 
     public GameSession getSession() {
@@ -118,16 +124,16 @@ public final class Player implements CommandSender, IComponentHolder<PlayerCompo
     }
 
     @Override
+    public Collection<PlayerComponent> getComponents() {
+        return components;
+    }
+
+    @Override
     public String toString() {
         return "Player{" +
                 "game=" + game +
                 ", name='" + name + '\'' +
                 ", session=" + session +
                 '}';
-    }
-
-    @Override
-    public Collection<PlayerComponent> getComponents() {
-        return components;
     }
 }

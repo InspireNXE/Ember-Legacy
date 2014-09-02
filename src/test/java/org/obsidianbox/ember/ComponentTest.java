@@ -13,12 +13,11 @@ public class ComponentTest {
     class TestEntityComponent extends EntityComponent {
         @EventHandler
         public void onAttached(ComponentEvent.Attached event) {
-
         }
 
         @EventHandler
         public void onTick(GameEvent.Tick event) {
-            
+
         }
 
         @EventHandler

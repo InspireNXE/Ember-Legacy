@@ -5,32 +5,24 @@ import org.obsidianbox.ember.event.ComponentEvent;
 
 import java.util.Optional;
 
-public abstract class PlayerComponent extends Component<Player> {
+public abstract class PlayerComponent implements Component<Player> {
+    private Optional<Player> holder = Optional.empty();
+
     @Override
-    protected final void attach(Player holder) {
-        FIELD_HOLDER.setAccessible(true);
-        try {
-            FIELD_HOLDER.set(this, Optional.of(holder));
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
-        FIELD_HOLDER.setAccessible(false);
+    public final Optional<Player> getHolder() {
+        return holder;
+    }
+
+    @Override
+    public final void attach(Player holder) {
+        this.holder = Optional.of(holder);
         holder.game.getEventManager().registerEvents(this, this);
         holder.game.getEventManager().callEvent(new ComponentEvent.Attached(holder.game, this));
     }
 
     @Override
-    protected final void detach() {
-        final Player holder = getHolder().get();
-        getHolder().get().game.getEventManager().callEvent(new ComponentEvent.Detach(holder.game, this));
-        holder.game.getEventManager().unRegisterEventsByOwner(this);
-
-        FIELD_HOLDER.setAccessible(true);
-        try {
-            FIELD_HOLDER.set(this, Optional.empty());
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
-        }
-        FIELD_HOLDER.setAccessible(false);
+    public final void detach() {
+        holder.get().game.getEventManager().callEvent(new ComponentEvent.Detach(holder.get().game, this));
+        holder.get().game.getEventManager().unRegisterEventsByListener(this);
     }
 }

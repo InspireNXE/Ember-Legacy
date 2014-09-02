@@ -3,7 +3,7 @@ package org.obsidianbox.ember.event;
 import org.obsidianbox.ember.Game;
 import org.obsidianbox.ember.component.Component;
 
-public class ComponentEvent extends GameEvent {
+public abstract class ComponentEvent extends GameEvent {
     public final Component<?> component;
 
     public ComponentEvent(Game game, Component<?> component) {

@@ -29,10 +29,11 @@ import java.util.Set;
 import java.util.UUID;
 
 import org.obsidianbox.ember.Game;
+import org.obsidianbox.ember.IGameObject;
 import org.obsidianbox.ember.component.IComponentHolder;
 import org.obsidianbox.ember.physics.util.Transform;
 
-public final class Entity implements IComponentHolder<EntityComponent> {
+public final class Entity implements IComponentHolder<EntityComponent>, IGameObject {
     public final Game game;
     public final UUID uuid;
     public final int id;
@@ -54,6 +55,11 @@ public final class Entity implements IComponentHolder<EntityComponent> {
         this.transform = transform;
     }
 
+    @Override
+    public Game getGame() {
+        return game;
+    }
+
     public Transform getTransform() {
         return transform;
     }
@@ -67,9 +73,13 @@ public final class Entity implements IComponentHolder<EntityComponent> {
     }
 
     @Override
+    public Collection<EntityComponent> getComponents() {
+        return components;
+    }
+
+    @Override
     public boolean equals(Object o) {
         return this == o || o instanceof Entity && uuid.equals(((Entity) o).uuid);
-
     }
 
     @Override
@@ -85,10 +95,5 @@ public final class Entity implements IComponentHolder<EntityComponent> {
                 ", transform=" + transform +
                 ", isSavable=" + isSavable +
                 '}';
-    }
-
-    @Override
-    public Collection<EntityComponent> getComponents() {
-        return components;
     }
 }

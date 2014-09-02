@@ -1,26 +1,11 @@
 package org.obsidianbox.ember.component;
 
-import java.lang.reflect.Field;
 import java.util.Optional;
 
-public abstract class Component<T extends IComponentHolder> {
-    public static final Field FIELD_HOLDER;
+public interface Component<T extends IComponentHolder> {
+    public Optional<T> getHolder();
 
-    static {
-        try {
-            FIELD_HOLDER = Component.class.getDeclaredField("holder");
-        } catch (NoSuchFieldException e) {
-            throw new RuntimeException(e);
-        }
-    }
+    public void attach(T holder);
 
-    private Optional<T> holder = Optional.empty();
-
-    public Optional<T> getHolder() {
-        return holder;
-    }
-
-    protected abstract void attach(T holder);
-
-    protected abstract void detach();
+    public void detach();
 }
