@@ -5,8 +5,8 @@ import org.obsidianbox.ember.IGameObject;
 import java.util.Collection;
 import java.util.Optional;
 
-public interface IComponentHolder<T extends Component> extends IGameObject {
-    default Optional<T> add(Class<? extends Component> clazz) {
+public interface IComponentHolder<T extends IComponent> extends IGameObject {
+    default Optional<T> add(Class<? extends IComponent> clazz) {
         final Optional<T> existing = getComponents().stream().filter(en -> en.getClass().equals(clazz)).findAny();
         if (existing.isPresent()) {
             return existing;
@@ -23,11 +23,11 @@ public interface IComponentHolder<T extends Component> extends IGameObject {
         return Optional.empty();
     }
 
-    default Optional<T> get(Class<? extends Component> clazz) {
+    default Optional<T> get(Class<? extends IComponent> clazz) {
         return getComponents().stream().filter(en -> en.getClass().equals(clazz)).findFirst();
     }
 
-    default Optional<T> remove(Class<? extends Component> clazz) {
+    default Optional<T> remove(Class<? extends IComponent> clazz) {
         Optional<T> found = getComponents().stream().filter(en -> en.getClass().equals(clazz)).findAny();
         if (found.isPresent()) {
             getComponents().remove(found.get());

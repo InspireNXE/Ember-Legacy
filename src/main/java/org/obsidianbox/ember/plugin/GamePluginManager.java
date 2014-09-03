@@ -51,18 +51,39 @@ public class GamePluginManager extends PluginManager<GameContext> {
     @Override
     public void enable(Plugin<GameContext> plugin) throws Exception {
         super.enable(plugin);
+        game.getEventManager().registerEvents(plugin, plugin);
         game.getEventManager().callEvent(new PluginEvent.Enabled(game, plugin));
-        // TODO Register plugin main classes as Listener objects when flow-commands supports Objects as listeners.
     }
 
     @Override
     public void disable(Plugin<GameContext> plugin) throws Exception {
         super.disable(plugin);
         game.getEventManager().callEvent(new PluginEvent.Disabled(game, plugin));
+        game.getEventManager().unRegisterEventsByOwner(plugin);
     }
 
     protected ContextCreator<GameContext> getCreator() {
         return creator;
+    }
+
+    public void enable() {
+        for (Plugin<?> plugin : getPlugins()) {
+            try {
+                plugin.enable();
+            } catch (Exception e) {
+                game.logger.error("Could not enable plugin [" + plugin.getName() + "]", e);
+            }
+        }
+    }
+
+    public void disable() {
+        for (Plugin<?> plugin : getPlugins()) {
+            try {
+                plugin.disable();
+            } catch (Exception e) {
+                game.logger.error("Could not disable plugin [" + plugin.getName() + "]", e);
+            }
+        }
     }
 }
 

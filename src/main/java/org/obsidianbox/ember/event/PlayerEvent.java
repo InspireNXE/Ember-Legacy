@@ -24,7 +24,7 @@
 package org.obsidianbox.ember.event;
 
 import org.obsidianbox.ember.Game;
-import org.obsidianbox.ember.physics.Player;
+import org.obsidianbox.ember.player.Player;
 
 public abstract class PlayerEvent extends GameEvent {
     public final Player player;

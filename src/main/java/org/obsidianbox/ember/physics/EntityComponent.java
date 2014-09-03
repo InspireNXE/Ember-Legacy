@@ -1,11 +1,11 @@
 package org.obsidianbox.ember.physics;
 
-import org.obsidianbox.ember.component.Component;
+import org.obsidianbox.ember.component.IComponent;
 import org.obsidianbox.ember.event.ComponentEvent;
 
 import java.util.Optional;
 
-public class EntityComponent implements Component<Entity> {
+public abstract class EntityComponent implements IComponent<Entity> {
     private Optional<Entity> holder = Optional.empty();
 
     @Override

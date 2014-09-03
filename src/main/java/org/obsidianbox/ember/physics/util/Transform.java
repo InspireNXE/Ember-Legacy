@@ -27,53 +27,63 @@ import com.flowpowered.math.imaginary.Quaternionf;
 import com.flowpowered.math.vector.Vector3f;
 import org.obsidianbox.ember.world.World;
 
+import java.util.Optional;
+
 public class Transform {
-    private World world;
-    private Vector3f position;
-    private Quaternionf rotation = Quaternionf.IDENTITY;
-    private Vector3f scale = Vector3f.ONE;
+    public static final Transform NONE = new Transform();
+
+    private Optional<World> world = Optional.empty();
+    private Optional<Vector3f> position = Optional.empty();
+    private Optional<Quaternionf> rotation = Optional.empty();
+    private Optional<Vector3f> scale = Optional.empty();
+
+    public Transform() {
+    }
+
+    public Transform(World world) {
+        this(world, null, null, null);
+    }
 
     public Transform(World world, Vector3f position) {
-        this.world = world;
-        this.position = position;
+        this(world, position, null, null);
     }
 
     public Transform(World world, Vector3f position, Quaternionf rotation, Vector3f scale) {
-        this.world = world;
-        this.position = position;
-        this.rotation = rotation;
-        this.scale = scale;
+        this.world = Optional.ofNullable(world);
+        this.position = Optional.ofNullable(position);
+        this.rotation = Optional.ofNullable(rotation);
+        this.scale = Optional.ofNullable(scale);
     }
 
-    public World getWorld() {
+    public Optional<World> getWorld() {
         return world;
     }
 
     public void setWorld(World world) {
-        this.world = world;
+        this.world = Optional.ofNullable(world);
     }
 
-    public Vector3f getPosition() {
+    public Optional<Vector3f> getPosition() {
         return position;
     }
 
     public void setPosition(Vector3f position) {
-        this.position = position;
+        this.position = Optional.ofNullable(position);
     }
 
-    public Quaternionf getRotation() {
+    public Optional<Quaternionf> getRotation() {
         return rotation;
     }
 
     public void setRotation(Quaternionf rotation) {
-        this.rotation = rotation;
+        this.rotation = Optional.ofNullable(rotation);
     }
 
-    public Vector3f getScale() {
+    public Optional<Vector3f> getScale() {
         return scale;
     }
 
     public void setScale(Vector3f scale) {
-        this.scale = scale;
+        this.scale = Optional.ofNullable(scale);
     }
 }

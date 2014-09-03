@@ -27,6 +27,8 @@ import java.io.IOException;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import com.flowpowered.commons.store.block.impl.AtomicPaletteBlockStore;
+import org.obsidianbox.ember.plugin.GamePluginManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,6 +48,7 @@ public final class Game extends TickingElement {
     private final AtomicBoolean running = new AtomicBoolean(false);
     private GameConsole console;
     private GameCommandManager commandManager;
+    private GamePluginManager pluginManager;
     private SimpleEventManager eventManager;
     private FileSystem fileSystem;
     //Modules
@@ -77,19 +80,21 @@ public final class Game extends TickingElement {
             throw new RuntimeException(e);
         }
         network.start();
+        pluginManager = new GamePluginManager(this);
+        pluginManager.enable();
         eventManager.callEvent(new GameEvent.Start(this));
     }
 
     @Override
     public void onTick(long dt) {
         eventManager.callEvent(new GameEvent.Tick(this, GameEvent.Tick.Phase.START, dt));
-        // TODO All game management here
         eventManager.callEvent(new GameEvent.Tick(this, GameEvent.Tick.Phase.END, dt));
     }
 
     @Override
     public void onStop() {
         eventManager.callEvent(new GameEvent.Stop(this));
+        pluginManager.disable();
         network.stop();
         console.close();
     }

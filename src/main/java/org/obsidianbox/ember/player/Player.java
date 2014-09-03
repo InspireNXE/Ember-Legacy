@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.obsidianbox.ember.physics;
+package org.obsidianbox.ember.player;
 
 import java.util.*;
 
@@ -29,7 +29,6 @@ import com.flowpowered.chat.ChatReceiver;
 import com.flowpowered.commands.CommandArguments;
 import com.flowpowered.commands.CommandException;
 import com.flowpowered.commands.CommandSender;
-import com.flowpowered.networking.session.PulsingSession;
 import com.flowpowered.permissions.PermissionDomain;
 
 import org.obsidianbox.ember.Game;
@@ -37,7 +36,6 @@ import org.obsidianbox.ember.IGameObject;
 import org.obsidianbox.ember.component.IComponentHolder;
 import org.obsidianbox.ember.event.GameEvent;
 import org.obsidianbox.ember.network.GameSession;
-import org.obsidianbox.ember.physics.util.Transform;
 
 public final class Player implements CommandSender, IComponentHolder<PlayerComponent>, IGameObject {
     public final Game game;

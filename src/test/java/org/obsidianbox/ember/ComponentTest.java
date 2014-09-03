@@ -9,7 +9,6 @@ import org.obsidianbox.ember.physics.EntityComponent;
  * TODO Test this when I have time
  */
 public class ComponentTest {
-
     class TestEntityComponent extends EntityComponent {
         @EventHandler
         public void onAttached(ComponentEvent.Attached event) {

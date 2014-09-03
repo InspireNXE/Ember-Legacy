@@ -37,30 +37,5 @@ public class Chunk {
         this.world = world;
         this.position = position;
         voxels = new Voxel[16][16][16];
-        clear();
-    }
-
-    public Voxel getVoxel(Vector3i position) {
-        return voxels[position.getX()][position.getY()][position.getZ()];
-    }
-
-    public void fill(Material material) {
-        for (int i = 0; i < voxels.length; i++) {
-            for (int j = 0; j < i; j++) {
-                for (int k = 0; k < j; k++) {
-                    voxels[i][j][k] = new Voxel(new Vector3i(i, j, k), material);
-                }
-            }
-        }
-    }
-
-    public void clear() {
-        for (int i = 0; i < voxels.length; i++) {
-            for (int j = 0; j < i; j++) {
-                for (int k = 0; k < j; k++) {
-                    voxels[i][j][k] = new Voxel(new Vector3i(i, j, k));
-                }
-            }
-        }
     }
 }
