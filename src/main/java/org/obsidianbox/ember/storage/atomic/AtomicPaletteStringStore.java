@@ -27,13 +27,13 @@ import com.flowpowered.commons.BitSize;
 import com.flowpowered.commons.StringToUniqueIntegerMap;
 import com.flowpowered.math.vector.Vector3f;
 import com.flowpowered.math.vector.Vector3i;
-import org.obsidianbox.ember.storage.TypeStore;
+import org.obsidianbox.ember.storage.ITypeStore;
 
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicIntegerArray;
 
-public class AtomicPaletteStringStore implements TypeStore<String> {
+public class AtomicPaletteStringStore implements ITypeStore<String> {
     private final BitSize bits;
     private final StringToUniqueIntegerMap stringMap;
     private final AtomicIntegerArray store;

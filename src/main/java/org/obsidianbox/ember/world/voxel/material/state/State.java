@@ -23,9 +23,9 @@
  */
 package org.obsidianbox.ember.world.voxel.material.state;
 
-import org.obsidianbox.ember.world.voxel.material.Material;
+import org.obsidianbox.ember.world.voxel.material.IMaterial;
 
-public class State<T extends Material> {
+public class State<T extends IMaterial> {
     public Class<T> clazz;
 
     public State (Class<T> clazz) {

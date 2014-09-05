@@ -23,6 +23,6 @@
  */
 package org.obsidianbox.ember.world.voxel.material;
 
-public interface Material {
+public interface IMaterial {
     public String getName();
 }

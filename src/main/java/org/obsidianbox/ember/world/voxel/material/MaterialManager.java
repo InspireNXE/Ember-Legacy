@@ -30,11 +30,11 @@ import java.util.Optional;
 
 public class MaterialManager {
     private final StringToUniqueIntegerMap materialIdMap = new StringToUniqueIntegerMap("Material ID Map");
-    private final LinkedList<Material> instances = new LinkedList<>();
+    private final LinkedList<IMaterial> instances = new LinkedList<>();
     private boolean locked = false;
 
-    public final Material NONE;
-    public final Material SOLID;
+    public final IMaterial NONE;
+    public final IMaterial SOLID;
 
     public MaterialManager() {
         try {
@@ -44,7 +44,7 @@ public class MaterialManager {
             throw new RuntimeException("Should never be possible to reach here...");
         }
     }
-    public Material register(Material material) throws MaterialRegistrationException {
+    public IMaterial register(IMaterial material) throws MaterialRegistrationException {
         if (locked) {
             throw new MaterialRegistrationException("Registering a material is not possible as the manager has been locked!");
         }
@@ -57,7 +57,7 @@ public class MaterialManager {
         return material;
     }
 
-    public Optional<Material> get(String identifier) {
+    public Optional<IMaterial> get(String identifier) {
         final Integer existing = materialIdMap.getValue(identifier);
         if (existing == null) {
             return Optional.empty();
@@ -65,7 +65,7 @@ public class MaterialManager {
         return Optional.of(instances.get(existing));
     }
 
-    public Optional<String> get(Class<? extends Material> clazz) {
+    public Optional<String> get(Class<? extends IMaterial> clazz) {
         for (int i = 0; i < instances.size(); i++) {
             if (instances.get(i).getClass() == clazz) {
                 return Optional.ofNullable(materialIdMap.getString(i));

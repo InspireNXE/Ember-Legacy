@@ -23,11 +23,11 @@
  */
 package org.obsidianbox.ember.world.voxel.material.state;
 
-import org.obsidianbox.ember.world.voxel.material.Material;
+import org.obsidianbox.ember.world.voxel.material.IMaterial;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class MaterialStates {
-    private final Map<Material, State> MATERIAL_STATES = new HashMap<>();
+    private final Map<IMaterial, State> MATERIAL_STATES = new HashMap<>();
 }

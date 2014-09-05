@@ -31,7 +31,7 @@ import java.util.Optional;
 /**
  * Stores a {@link T} at a x, y, z
  */
-public interface TypeStore<T> {
+public interface ITypeStore<T> {
     public Optional<T> get(int x, int y, int z);
 
     public Optional<T> get(Vector3i position);

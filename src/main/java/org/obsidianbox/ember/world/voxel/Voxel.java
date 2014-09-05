@@ -24,25 +24,24 @@
 package org.obsidianbox.ember.world.voxel;
 
 import com.flowpowered.math.vector.Vector3i;
-import org.obsidianbox.ember.Game;
-import org.obsidianbox.ember.world.voxel.material.Material;
+import org.obsidianbox.ember.world.voxel.material.IMaterial;
 
 import java.util.Optional;
 
 public class Voxel {
     public final Vector3i position;
-    private Optional<Material> material;
+    private Optional<IMaterial> material;
 
-    public Voxel(Vector3i position, Material material) {
+    public Voxel(Vector3i position, IMaterial material) {
         this.position = position;
         this.material = Optional.ofNullable(material);
     }
 
-    public Optional<Material> getMaterial() {
+    public Optional<IMaterial> getMaterial() {
         return material;
     }
 
-    public void setMaterial(Material material) {
+    public void setMaterial(IMaterial material) {
         // TODO Prevent unregistered materials
         this.material = Optional.ofNullable(material);
     }
