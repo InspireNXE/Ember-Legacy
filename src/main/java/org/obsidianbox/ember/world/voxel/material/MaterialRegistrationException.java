@@ -21,12 +21,18 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.obsidianbox.ember.world.voxel;
+package org.obsidianbox.ember.world.voxel.material;
 
-public class Material {
-    public final String name;
+public class MaterialRegistrationException extends Exception {
+    public MaterialRegistrationException(String message) {
+        super(message);
+    }
 
-    public Material(String name) {
-        this.name = name;
+    public MaterialRegistrationException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public MaterialRegistrationException(Throwable cause) {
+        super(cause);
     }
 }

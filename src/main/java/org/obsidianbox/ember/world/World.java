@@ -34,7 +34,7 @@ public class World extends TickingElement {
     private final ConcurrentHashMap<Vector3i, Chunk> chunks = new ConcurrentHashMap<>();
 
     public World(String identifier) {
-        super("Ember - World - " + identifier, 20);
+        super("ember - world [" + identifier + "]", 20);
         this.identifier = identifier;
     }
 

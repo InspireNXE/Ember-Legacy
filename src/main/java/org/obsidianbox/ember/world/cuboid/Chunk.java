@@ -25,7 +25,6 @@ package org.obsidianbox.ember.world.cuboid;
 
 import com.flowpowered.math.vector.Vector3i;
 import org.obsidianbox.ember.world.World;
-import org.obsidianbox.ember.world.voxel.Material;
 import org.obsidianbox.ember.world.voxel.Voxel;
 
 public class Chunk {

@@ -27,8 +27,8 @@ import java.io.IOException;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import com.flowpowered.commons.store.block.impl.AtomicPaletteBlockStore;
 import org.obsidianbox.ember.plugin.GamePluginManager;
+import org.obsidianbox.ember.world.voxel.material.MaterialManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -51,11 +51,13 @@ public final class Game extends TickingElement {
     private GamePluginManager pluginManager;
     private SimpleEventManager eventManager;
     private FileSystem fileSystem;
+    private MaterialManager materialManager;
+
     //Modules
     public final Network network;
 
     public Game() {
-        super("game", 20);
+        super("ember - game", 20);
         this.network = new Network(this);
     }
 
@@ -80,6 +82,7 @@ public final class Game extends TickingElement {
             throw new RuntimeException(e);
         }
         network.start();
+        materialManager = new MaterialManager();
         pluginManager = new GamePluginManager(this);
         pluginManager.enable();
         eventManager.callEvent(new GameEvent.Start(this));
@@ -127,4 +130,8 @@ public final class Game extends TickingElement {
     }
 
     public FileSystem getFileSystem() { return fileSystem; }
+
+    public MaterialManager getMaterialManager() {
+        return materialManager;
+    }
 }

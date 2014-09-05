@@ -21,10 +21,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.obsidianbox.ember.world.voxel.state;
+package org.obsidianbox.ember.world.voxel.material.state;
 
-import org.obsidianbox.ember.world.voxel.Material;
-import org.obsidianbox.ember.world.voxel.state.State;
+import org.obsidianbox.ember.world.voxel.material.Material;
 
 import java.util.HashMap;
 import java.util.Map;

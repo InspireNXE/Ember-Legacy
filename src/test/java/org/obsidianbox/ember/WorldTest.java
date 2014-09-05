@@ -27,20 +27,33 @@ import com.flowpowered.math.vector.Vector3i;
 import org.junit.Test;
 import org.obsidianbox.ember.world.World;
 import org.obsidianbox.ember.world.cuboid.Chunk;
-import org.obsidianbox.ember.world.voxel.Material;
-import org.obsidianbox.ember.world.voxel.Materials;
 import org.obsidianbox.ember.world.voxel.Voxel;
+import org.obsidianbox.ember.world.voxel.material.MaterialManager;
+import org.obsidianbox.ember.world.voxel.material.MaterialRegistrationException;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 public class WorldTest {
+    private final MaterialManager materialManager = new MaterialManager();
     private final World world = new World("testWorld");
 
     @Test
+    public void testMaterialManager() {
+        assertTrue(materialManager.get("ember:none").isPresent());
+        try {
+            materialManager.register(() -> "test:none");
+        } catch (MaterialRegistrationException e) {
+            fail("Material registration failed!");
+        }
+        assertFalse(materialManager.NONE.getName().equals(materialManager.get("test:none").get().getName()));
+    }
+    @Test
     public void testVoxel() {
-        final Voxel a = new Voxel(new Vector3i(0, 0, 0), Materials.NONE);
+        final Voxel a = new Voxel(new Vector3i(0, 0, 0), materialManager.NONE);
         assertTrue(a.position.equals(new Vector3i(0, 0, 0)));
-        assertTrue(a.material().equals(Materials.NONE));
+        assertTrue(a.getMaterial().get().equals(materialManager.NONE));
     }
 
     @Test

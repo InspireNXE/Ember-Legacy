@@ -21,15 +21,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.obsidianbox.ember.world.voxel;
+package org.obsidianbox.ember.world.voxel.material;
 
-import org.obsidianbox.ember.util.ImmutableTypedStringMap;
-
-public class Materials {
-    private static final ImmutableTypedStringMap<Material> REGISTRY = new ImmutableTypedStringMap<>();
-    public static final Material NONE;
-
-    static {
-        NONE = REGISTRY.add("none", new Material("none"));
-    }
+public interface Material {
+    public String getName();
 }

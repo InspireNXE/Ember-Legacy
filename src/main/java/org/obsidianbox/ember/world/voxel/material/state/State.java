@@ -21,26 +21,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.obsidianbox.ember;
+package org.obsidianbox.ember.world.voxel.material.state;
 
-import org.junit.Test;
-import org.obsidianbox.ember.util.ImmutableTypedStringMap;
+import org.obsidianbox.ember.world.voxel.material.Material;
 
-import static org.junit.Assert.assertTrue;
+public class State<T extends Material> {
+    public Class<T> clazz;
 
-public class ImmutableTypedStringMapTest {
-    private final ImmutableTypedStringMap<TestA> regA = new ImmutableTypedStringMap<>();
-
-    @Test
-    public void testRegistry() {
-        final TestA testA = new TestA();
-        final TestA addedTestA = regA.add("testA", testA);
-        assertTrue(testA.equals(addedTestA));
-        assertTrue(regA.get("testA").get().equals(testA));
-        assertTrue(regA.get(testA).get().equals("testA"));
-        assertTrue(regA.stream().anyMatch(en -> en.getKey().equals("testA")));
+    public State (Class<T> clazz) {
+        this.clazz = clazz;
     }
-}
-
-final class TestA {
 }
