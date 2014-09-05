@@ -28,7 +28,6 @@ import org.junit.Test;
 import org.obsidianbox.ember.world.World;
 import org.obsidianbox.ember.world.cuboid.Chunk;
 import org.obsidianbox.ember.world.voxel.Voxel;
-import org.obsidianbox.ember.world.voxel.material.IMaterial;
 import org.obsidianbox.ember.world.voxel.material.MaterialManager;
 import org.obsidianbox.ember.world.voxel.material.MaterialRegistrationException;
 
@@ -38,7 +37,7 @@ import static org.junit.Assert.fail;
 
 public class WorldTest {
     private final MaterialManager materialManager = new MaterialManager();
-    private final World world = new World("testWorld");
+    private final World world = new World(new Game(), "testWorld");
 
     @Test
     public void testMaterialManager() {

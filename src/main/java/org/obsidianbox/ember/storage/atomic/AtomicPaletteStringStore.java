@@ -43,6 +43,7 @@ public class AtomicPaletteStringStore implements ITypeStore<String> {
         this.bits = bits;
         this.stringMap = stringMap;
         store = new AtomicIntegerArray(1 << (bits.BITS * 3));
+        setDirty(true);
     }
 
     @Override

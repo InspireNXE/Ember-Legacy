@@ -25,16 +25,19 @@ package org.obsidianbox.ember.world;
 
 import com.flowpowered.commons.ticking.TickingElement;
 import com.flowpowered.math.vector.Vector3i;
+import org.obsidianbox.ember.Game;
 import org.obsidianbox.ember.world.cuboid.Chunk;
 
 import java.util.concurrent.ConcurrentHashMap;
 
 public class World extends TickingElement {
     public final String identifier;
+    public final Game game;
     private final ConcurrentHashMap<Vector3i, Chunk> chunks = new ConcurrentHashMap<>();
 
-    public World(String identifier) {
+    public World(Game game, String identifier) {
         super("ember - world [" + identifier + "]", 20);
+        this.game = game;
         this.identifier = identifier;
     }
 

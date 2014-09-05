@@ -72,9 +72,10 @@ public final class Game extends TickingElement {
         } catch (IllegalAccessException e) {
             throw new RuntimeException(e);
         }
+        eventManager = new SimpleEventManager(logger);
         commandManager = new GameCommandManager(this);
         commandManager.create(new Commands(this));
-        eventManager = new SimpleEventManager(logger);
+        eventManager.registerEvents(commandManager, commandManager);
         fileSystem = new FileSystem(this);
         try {
             fileSystem.init();

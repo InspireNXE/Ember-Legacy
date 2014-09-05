@@ -23,18 +23,39 @@
  */
 package org.obsidianbox.ember.world.cuboid;
 
+import com.flowpowered.commons.BitSize;
 import com.flowpowered.math.vector.Vector3i;
+import org.obsidianbox.ember.storage.atomic.AtomicPaletteStringStore;
 import org.obsidianbox.ember.world.World;
 import org.obsidianbox.ember.world.voxel.Voxel;
+import org.obsidianbox.ember.world.voxel.material.IMaterial;
+
+import java.util.Optional;
 
 public class Chunk {
+    public static final BitSize BITS = new BitSize(4);
     public final World world;
     public final Vector3i position;
-    private final Voxel[][][] voxels;
+    private final AtomicPaletteStringStore store;
 
     public Chunk(World world, Vector3i position) {
         this.world = world;
         this.position = position;
-        voxels = new Voxel[16][16][16];
+        store = new AtomicPaletteStringStore(BITS, world.game.getMaterialManager().getMaterialIdMap());
+    }
+
+    public Optional<Voxel> getVoxel(int x, int y, int z) {
+        if (!isInsideChunk(x, y, z)) {
+            return Optional.empty();
+        }
+        return Optional.empty();
+    }
+
+    private boolean isInsideChunk(int vx, int vy, int vz) {
+        final int cx = vx << BITS.BITS;
+        final int cy = vy << BITS.BITS;
+        final int cz = vz << BITS.BITS;
+
+        return position.getX() == cx && position.getY() == cy && position.getZ() == cz;
     }
 }
