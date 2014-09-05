@@ -48,6 +48,15 @@ public class MaterialManager {
         if (locked) {
             throw new MaterialRegistrationException("Registering a material is not possible as the manager has been locked!");
         }
+        if (material == null) {
+            throw new MaterialRegistrationException("Attempt made to register a null material!");
+        }
+        if (material.getName() == null) {
+            throw new MaterialRegistrationException("Attempt made to register a material with a null name!");
+        }
+        if (material.getName().isEmpty()) {
+            throw new MaterialRegistrationException("Attempt made to register a material with an empty name!");
+        }
         final Integer existing = materialIdMap.getValue(material.getName());
         if (existing != null) {
             throw new MaterialRegistrationException("This material's identifier has been registered before! Choose a new name please");

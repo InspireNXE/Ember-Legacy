@@ -28,6 +28,7 @@ import org.junit.Test;
 import org.obsidianbox.ember.world.World;
 import org.obsidianbox.ember.world.cuboid.Chunk;
 import org.obsidianbox.ember.world.voxel.Voxel;
+import org.obsidianbox.ember.world.voxel.material.IMaterial;
 import org.obsidianbox.ember.world.voxel.material.MaterialManager;
 import org.obsidianbox.ember.world.voxel.material.MaterialRegistrationException;
 
@@ -41,12 +42,44 @@ public class WorldTest {
 
     @Test
     public void testMaterialManager() {
+        assertFalse(materialManager.get((String) null).isPresent());
         assertTrue(materialManager.get("ember:none").isPresent());
         try {
             materialManager.register(() -> "test:none");
         } catch (MaterialRegistrationException e) {
             fail("Material registration failed!");
         }
+
+        boolean failed = false;
+        try {
+            materialManager.register(null);
+        } catch (MaterialRegistrationException e) {
+            failed = true;
+        }
+        if (!failed) {
+            fail("Registering a null material should have failed!");
+        }
+
+        failed = false;
+        try {
+            materialManager.register(() -> null);
+        } catch (MaterialRegistrationException e) {
+            failed = true;
+        }
+        if (!failed) {
+            fail("Registering a null material name should have failed!");
+        }
+
+        failed = false;
+        try {
+            materialManager.register(String::new);
+        } catch (MaterialRegistrationException e) {
+            failed = true;
+        }
+        if (!failed) {
+            fail("Registering a material with an empty name should have failed!");
+        }
+
         assertFalse(materialManager.NONE.getName().equals(materialManager.get("test:none").get().getName()));
     }
     @Test
