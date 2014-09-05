@@ -21,31 +21,28 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.obsidianbox.ember.physics;
+package org.obsidianbox.ember;
 
-import org.obsidianbox.ember.component.IComponent;
-import org.obsidianbox.ember.event.ComponentEvent;
+import com.flowpowered.commons.BitSize;
+import com.flowpowered.commons.StringToUniqueIntegerMap;
+import org.junit.Test;
+import org.obsidianbox.ember.storage.atomic.AtomicPaletteStringStore;
 
-import java.util.Optional;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.TestCase.assertTrue;
 
-public abstract class EntityComponent implements IComponent<Entity> {
-    private Optional<Entity> holder = Optional.empty();
+public class TypeTest {
+    private final StringToUniqueIntegerMap stringMap = new StringToUniqueIntegerMap("Material Map");
 
-    @Override
-    public final Optional<Entity> getHolder() {
-        return holder;
-    }
+    @Test
+    public void test() {
+        stringMap.register("Test");
+        stringMap.register("NotTest");
 
-    @Override
-    public final void attach(Entity holder) {
-        this.holder = Optional.of(holder);
-        holder.game.getEventManager().registerEvents(this, this);
-        holder.game.getEventManager().callEvent(new ComponentEvent.Attached(holder.game, this));
-    }
-
-    @Override
-    public final void detach() {
-        holder.get().game.getEventManager().callEvent(new ComponentEvent.Detach(holder.get().game, this));
-        holder.get().game.getEventManager().unRegisterEventsByListener(this);
+        final AtomicPaletteStringStore store = new AtomicPaletteStringStore(new BitSize(4), stringMap);
+        assertTrue(!store.set(4096, 4096, 4096, "Test"));
+        assertTrue(!store.set(-156, -156, -156, "NotTest"));
+        assertFalse(store.set(5, 5, 5, "DaTest"));
+        assertTrue(store.set(3, 3, 3, "Test"));
     }
 }

@@ -60,7 +60,7 @@ public final class ImmutableTypedStringMap<T> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        ImmutableTypedStringMap that = (ImmutableTypedStringMap) o;
+        ImmutableTypedStringMap<T> that = (ImmutableTypedStringMap<T>) o;
 
         return wrapped.equals(that.wrapped);
 
