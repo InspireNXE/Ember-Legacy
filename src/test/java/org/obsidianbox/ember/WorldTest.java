@@ -25,8 +25,6 @@ package org.obsidianbox.ember;
 
 import com.flowpowered.math.vector.Vector3i;
 import org.junit.Test;
-import org.obsidianbox.ember.world.World;
-import org.obsidianbox.ember.world.cuboid.Chunk;
 import org.obsidianbox.ember.world.voxel.Voxel;
 import org.obsidianbox.ember.world.voxel.material.MaterialManager;
 import org.obsidianbox.ember.world.voxel.material.MaterialRegistrationException;
@@ -37,7 +35,6 @@ import static org.junit.Assert.fail;
 
 public class WorldTest {
     private final MaterialManager materialManager = new MaterialManager();
-    private final World world = new World(new Game(), "testWorld");
 
     @Test
     public void testMaterialManager() {
@@ -86,12 +83,5 @@ public class WorldTest {
         final Voxel a = new Voxel(new Vector3i(0, 0, 0), materialManager.NONE);
         assertTrue(a.position.equals(new Vector3i(0, 0, 0)));
         assertTrue(a.getMaterial().get().equals(materialManager.NONE));
-    }
-
-    @Test
-    public void testChunk() {
-        for (int i = 0; i < 20000; i++) {
-            new Chunk(world, new Vector3i(i++, i++, i++));
-        }
     }
 }
