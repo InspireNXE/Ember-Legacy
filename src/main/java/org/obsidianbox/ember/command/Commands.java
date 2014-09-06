@@ -69,4 +69,10 @@ public class Commands {
     private void onCommandDisconnect(CommandSender sender, CommandArguments args) throws CommandException {
         game.network.disconnect();
     }
+
+    @CommandDescription(name = "version", usage = "version", desc = "Displays the version of Ember in use", help = "Use this command to display the version of Ember in use.")
+    @Permissible("game.command.version")
+    private void onCommandVersion(CommandSender sender, CommandArguments args) throws CommandException {
+        sender.sendMessage("Running Ember version: " + game.getVersion());
+    }
 }

@@ -101,13 +101,6 @@ license {
     strictCheck true
 }
 
-// Source compiler configuration
-configure([compileJava, compileTestJava]) {
-    options.compilerArgs << '-Xlint:all'
-    options.compilerArgs << '-Xlint:-path'
-    options.deprecation = true
-}
-
 // JAR manifest configuration
 jar.manifest.mainAttributes(
         "Main-Class": mainClassName,

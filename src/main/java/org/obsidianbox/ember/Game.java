@@ -44,6 +44,7 @@ import org.obsidianbox.ember.resource.FileSystem;
 
 public final class Game extends TickingElement {
     public final Logger logger = LoggerFactory.getLogger("Ember");
+    private static final String version;
     private final Semaphore semaphore = new Semaphore(0);
     private final AtomicBoolean running = new AtomicBoolean(false);
     private GameConsole console;
@@ -55,6 +56,10 @@ public final class Game extends TickingElement {
 
     //Modules
     public final Network network;
+
+    static {
+        version = Game.class.getPackage().getImplementationVersion();
+    }
 
     public Game() {
         super("ember - game", 20);
@@ -134,5 +139,9 @@ public final class Game extends TickingElement {
 
     public MaterialManager getMaterialManager() {
         return materialManager;
+    }
+
+    public String getVersion() {
+        return version;
     }
 }
