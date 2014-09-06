@@ -59,7 +59,7 @@ public class GameConsole extends Log4j2JLineConsole implements CommandSender {
     private final GameCommandCallback callback;
 
     public GameConsole(Game game) throws IllegalAccessException {
-        super(new GameCommandCallback(), new GameCommandCompleter(), game.logger, System.out, System.in);
+        super(new GameCommandCallback(), new GameCommandCompleter(), game.logger, game.getConfiguration().isDebug() ? 10 : -2, System.out, System.in);
         this.game = game;
 
         COMMAND_CALLBACK_FIELD.setAccessible(true);

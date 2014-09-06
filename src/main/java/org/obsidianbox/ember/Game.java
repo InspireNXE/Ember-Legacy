@@ -24,6 +24,7 @@
 package org.obsidianbox.ember;
 
 import java.io.IOException;
+import java.util.Optional;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -43,8 +44,9 @@ import org.obsidianbox.ember.network.Network;
 import org.obsidianbox.ember.resource.FileSystem;
 
 public final class Game extends TickingElement {
+    public static final Optional<String> VERSION = Optional.ofNullable(Game.class.getPackage().getImplementationVersion());
     public final Logger logger = LoggerFactory.getLogger("Ember");
-    private static final String version;
+    private final Configuration configuration;
     private final Semaphore semaphore = new Semaphore(0);
     private final AtomicBoolean running = new AtomicBoolean(false);
     private GameConsole console;
@@ -54,15 +56,12 @@ public final class Game extends TickingElement {
     private FileSystem fileSystem;
     private MaterialManager materialManager;
 
-    //Modules
+    // Modules
     public final Network network;
 
-    static {
-        version = Game.class.getPackage().getImplementationVersion();
-    }
-
-    public Game() {
+    public Game(Configuration configuration) {
         super("ember - game", 20);
+        this.configuration = configuration;
         this.network = new Network(this);
     }
 
@@ -71,6 +70,10 @@ public final class Game extends TickingElement {
         logger.info("Starting Ember, please wait a moment");
         logger.info("Ember is ALPHA software and as such things may not work correctly or at all. Help out the team and " +
                 "report all issues to https://github.com/InspireNXE/Ember/issues");
+        if (configuration.isDebug()) {
+            logger.info("Running in debug mode");
+        }
+
         running.set(true);
         try {
             console = new GameConsole(this);
@@ -123,6 +126,10 @@ public final class Game extends TickingElement {
         }
     }
 
+    public Configuration getConfiguration() {
+        return configuration;
+    }
+
     public GameConsole getConsole() {
         return console;
     }
@@ -139,9 +146,5 @@ public final class Game extends TickingElement {
 
     public MaterialManager getMaterialManager() {
         return materialManager;
-    }
-
-    public String getVersion() {
-        return version;
     }
 }

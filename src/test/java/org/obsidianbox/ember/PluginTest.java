@@ -23,6 +23,8 @@
  */
 package org.obsidianbox.ember;
 
+import java.nio.file.Paths;
+
 import com.flowpowered.plugins.ContextCreator;
 import com.flowpowered.plugins.Plugin;
 import com.flowpowered.plugins.PluginLoader;
@@ -36,7 +38,7 @@ import static org.junit.Assert.fail;
 public class PluginTest {
     @Test
     public void test() {
-        final Game game = new Game();
+        final Game game = new Game(new Configuration(Paths.get("config", "settings.yml")));
         final TestGamePluginManager manager = new TestGamePluginManager(game);
 
         manager.addLoader(new SimplePluginLoader<>(manager.getCreator(), getClass().getClassLoader()));

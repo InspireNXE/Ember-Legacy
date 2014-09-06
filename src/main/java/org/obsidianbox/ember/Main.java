@@ -23,26 +23,58 @@
  */
 package org.obsidianbox.ember;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 import joptsimple.OptionParser;
+import joptsimple.OptionSet;
 
 import static java.util.Arrays.asList;
 
 public class Main {
-    public static void main(String[] args) {
-        Game game = new Game();
+    private static final Path CONFIG_PATH = Paths.get("config");
+    private static final Path SETTINGS_PATH = Paths.get(CONFIG_PATH.toString(), "settings.yml");
+    private static final Path WORLDS_PATH = Paths.get("worlds");
+
+    public static void main(String[] args) throws Exception {
+        deploy();
+        final Configuration configuration = new Configuration(SETTINGS_PATH);
+        configuration.load();
+        parseArgs(args, configuration);
+        final Game game = new Game(configuration);
         game.open();
     }
 
-    public static void parseArgs(String[] args) throws Exception {
+    public static void deploy() throws Exception {
+        if (Files.notExists(CONFIG_PATH)) {
+            Files.createDirectories(CONFIG_PATH);
+        }
+        if (Files.notExists(SETTINGS_PATH)) {
+            Files.copy(Main.class.getResourceAsStream("/config/settings.yml"), SETTINGS_PATH);
+        }
+        if (Files.notExists(WORLDS_PATH)) {
+            Files.createDirectories(WORLDS_PATH);
+        }
+    }
+
+    public static void parseArgs(String[] args, Configuration configuration) throws Exception {
         final OptionParser parser = new OptionParser() {
             {
-                acceptsAll(asList("a", "address", "l", "listen"))
+                acceptsAll(asList("l", "listen"))
                         .withOptionalArg()
                         .ofType(String.class);
                 acceptsAll(asList("p", "port"))
                         .withOptionalArg()
                         .ofType(Integer.class);
+                acceptsAll(asList("debug"))
+                        .withOptionalArg();
             }
         };
+
+        final OptionSet options = parser.parse(args);
+        if (options.has("debug")) {
+            configuration.setDebug(true);
+        }
     }
 }

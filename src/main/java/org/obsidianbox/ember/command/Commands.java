@@ -73,6 +73,6 @@ public class Commands {
     @CommandDescription(name = "version", usage = "version", desc = "Displays the version of Ember in use", help = "Use this command to display the version of Ember in use.")
     @Permissible("game.command.version")
     private void onCommandVersion(CommandSender sender, CommandArguments args) throws CommandException {
-        sender.sendMessage("Running Ember version: " + game.getVersion());
+        sender.sendMessage("Running Ember version: " + (Game.VERSION.isPresent() ? Game.VERSION.get() : "UNKNOWN"));
     }
 }
