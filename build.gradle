@@ -76,6 +76,7 @@ dependencies {
     compile 'org.apache.logging.log4j:log4j-api:2.0-rc2'
     compile 'org.apache.logging.log4j:log4j-core:2.0-rc2'
     compile 'org.apache.logging.log4j:log4j-slf4j-impl:2.0-rc2'
+    compile 'org.spout:react:1.0.0-SNAPSHOT'
     compile 'junit:junit:4.11'
     testCompile 'junit:junit:4.11'
 }

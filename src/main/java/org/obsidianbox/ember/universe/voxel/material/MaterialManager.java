@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.obsidianbox.ember.world.voxel.material;
+package org.obsidianbox.ember.universe.voxel.material;
 
 import com.flowpowered.commons.StringToUniqueIntegerMap;
 

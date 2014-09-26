@@ -21,8 +21,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.obsidianbox.ember.world.voxel.material;
+package org.obsidianbox.ember.universe.voxel.material.state;
 
-public interface IMaterial {
-    public String getName();
+import org.obsidianbox.ember.universe.voxel.material.IMaterial;
+
+public class State<T extends IMaterial> {
+    public Class<T> clazz;
+
+    public State (Class<T> clazz) {
+        this.clazz = clazz;
+    }
 }

@@ -21,46 +21,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.obsidianbox.ember.world;
+package org.obsidianbox.ember.universe.voxel.material.state;
 
-import com.flowpowered.commons.ticking.TickingElement;
-import com.flowpowered.math.vector.Vector3i;
-import org.obsidianbox.ember.Game;
-import org.obsidianbox.ember.world.cuboid.Chunk;
+import org.obsidianbox.ember.universe.voxel.material.IMaterial;
 
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.HashMap;
+import java.util.Map;
 
-public class World extends TickingElement {
-    public final String identifier;
-    public final Game game;
-    private final ConcurrentHashMap<Vector3i, Chunk> chunks = new ConcurrentHashMap<>();
-
-    public World(Game game, String identifier) {
-        super("ember - world [" + identifier + "]", 20);
-        this.game = game;
-        this.identifier = identifier;
-    }
-
-    @Override
-    public void onStart() {
-
-    }
-
-    @Override
-    public void onTick(long l) {
-
-    }
-
-    @Override
-    public void onStop() {
-
-    }
-
-    public Chunk getChunk(Vector3i position) {
-        Chunk c = chunks.get(position);
-        if (c == null) {
-            c = new Chunk(this, position);
-        }
-        return c;
-    }
+public class MaterialStates {
+    private final Map<IMaterial, State> MATERIAL_STATES = new HashMap<>();
 }

@@ -25,9 +25,9 @@ package org.obsidianbox.ember;
 
 import com.flowpowered.math.vector.Vector3i;
 import org.junit.Test;
-import org.obsidianbox.ember.world.voxel.Voxel;
-import org.obsidianbox.ember.world.voxel.material.MaterialManager;
-import org.obsidianbox.ember.world.voxel.material.MaterialRegistrationException;
+import org.obsidianbox.ember.universe.voxel.Voxel;
+import org.obsidianbox.ember.universe.voxel.material.MaterialManager;
+import org.obsidianbox.ember.universe.voxel.material.MaterialRegistrationException;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -81,7 +81,7 @@ public class WorldTest {
     @Test
     public void testVoxel() {
         final Voxel a = new Voxel(new Vector3i(0, 0, 0), materialManager.NONE);
-        assertTrue(a.position.equals(new Vector3i(0, 0, 0)));
+        assertTrue(a.location.equals(new Vector3i(0, 0, 0)));
         assertTrue(a.getMaterial().get().equals(materialManager.NONE));
     }
 }

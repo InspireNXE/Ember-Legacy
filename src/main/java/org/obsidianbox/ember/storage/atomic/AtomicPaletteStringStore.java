@@ -112,7 +112,7 @@ public class AtomicPaletteStringStore implements ITypeStore<String> {
 
     @Override
     public boolean isUniform() {
-        int first = store.get(0);
+        final int first = store.get(0);
         for (int i = 0; i < store.length(); i++) {
             if (store.get(i) != first) {
                 return false;

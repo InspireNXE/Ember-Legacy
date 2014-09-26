@@ -21,14 +21,34 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.obsidianbox.ember.world.voxel.material.state;
+package org.obsidianbox.ember.universe.voxel;
 
-import org.obsidianbox.ember.world.voxel.material.IMaterial;
+import org.obsidianbox.ember.universe.Location;
+import org.obsidianbox.ember.universe.cuboid.Chunk;
+import org.obsidianbox.ember.universe.cuboid.ChunkReference;
+import org.obsidianbox.ember.universe.voxel.material.IMaterial;
 
-public class State<T extends IMaterial> {
-    public Class<T> clazz;
+import java.util.Optional;
 
-    public State (Class<T> clazz) {
-        this.clazz = clazz;
+public final class Voxel {
+    public final Location location;
+    private final ChunkReference reference;
+
+    public Voxel(Chunk chunk, Location location) {
+        this.location = location;
+        reference = new ChunkReference(chunk);
+    }
+
+    public Optional<IMaterial> getMaterial() {
+        if (reference.get() != null) {
+            return reference.get().getMaterial(location.x, location.y, location.z);
+        }
+        return Optional.empty();
+    }
+
+    public void setMaterial(IMaterial material) {
+        if (reference.get() != null) {
+            reference.get().setMaterial(location.x, location.y, location.z, material);
+        }
     }
 }

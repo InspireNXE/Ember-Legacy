@@ -29,7 +29,7 @@ import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.obsidianbox.ember.plugin.GamePluginManager;
-import org.obsidianbox.ember.world.voxel.material.MaterialManager;
+import org.obsidianbox.ember.universe.voxel.material.MaterialManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -21,34 +21,46 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.obsidianbox.ember.world.cuboid;
+package org.obsidianbox.ember.universe.cuboid;
 
 import com.flowpowered.commons.BitSize;
-import com.flowpowered.math.vector.Vector3i;
 import org.obsidianbox.ember.storage.atomic.AtomicPaletteStringStore;
-import org.obsidianbox.ember.world.World;
-import org.obsidianbox.ember.world.voxel.Voxel;
-import org.obsidianbox.ember.world.voxel.material.IMaterial;
+import org.obsidianbox.ember.universe.Location;
+import org.obsidianbox.ember.universe.voxel.Voxel;
+import org.obsidianbox.ember.universe.voxel.material.IMaterial;
 
 import java.util.Optional;
 
 public class Chunk {
     public static final BitSize BITS = new BitSize(4);
-    public final World world;
-    public final Vector3i position;
+    public final Location location;
     private final AtomicPaletteStringStore store;
 
-    public Chunk(World world, Vector3i position) {
-        this.world = world;
-        this.position = position;
-        store = new AtomicPaletteStringStore(BITS, world.game.getMaterialManager().getMaterialIdMap());
+    public Chunk(Location location) {
+        this.location = location;
+        store = new AtomicPaletteStringStore(BITS, location.world.game.getMaterialManager().getMaterialIdMap());
     }
 
-    public Optional<Voxel> getVoxel(int x, int y, int z) {
-        if (!isInsideChunk(x, y, z)) {
+    public Optional<Voxel> getVoxel(int vx, int vy, int vz) {
+        if (!isInsideChunk(vx, vy, vz)) {
             return Optional.empty();
         }
+        return Optional.of(new Voxel(this, new Location(location.world, vx, vy, vz)));
+    }
+
+    public Optional<IMaterial> getMaterial(int vx, int vy, int vz) {
+        if (!isInsideChunk(vx, vy, vz)) {
+            return Optional.empty();
+        }
+        final Optional<String> materialName = store.get(vx, vy, vz);
+        if (materialName.isPresent()) {
+            return location.world.game.getMaterialManager().get(materialName.get());
+        }
         return Optional.empty();
+    }
+
+    public boolean setMaterial(int vx, int vy, int vz, IMaterial material) {
+        return isInsideChunk(vx, vy, vz) && store.set(vx, vy, vz, material.getName());
     }
 
     private boolean isInsideChunk(int vx, int vy, int vz) {
@@ -56,6 +68,6 @@ public class Chunk {
         final int cy = vy << BITS.BITS;
         final int cz = vz << BITS.BITS;
 
-        return position.getX() == cx && position.getY() == cy && position.getZ() == cz;
+        return location.x == cx && location.y == cy && location.z == cz;
     }
 }

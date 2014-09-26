@@ -21,28 +21,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.obsidianbox.ember.world.voxel;
+package org.obsidianbox.ember.universe.voxel.material;
 
-import com.flowpowered.math.vector.Vector3i;
-import org.obsidianbox.ember.world.voxel.material.IMaterial;
+import org.obsidianbox.ember.universe.World;
+import org.spout.physics.body.RigidBody;
 
-import java.util.Optional;
+public interface IMaterial {
+    String getName();
 
-public class Voxel {
-    public final Vector3i position;
-    private Optional<IMaterial> material;
-
-    public Voxel(Vector3i position, IMaterial material) {
-        this.position = position;
-        this.material = Optional.ofNullable(material);
-    }
-
-    public Optional<IMaterial> getMaterial() {
-        return material;
-    }
-
-    public void setMaterial(IMaterial material) {
-        // TODO Prevent unregistered materials
-        this.material = Optional.ofNullable(material);
-    }
+    RigidBody getBody(World world, int vx, int vy, int vz);
 }
