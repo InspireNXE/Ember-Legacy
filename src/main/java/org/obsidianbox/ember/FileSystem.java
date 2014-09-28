@@ -21,11 +21,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.obsidianbox.ember.resource;
-
-import org.obsidianbox.ember.Game;
+package org.obsidianbox.ember;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
@@ -40,11 +39,11 @@ public class FileSystem {
 
     public static final Path LOGS_PATH = Paths.get("logs");
     public static final Path PLUGINS_PATH = Paths.get("plugins");
-    private final Game game;
+    public static final Path WORLDS_PATH = Paths.get("worlds");
+    public static final Path CONFIG_PATH = Paths.get("config");
+    public static final Path CONFIG_SETTINGS_PATH = Paths.get(CONFIG_PATH.toString(), "settings.yml");
 
-    public FileSystem(Game game) {
-        this.game = game;
-    }
+    protected FileSystem() {}
 
     /**
      * Stolen from flow-engine, credits to Waterpicker (cause I'm lazy) edits by me.
@@ -64,17 +63,26 @@ public class FileSystem {
         return Collections.unmodifiableCollection(result);
     }
 
-    /** Utility Methods */
-
-    public static URL[] asArray(Collection<URL> collection) {
-        return collection.stream().toArray(URL[]::new);
-    }
-
-    public void init() throws IOException {
+    /**
+     * Creates all game directories
+     * @throws IOException If the directory creation fails
+     */
+    public static void init() throws IOException {
+        if (!Files.exists(CONFIG_PATH)) {
+            Game.logger.warn("Config directory was not found. Ignore this is this is your first time running Ember. Otherwise, this may be a problem.");
+            Files.createDirectory(CONFIG_PATH);
+        }
+        if (!Files.exists(CONFIG_SETTINGS_PATH)) {
+            InputStream stream = FileSystem.class.getResourceAsStream("/config/settings.yml");
+            Files.copy(Main.class.getResourceAsStream("/config/settings.yml"), CONFIG_PATH);
+        }
         if (!Files.exists(PLUGINS_PATH)) {
-            game.logger
-                    .warn("Plugins directory was not found. Ignore this is this is your first time running Ember. Otherwise, this may be a problem.");
+            Game.logger.warn("Plugins directory was not found. Ignore this is this is your first time running Ember. Otherwise, this may be a problem.");
             Files.createDirectory(PLUGINS_PATH);
+        }
+        if (!Files.exists(WORLDS_PATH)) {
+            Game.logger.warn("Worlds directory was not found. Ignore this is this is your first time running Ember. Otherwise, this may be a problem.");
+            Files.createDirectory(WORLDS_PATH);
         }
     }
 }

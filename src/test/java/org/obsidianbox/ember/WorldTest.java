@@ -23,25 +23,27 @@
  */
 package org.obsidianbox.ember;
 
-import com.flowpowered.math.vector.Vector3i;
-import org.junit.Test;
-import org.obsidianbox.ember.universe.voxel.Voxel;
-import org.obsidianbox.ember.universe.material.MaterialManager;
-import org.obsidianbox.ember.universe.material.MaterialRegistrationException;
-
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import org.junit.Test;
+import org.obsidianbox.ember.universe.level.World;
+import org.obsidianbox.ember.universe.material.IMaterial;
+import org.obsidianbox.ember.universe.material.MaterialManager;
+import org.obsidianbox.ember.universe.material.MaterialRegistrationException;
+import org.spout.physics.body.RigidBody;
+
 public class WorldTest {
+
     private final MaterialManager materialManager = new MaterialManager();
 
     @Test
     public void testMaterialManager() {
         assertFalse(materialManager.get((String) null).isPresent());
-        assertTrue(materialManager.get("ember:none").isPresent());
+        assertTrue(materialManager.get("none").isPresent());
         try {
-            materialManager.register(() -> "test:none");
+            materialManager.register(new TestMaterial());
         } catch (MaterialRegistrationException e) {
             fail("Material registration failed!");
         }
@@ -58,7 +60,17 @@ public class WorldTest {
 
         failed = false;
         try {
-            materialManager.register(() -> null);
+            materialManager.register(new IMaterial() {
+                @Override
+                public String getName() {
+                    return null;
+                }
+
+                @Override
+                public RigidBody getBody(World world, int vx, int vy, int vz) {
+                    return null;
+                }
+            });
         } catch (MaterialRegistrationException e) {
             failed = true;
         }
@@ -68,7 +80,17 @@ public class WorldTest {
 
         failed = false;
         try {
-            materialManager.register(String::new);
+            materialManager.register(new IMaterial() {
+                @Override
+                public String getName() {
+                    return "";
+                }
+
+                @Override
+                public RigidBody getBody(World world, int vx, int vy, int vz) {
+                    return null;
+                }
+            });
         } catch (MaterialRegistrationException e) {
             failed = true;
         }
@@ -76,12 +98,19 @@ public class WorldTest {
             fail("Registering a material with an empty name should have failed!");
         }
 
-        assertFalse(materialManager.NONE.getName().equals(materialManager.get("test:none").get().getName()));
+        assertFalse(materialManager.NONE.getName().equals(materialManager.get("test").get().getName()));
     }
-    @Test
-    public void testVoxel() {
-        final Voxel a = new Voxel(new Vector3i(0, 0, 0), materialManager.NONE);
-        assertTrue(a.location.equals(new Vector3i(0, 0, 0)));
-        assertTrue(a.getMaterial().get().equals(materialManager.NONE));
+
+    private final class TestMaterial implements IMaterial {
+
+        @Override
+        public String getName() {
+            return "test";
+        }
+
+        @Override
+        public RigidBody getBody(World world, int vx, int vy, int vz) {
+            return null;
+        }
     }
 }

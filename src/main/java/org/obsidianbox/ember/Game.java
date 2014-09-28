@@ -31,12 +31,10 @@ import org.obsidianbox.ember.console.GameConsole;
 import org.obsidianbox.ember.event.GameEvent;
 import org.obsidianbox.ember.network.Network;
 import org.obsidianbox.ember.plugin.GamePluginManager;
-import org.obsidianbox.ember.resource.FileSystem;
 import org.obsidianbox.ember.universe.material.MaterialManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.util.Optional;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -44,7 +42,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public final class Game extends TickingElement {
 
     public static final Optional<String> VERSION = Optional.ofNullable(Game.class.getPackage().getImplementationVersion());
-    public final Logger logger = LoggerFactory.getLogger("Ember");
+    public static final Logger logger = LoggerFactory.getLogger("Ember");
     // Modules
     public final Network network;
     private final Configuration configuration;
@@ -54,7 +52,6 @@ public final class Game extends TickingElement {
     private GameCommandManager commandManager;
     private GamePluginManager pluginManager;
     private SimpleEventManager eventManager;
-    private FileSystem fileSystem;
     private MaterialManager materialManager;
 
     public Game(Configuration configuration) {
@@ -82,12 +79,6 @@ public final class Game extends TickingElement {
         commandManager = new GameCommandManager(this);
         commandManager.create(new Commands(this));
         eventManager.registerEvents(commandManager, commandManager);
-        fileSystem = new FileSystem(this);
-        try {
-            fileSystem.init();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
         network.start();
         materialManager = new MaterialManager();
         pluginManager = new GamePluginManager(this);
@@ -138,10 +129,6 @@ public final class Game extends TickingElement {
 
     public SimpleEventManager getEventManager() {
         return eventManager;
-    }
-
-    public FileSystem getFileSystem() {
-        return fileSystem;
     }
 
     public MaterialManager getMaterialManager() {

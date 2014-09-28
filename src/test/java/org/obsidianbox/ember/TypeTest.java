@@ -23,15 +23,16 @@
  */
 package org.obsidianbox.ember;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import com.flowpowered.commons.BitSize;
 import com.flowpowered.commons.StringToUniqueIntegerMap;
 import org.junit.Test;
 import org.obsidianbox.ember.util.atomic.AtomicPaletteStringStore;
 
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.TestCase.assertTrue;
-
 public class TypeTest {
+
     private final StringToUniqueIntegerMap stringMap = new StringToUniqueIntegerMap("Material Map");
 
     @Test

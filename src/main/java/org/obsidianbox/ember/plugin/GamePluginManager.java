@@ -31,10 +31,11 @@ import com.flowpowered.plugins.annotated.AnnotatedPluginLoader;
 import com.flowpowered.plugins.simple.SimplePluginLoader;
 import org.obsidianbox.ember.Game;
 import org.obsidianbox.ember.event.PluginEvent;
-import org.obsidianbox.ember.resource.FileSystem;
+import org.obsidianbox.ember.FileSystem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.net.URL;
 import java.net.URLClassLoader;
 
 public class GamePluginManager extends PluginManager<GameContext> {
@@ -48,8 +49,9 @@ public class GamePluginManager extends PluginManager<GameContext> {
 
         this.creator = plugin -> new GameContext(game, plugin);
 
-        addLoader(new SimplePluginLoader<>(creator, new URLClassLoader(FileSystem.asArray(FileSystem.getURLs(FileSystem.PLUGINS_PATH, "*.jar")),
-                                                                       getClass().getClassLoader())));
+        addLoader(new SimplePluginLoader<>(creator,
+                                           new URLClassLoader(FileSystem.getURLs(FileSystem.PLUGINS_PATH, "*.jar").stream().toArray(URL[]::new),
+                                                              getClass().getClassLoader())));
         addLoader(new AnnotatedPluginLoader<>(creator, FileSystem.PLUGINS_PATH, getClass().getClassLoader()));
     }
 

@@ -33,30 +33,13 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class Main {
-
-    private static final Path CONFIG_PATH = Paths.get("config");
-    private static final Path SETTINGS_PATH = Paths.get(CONFIG_PATH.toString(), "settings.yml");
-    private static final Path WORLDS_PATH = Paths.get("worlds");
-
     public static void main(String[] args) throws Exception {
-        deploy();
-        final Configuration configuration = new Configuration(SETTINGS_PATH);
+        FileSystem.init();
+        final Configuration configuration = new Configuration(FileSystem.CONFIG_SETTINGS_PATH);
         configuration.load();
         parseArgs(args, configuration);
         final Game game = new Game(configuration);
         game.open();
-    }
-
-    public static void deploy() throws Exception {
-        if (Files.notExists(CONFIG_PATH)) {
-            Files.createDirectories(CONFIG_PATH);
-        }
-        if (Files.notExists(SETTINGS_PATH)) {
-            Files.copy(Main.class.getResourceAsStream("/config/settings.yml"), SETTINGS_PATH);
-        }
-        if (Files.notExists(WORLDS_PATH)) {
-            Files.createDirectories(WORLDS_PATH);
-        }
     }
 
     public static void parseArgs(String[] args, Configuration configuration) throws Exception {

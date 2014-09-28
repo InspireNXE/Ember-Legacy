@@ -45,7 +45,7 @@ public class Solid implements IMaterial {
     @Override
     public RigidBody getBody(World world, int vx, int vy, int vz) {
         if (body == null) {
-            body = world.physicsWorld.createRigidBody(new Transform(new Vector3(vx, vy, vz), Quaternion.identity()), MASS, PHYSICS_CUBE_SHAPE);
+            body = world.physics.createRigidBody(new Transform(new Vector3(vx, vy, vz), Quaternion.identity()), MASS, PHYSICS_CUBE_SHAPE);
         } else {
             body.getTransform().setPosition(new Vector3(vx, vy, vz));
         }

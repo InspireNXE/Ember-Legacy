@@ -30,6 +30,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public final class Entity implements IGameObject {
+
     public final Game game;
     public final UUID uuid;
     public final int id;
