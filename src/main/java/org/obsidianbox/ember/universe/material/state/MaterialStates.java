@@ -21,18 +21,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.obsidianbox.ember.universe.voxel.material;
+package org.obsidianbox.ember.universe.material.state;
 
-public class MaterialRegistrationException extends Exception {
-    public MaterialRegistrationException(String message) {
-        super(message);
-    }
+import org.obsidianbox.ember.universe.material.IMaterial;
 
-    public MaterialRegistrationException(String message, Throwable cause) {
-        super(message, cause);
-    }
+import java.util.HashMap;
+import java.util.Map;
 
-    public MaterialRegistrationException(Throwable cause) {
-        super(cause);
-    }
+public class MaterialStates {
+
+    private final Map<IMaterial, State> MATERIAL_STATES = new HashMap<>();
 }

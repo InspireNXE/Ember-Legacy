@@ -23,22 +23,21 @@
  */
 package org.obsidianbox.ember.network;
 
+import com.flowpowered.networking.NetworkServer;
+import com.flowpowered.networking.session.BasicSession;
+import com.flowpowered.networking.session.Session;
+import io.netty.channel.Channel;
+import io.netty.channel.ChannelFuture;
+import org.obsidianbox.ember.event.NetworkEvent;
+
 import java.net.SocketAddress;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.flowpowered.networking.session.BasicSession;
-import io.netty.channel.Channel;
-import io.netty.channel.ChannelFuture;
-
-import com.flowpowered.networking.NetworkServer;
-import com.flowpowered.networking.session.Session;
-
-import org.obsidianbox.ember.event.NetworkEvent;
-
 public final class GameNetworkServer extends NetworkServer {
-    private final Network network;
+
     protected final Set<GameSession> sessions = new HashSet<>();
+    private final Network network;
 
     public GameNetworkServer(Network network) {
         this.network = network;

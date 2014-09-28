@@ -23,11 +23,12 @@
  */
 package org.obsidianbox.ember;
 
-import java.nio.file.Path;
-
 import com.flowpowered.cerealization.config.yaml.YamlConfiguration;
 
+import java.nio.file.Path;
+
 public class Configuration extends YamlConfiguration {
+
     private static final String DEBUG_KEY = "debug";
 
     public Configuration(Path configPath) {

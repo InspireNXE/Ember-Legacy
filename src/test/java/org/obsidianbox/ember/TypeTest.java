@@ -26,7 +26,7 @@ package org.obsidianbox.ember;
 import com.flowpowered.commons.BitSize;
 import com.flowpowered.commons.StringToUniqueIntegerMap;
 import org.junit.Test;
-import org.obsidianbox.ember.storage.atomic.AtomicPaletteStringStore;
+import org.obsidianbox.ember.util.atomic.AtomicPaletteStringStore;
 
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.TestCase.assertTrue;

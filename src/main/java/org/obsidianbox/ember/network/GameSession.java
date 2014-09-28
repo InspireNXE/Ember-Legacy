@@ -23,17 +23,15 @@
  */
 package org.obsidianbox.ember.network;
 
-import io.netty.channel.Channel;
-
 import com.flowpowered.networking.Message;
 import com.flowpowered.networking.MessageHandler;
 import com.flowpowered.networking.protocol.AbstractProtocol;
 import com.flowpowered.networking.session.PulsingSession;
-
-import org.obsidianbox.ember.Game;
+import io.netty.channel.Channel;
 import org.obsidianbox.ember.event.NetworkEvent;
 
 public final class GameSession extends PulsingSession {
+
     private final Network network;
 
     public GameSession(Network network, Channel channel, AbstractProtocol protocol) {

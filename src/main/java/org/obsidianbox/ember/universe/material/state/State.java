@@ -21,38 +21,15 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.obsidianbox.ember.storage;
+package org.obsidianbox.ember.universe.material.state;
 
-import com.flowpowered.math.vector.Vector3f;
-import com.flowpowered.math.vector.Vector3i;
+import org.obsidianbox.ember.universe.material.IMaterial;
 
-import java.util.Optional;
+public class State<T extends IMaterial> {
 
-/**
- * Stores a {@link T} at a x, y, z
- */
-public interface ITypeStore<T> {
-    public Optional<T> get(int x, int y, int z);
+    public Class<T> clazz;
 
-    public Optional<T> get(Vector3i position);
-
-    public Optional<T> get(Vector3f position);
-
-    public Optional<T> getAndSet(int x, int y, int z, T value);
-
-    public Optional<T> getAndSet(Vector3i position, T value);
-
-    public Optional<T> getAndSet(Vector3f position, T value);
-
-    public boolean set(int x, int y, int z, T value);
-
-    public boolean set(Vector3i position, T value);
-
-    public boolean set(Vector3f position, T value);
-
-    public boolean isUniform();
-
-    public boolean isDirty();
-
-    public boolean setDirty(boolean dirty);
+    public State(Class<T> clazz) {
+        this.clazz = clazz;
+    }
 }

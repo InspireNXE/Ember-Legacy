@@ -23,7 +23,10 @@
  */
 package org.obsidianbox.ember.plugin;
 
-import com.flowpowered.plugins.*;
+import com.flowpowered.plugins.ContextCreator;
+import com.flowpowered.plugins.Plugin;
+import com.flowpowered.plugins.PluginLoggerFactory;
+import com.flowpowered.plugins.PluginManager;
 import com.flowpowered.plugins.annotated.AnnotatedPluginLoader;
 import com.flowpowered.plugins.simple.SimplePluginLoader;
 import org.obsidianbox.ember.Game;
@@ -35,6 +38,7 @@ import org.slf4j.LoggerFactory;
 import java.net.URLClassLoader;
 
 public class GamePluginManager extends PluginManager<GameContext> {
+
     public final Game game;
     protected final ContextCreator<GameContext> creator;
 
@@ -44,7 +48,8 @@ public class GamePluginManager extends PluginManager<GameContext> {
 
         this.creator = plugin -> new GameContext(game, plugin);
 
-        addLoader(new SimplePluginLoader<>(creator, new URLClassLoader(FileSystem.asArray(FileSystem.getURLs(FileSystem.PLUGINS_PATH, "*.jar")), getClass().getClassLoader())));
+        addLoader(new SimplePluginLoader<>(creator, new URLClassLoader(FileSystem.asArray(FileSystem.getURLs(FileSystem.PLUGINS_PATH, "*.jar")),
+                                                                       getClass().getClassLoader())));
         addLoader(new AnnotatedPluginLoader<>(creator, FileSystem.PLUGINS_PATH, getClass().getClassLoader()));
     }
 
@@ -88,6 +93,7 @@ public class GamePluginManager extends PluginManager<GameContext> {
 }
 
 final class GamePluginLoggerFactory implements PluginLoggerFactory {
+
     @Override
     public Logger getLogger(String pluginName) {
         return LoggerFactory.getLogger(pluginName);

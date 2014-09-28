@@ -23,17 +23,16 @@
  */
 package org.obsidianbox.ember.network;
 
-import java.net.SocketAddress;
-
-import io.netty.channel.Channel;
-import io.netty.channel.ChannelFuture;
-
 import com.flowpowered.networking.NetworkClient;
 import com.flowpowered.networking.session.Session;
-
+import io.netty.channel.Channel;
+import io.netty.channel.ChannelFuture;
 import org.obsidianbox.ember.event.NetworkEvent;
 
+import java.net.SocketAddress;
+
 public final class GameNetworkClient extends NetworkClient {
+
     private final Network network;
     protected GameSession session;
 

@@ -21,38 +21,31 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.obsidianbox.ember.physics;
-
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+package org.obsidianbox.ember.entity;
 
 import org.obsidianbox.ember.Game;
 import org.obsidianbox.ember.IGameObject;
-import org.obsidianbox.ember.component.IComponentHolder;
-import org.obsidianbox.ember.physics.util.Transform;
 
-public final class Entity implements IComponentHolder<EntityComponent>, IGameObject {
+import java.util.Optional;
+import java.util.UUID;
+
+public final class Entity implements IGameObject {
     public final Game game;
     public final UUID uuid;
     public final int id;
-    private Transform transform;
+    private TransformProvider provider;
     private boolean isSavable = false;
-    private final Set<EntityComponent> components = new HashSet<>();
 
-    public Entity(Game game, int id, Transform transform) {
+    public Entity(Game game, int id) {
         this.game = game;
         uuid = UUID.randomUUID();
         this.id = id;
-        this.transform = transform;
     }
 
-    protected Entity(Game game, UUID uuid, int id, Transform transform) {
+    protected Entity(Game game, UUID uuid, int id) {
         this.game = game;
         this.uuid = uuid;
         this.id = id;
-        this.transform = transform;
     }
 
     @Override
@@ -60,8 +53,12 @@ public final class Entity implements IComponentHolder<EntityComponent>, IGameObj
         return game;
     }
 
-    public Transform getTransform() {
-        return transform;
+    public Optional<Transform> getTransform() {
+        return provider == null ? Optional.empty() : Optional.ofNullable(provider.getTransform());
+    }
+
+    public void setTransformProvider(TransformProvider provider) {
+        this.provider = provider;
     }
 
     public boolean isSavable() {
@@ -70,11 +67,6 @@ public final class Entity implements IComponentHolder<EntityComponent>, IGameObj
 
     public void setSavable(boolean isSavable) {
         this.isSavable = isSavable;
-    }
-
-    @Override
-    public Collection<EntityComponent> getComponents() {
-        return components;
     }
 
     @Override
@@ -90,10 +82,10 @@ public final class Entity implements IComponentHolder<EntityComponent>, IGameObj
     @Override
     public String toString() {
         return "Entity{" +
-                "uuid=" + uuid +
-                ", id=" + id +
-                ", transform=" + transform +
-                ", isSavable=" + isSavable +
-                '}';
+               "uuid=" + uuid +
+               ", id=" + id +
+               ", transform=" + provider.getTransform() +
+               ", isSavable=" + isSavable +
+               '}';
     }
 }

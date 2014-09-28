@@ -21,15 +21,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.obsidianbox.ember.physics.util;
+package org.obsidianbox.ember.entity;
 
 import com.flowpowered.math.imaginary.Quaternionf;
 import com.flowpowered.math.vector.Vector3f;
-import org.obsidianbox.ember.universe.World;
+import org.obsidianbox.ember.universe.level.World;
 
 import java.util.Optional;
 
 public class Transform {
+
     public static final Transform NONE = new Transform();
 
     private Optional<World> world = Optional.empty();

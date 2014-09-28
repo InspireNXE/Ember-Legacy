@@ -23,16 +23,17 @@
  */
 package org.obsidianbox.ember;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import static java.util.Arrays.asList;
 
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 
-import static java.util.Arrays.asList;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class Main {
+
     private static final Path CONFIG_PATH = Paths.get("config");
     private static final Path SETTINGS_PATH = Paths.get(CONFIG_PATH.toString(), "settings.yml");
     private static final Path WORLDS_PATH = Paths.get("worlds");

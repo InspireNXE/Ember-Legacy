@@ -21,31 +21,19 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.obsidianbox.ember.physics;
+package org.obsidianbox.ember.universe.material;
 
-import org.obsidianbox.ember.component.IComponent;
-import org.obsidianbox.ember.event.ComponentEvent;
+public class MaterialRegistrationException extends Exception {
 
-import java.util.Optional;
-
-public abstract class EntityComponent implements IComponent<Entity> {
-    private Optional<Entity> holder = Optional.empty();
-
-    @Override
-    public final Optional<Entity> getHolder() {
-        return holder;
+    public MaterialRegistrationException(String message) {
+        super(message);
     }
 
-    @Override
-    public final void attach(Entity holder) {
-        this.holder = Optional.of(holder);
-        holder.game.getEventManager().registerEvents(this, this);
-        holder.game.getEventManager().callEvent(new ComponentEvent.Attached(holder.game, this));
+    public MaterialRegistrationException(String message, Throwable cause) {
+        super(message, cause);
     }
 
-    @Override
-    public final void detach() {
-        holder.get().game.getEventManager().callEvent(new ComponentEvent.Detach(holder.get().game, this));
-        holder.get().game.getEventManager().unRegisterEventsByListener(this);
+    public MaterialRegistrationException(Throwable cause) {
+        super(cause);
     }
 }

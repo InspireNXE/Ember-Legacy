@@ -21,34 +21,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.obsidianbox.ember.universe.voxel;
+package org.obsidianbox.ember.universe.material;
 
-import org.obsidianbox.ember.universe.Location;
-import org.obsidianbox.ember.universe.cuboid.Chunk;
-import org.obsidianbox.ember.universe.cuboid.ChunkReference;
-import org.obsidianbox.ember.universe.voxel.material.IMaterial;
+import org.obsidianbox.ember.universe.level.World;
+import org.spout.physics.body.RigidBody;
 
-import java.util.Optional;
+public interface IMaterial {
 
-public final class Voxel {
-    public final Location location;
-    private final ChunkReference reference;
+    String getName();
 
-    public Voxel(Chunk chunk, Location location) {
-        this.location = location;
-        reference = new ChunkReference(chunk);
-    }
-
-    public Optional<IMaterial> getMaterial() {
-        if (reference.get() != null) {
-            return reference.get().getMaterial(location.x, location.y, location.z);
-        }
-        return Optional.empty();
-    }
-
-    public void setMaterial(IMaterial material) {
-        if (reference.get() != null) {
-            reference.get().setMaterial(location.x, location.y, location.z, material);
-        }
-    }
+    RigidBody getBody(World world, int vx, int vy, int vz);
 }

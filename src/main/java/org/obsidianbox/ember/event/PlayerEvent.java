@@ -27,6 +27,7 @@ import org.obsidianbox.ember.Game;
 import org.obsidianbox.ember.player.Player;
 
 public abstract class PlayerEvent extends GameEvent {
+
     public final Player player;
 
     public PlayerEvent(Game game, Player player) {
@@ -35,6 +36,7 @@ public abstract class PlayerEvent extends GameEvent {
     }
 
     public static class Login extends PlayerEvent {
+
         public Login(Game game, Player player) {
             super(game, player);
         }

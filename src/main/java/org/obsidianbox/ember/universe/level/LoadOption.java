@@ -21,13 +21,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.obsidianbox.ember.universe.voxel.material;
+package org.obsidianbox.ember.universe.level;
 
-import org.obsidianbox.ember.universe.World;
-import org.spout.physics.body.RigidBody;
-
-public interface IMaterial {
-    String getName();
-
-    RigidBody getBody(World world, int vx, int vy, int vz);
+public enum LoadOption {
+    NO_LOAD,
+    LOAD_ONLY,
+    GENERATE_ONLY,
+    LOAD_AND_GENERATE
 }

@@ -28,13 +28,13 @@ import com.flowpowered.commands.CommandException;
 import com.flowpowered.commands.CommandManager;
 import com.flowpowered.commands.CommandProvider;
 import com.flowpowered.commands.annotated.AnnotatedCommandExecutorFactory;
-
 import com.flowpowered.events.EventHandler;
 import com.flowpowered.events.Order;
 import org.obsidianbox.ember.Game;
 import org.obsidianbox.ember.event.GameEvent;
 
 public class GameCommandManager extends CommandManager {
+
     private final Game game;
     private AnnotatedCommandExecutorFactory factory;
 
@@ -45,7 +45,7 @@ public class GameCommandManager extends CommandManager {
         factory = new AnnotatedCommandExecutorFactory(this, provider, game.logger);
     }
 
-    @EventHandler (order = Order.EARLIEST)
+    @EventHandler(order = Order.EARLIEST)
     public void onTick(GameEvent.Tick event) {
         if (event.phase == GameEvent.Tick.Phase.START) {
             String rawCommand;

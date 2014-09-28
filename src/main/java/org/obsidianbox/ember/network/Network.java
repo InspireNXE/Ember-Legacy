@@ -26,13 +26,13 @@ package org.obsidianbox.ember.network;
 import com.flowpowered.commons.ticking.TickingElement;
 import com.flowpowered.networking.session.BasicSession;
 import com.flowpowered.networking.session.PulsingSession;
-
 import io.netty.channel.ChannelFuture;
 import org.obsidianbox.ember.Game;
 
 import java.net.SocketAddress;
 
 public class Network extends TickingElement {
+
     public final Game game;
     protected final GameNetworkClient client;
     protected final GameNetworkServer server;

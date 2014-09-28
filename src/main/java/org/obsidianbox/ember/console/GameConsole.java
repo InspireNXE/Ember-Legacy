@@ -23,15 +23,6 @@
  */
 package org.obsidianbox.ember.console;
 
-import java.lang.reflect.Field;
-import java.util.Collections;
-import java.util.List;
-import java.util.Queue;
-import java.util.Set;
-import java.util.concurrent.LinkedBlockingQueue;
-
-import jline.console.completer.Completer;
-
 import com.flowpowered.chat.ChatReceiver;
 import com.flowpowered.commands.CommandArguments;
 import com.flowpowered.commands.CommandException;
@@ -40,11 +31,19 @@ import com.flowpowered.commons.console.CommandCallback;
 import com.flowpowered.commons.console.JLineConsole;
 import com.flowpowered.commons.console.Log4j2JLineConsole;
 import com.flowpowered.permissions.PermissionDomain;
-
+import jline.console.completer.Completer;
 import org.obsidianbox.ember.Game;
 import org.obsidianbox.ember.event.GameEvent;
 
+import java.lang.reflect.Field;
+import java.util.Collections;
+import java.util.List;
+import java.util.Queue;
+import java.util.Set;
+import java.util.concurrent.LinkedBlockingQueue;
+
 public class GameConsole extends Log4j2JLineConsole implements CommandSender {
+
     private static Field COMMAND_CALLBACK_FIELD;
 
     static {
@@ -137,6 +136,7 @@ public class GameConsole extends Log4j2JLineConsole implements CommandSender {
 }
 
 final class GameCommandCallback implements CommandCallback {
+
     protected final Queue<String> callbackQueue = new LinkedBlockingQueue<>();
 
     @Override
@@ -146,6 +146,7 @@ final class GameCommandCallback implements CommandCallback {
 }
 
 final class GameCommandCompleter implements Completer {
+
     @Override
     public int complete(String buffer, int cursor, List<CharSequence> candidates) {
         return 0;

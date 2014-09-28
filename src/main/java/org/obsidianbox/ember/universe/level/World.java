@@ -21,16 +21,15 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.obsidianbox.ember.universe;
+package org.obsidianbox.ember.universe.level;
 
 import com.flowpowered.commons.ticking.TickingElement;
 import com.flowpowered.math.vector.Vector3i;
 import com.flowpowered.plugins.Plugin;
 import org.obsidianbox.ember.Game;
 import org.obsidianbox.ember.event.ChunkEvent;
-import org.obsidianbox.ember.universe.cuboid.Chunk;
 import org.obsidianbox.ember.universe.generator.WorldGenerator;
-import org.obsidianbox.ember.universe.voxel.material.IMaterial;
+import org.obsidianbox.ember.universe.material.IMaterial;
 import org.spout.physics.body.RigidBody;
 import org.spout.physics.engine.linked.LinkedDynamicsWorld;
 import org.spout.physics.engine.linked.LinkedWorldInfo;
@@ -41,11 +40,12 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 public final class World extends TickingElement {
+
     public final Game game;
     public final Plugin plugin;
     public final String identifier;
     public final UUID uuid;
-    private final LinkedDynamicsWorld physicsWorld;
+    public final LinkedDynamicsWorld physicsWorld;
     private final WorldGenerator generator;
     private final ConcurrentHashMap<Vector3i, Chunk> chunks = new ConcurrentHashMap<>();
 
@@ -82,6 +82,14 @@ public final class World extends TickingElement {
         final int cx = vx << Chunk.BITS.BITS;
         final int cy = vy << Chunk.BITS.BITS;
         final int cz = vz << Chunk.BITS.BITS;
+        return getChunkWithOptions(cx, cy, cz, option);
+    }
+
+    public Optional<Chunk> getChunkExact(int cx, int cy, int cz, LoadOption option) {
+        return getChunkWithOptions(cx, cy, cz, option);
+    }
+
+    private Optional<Chunk> getChunkWithOptions(int cx, int cy, int cz, LoadOption option) {
         final Vector3i coordinates = new Vector3i(cx, cy, cz);
         Chunk chunk = chunks.get(coordinates);
         switch (option) {
@@ -89,7 +97,9 @@ public final class World extends TickingElement {
                 break;
             case LOAD_ONLY:
                 if (chunk == null) {
-                    chunk = new Chunk(new Location(this, cx, cy, cz));
+                    final Location location = new Location(this, cx, cy, cz);
+                    chunk = new Chunk(location);
+                    location.setChunkReference(chunk);
                     chunks.put(coordinates, chunk);
                     game.getEventManager().callEvent(new ChunkEvent.Load(game, this, chunk));
                 }
@@ -101,7 +111,9 @@ public final class World extends TickingElement {
                 break;
             case LOAD_AND_GENERATE:
                 if (chunk == null) {
-                    chunk = new Chunk(new Location(this, cx, cy, cz));
+                    final Location location = new Location(this, cx, cy, cz);
+                    chunk = new Chunk(location);
+                    location.setChunkReference(chunk);
                     chunks.put(coordinates, chunk);
                     game.getEventManager().callEvent(new ChunkEvent.Load(game, this, chunk));
                 }
@@ -122,6 +134,7 @@ public final class World extends TickingElement {
     }
 
     private final class PhysicsWorldInfo implements LinkedWorldInfo {
+
         private final World world;
 
         public PhysicsWorldInfo(World world) {

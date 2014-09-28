@@ -21,13 +21,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.obsidianbox.ember.universe.voxel.material.state;
+package org.obsidianbox.ember.universe.material.builtin;
 
-import org.obsidianbox.ember.universe.voxel.material.IMaterial;
+import org.obsidianbox.ember.universe.level.World;
+import org.obsidianbox.ember.universe.material.IMaterial;
+import org.spout.physics.body.RigidBody;
 
-import java.util.HashMap;
-import java.util.Map;
+public class None implements IMaterial {
 
-public class MaterialStates {
-    private final Map<IMaterial, State> MATERIAL_STATES = new HashMap<>();
+    @Override
+    public String getName() {
+        return "none";
+    }
+
+    @Override
+    public RigidBody getBody(World world, int vx, int vy, int vz) {
+        return null;
+    }
 }

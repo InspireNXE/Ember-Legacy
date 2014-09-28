@@ -23,29 +23,30 @@
  */
 package org.obsidianbox.ember;
 
-import java.io.IOException;
-import java.util.Optional;
-import java.util.concurrent.Semaphore;
-import java.util.concurrent.atomic.AtomicBoolean;
-
-import org.obsidianbox.ember.plugin.GamePluginManager;
-import org.obsidianbox.ember.universe.voxel.material.MaterialManager;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.flowpowered.commons.ticking.TickingElement;
 import com.flowpowered.events.SimpleEventManager;
-
 import org.obsidianbox.ember.command.Commands;
 import org.obsidianbox.ember.command.GameCommandManager;
 import org.obsidianbox.ember.console.GameConsole;
 import org.obsidianbox.ember.event.GameEvent;
 import org.obsidianbox.ember.network.Network;
+import org.obsidianbox.ember.plugin.GamePluginManager;
 import org.obsidianbox.ember.resource.FileSystem;
+import org.obsidianbox.ember.universe.material.MaterialManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.util.Optional;
+import java.util.concurrent.Semaphore;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public final class Game extends TickingElement {
+
     public static final Optional<String> VERSION = Optional.ofNullable(Game.class.getPackage().getImplementationVersion());
     public final Logger logger = LoggerFactory.getLogger("Ember");
+    // Modules
+    public final Network network;
     private final Configuration configuration;
     private final Semaphore semaphore = new Semaphore(0);
     private final AtomicBoolean running = new AtomicBoolean(false);
@@ -55,9 +56,6 @@ public final class Game extends TickingElement {
     private SimpleEventManager eventManager;
     private FileSystem fileSystem;
     private MaterialManager materialManager;
-
-    // Modules
-    public final Network network;
 
     public Game(Configuration configuration) {
         super("ember - game", 20);
@@ -69,7 +67,7 @@ public final class Game extends TickingElement {
     public void onStart() {
         logger.info("Starting Ember, please wait a moment");
         logger.info("Ember is ALPHA software and as such things may not work correctly or at all. Help out the team and " +
-                "report all issues to https://github.com/InspireNXE/Ember/issues");
+                    "report all issues to https://github.com/InspireNXE/Ember/issues");
         if (configuration.isDebug()) {
             logger.info("Running in debug mode");
         }
@@ -142,7 +140,9 @@ public final class Game extends TickingElement {
         return eventManager;
     }
 
-    public FileSystem getFileSystem() { return fileSystem; }
+    public FileSystem getFileSystem() {
+        return fileSystem;
+    }
 
     public MaterialManager getMaterialManager() {
         return materialManager;

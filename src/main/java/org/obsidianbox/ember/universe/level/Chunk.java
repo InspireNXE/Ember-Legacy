@@ -21,17 +21,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.obsidianbox.ember.universe.cuboid;
+package org.obsidianbox.ember.universe.level;
 
 import com.flowpowered.commons.BitSize;
-import org.obsidianbox.ember.storage.atomic.AtomicPaletteStringStore;
-import org.obsidianbox.ember.universe.Location;
-import org.obsidianbox.ember.universe.voxel.Voxel;
-import org.obsidianbox.ember.universe.voxel.material.IMaterial;
+import org.obsidianbox.ember.universe.material.IMaterial;
+import org.obsidianbox.ember.util.atomic.AtomicPaletteStringStore;
 
 import java.util.Optional;
 
 public class Chunk {
+
     public static final BitSize BITS = new BitSize(4);
     public final Location location;
     private final AtomicPaletteStringStore store;
@@ -39,13 +38,6 @@ public class Chunk {
     public Chunk(Location location) {
         this.location = location;
         store = new AtomicPaletteStringStore(BITS, location.world.game.getMaterialManager().getMaterialIdMap());
-    }
-
-    public Optional<Voxel> getVoxel(int vx, int vy, int vz) {
-        if (!isInsideChunk(vx, vy, vz)) {
-            return Optional.empty();
-        }
-        return Optional.of(new Voxel(this, new Location(location.world, vx, vy, vz)));
     }
 
     public Optional<IMaterial> getMaterial(int vx, int vy, int vz) {

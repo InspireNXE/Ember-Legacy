@@ -26,8 +26,8 @@ package org.obsidianbox.ember;
 import com.flowpowered.math.vector.Vector3i;
 import org.junit.Test;
 import org.obsidianbox.ember.universe.voxel.Voxel;
-import org.obsidianbox.ember.universe.voxel.material.MaterialManager;
-import org.obsidianbox.ember.universe.voxel.material.MaterialRegistrationException;
+import org.obsidianbox.ember.universe.material.MaterialManager;
+import org.obsidianbox.ember.universe.material.MaterialRegistrationException;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;

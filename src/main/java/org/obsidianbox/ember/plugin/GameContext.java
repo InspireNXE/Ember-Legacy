@@ -28,6 +28,7 @@ import com.flowpowered.plugins.Plugin;
 import org.obsidianbox.ember.Game;
 
 public class GameContext extends Context {
+
     public final Game game;
 
     public GameContext(Game game, Plugin<?> plugin) {

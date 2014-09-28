@@ -23,6 +23,8 @@
  */
 package org.obsidianbox.ember.resource;
 
+import org.obsidianbox.ember.Game;
+
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.DirectoryStream;
@@ -34,9 +36,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import org.obsidianbox.ember.Game;
-
 public class FileSystem {
+
     public static final Path LOGS_PATH = Paths.get("logs");
     public static final Path PLUGINS_PATH = Paths.get("plugins");
     private final Game game;
@@ -44,15 +45,6 @@ public class FileSystem {
     public FileSystem(Game game) {
         this.game = game;
     }
-
-    public void init() throws IOException {
-        if (!Files.exists(PLUGINS_PATH)) {
-            game.logger.warn("Plugins directory was not found. Ignore this is this is your first time running Ember. Otherwise, this may be a problem.");
-            Files.createDirectory(PLUGINS_PATH);
-        }
-    }
-
-    /** Utility Methods */
 
     /**
      * Stolen from flow-engine, credits to Waterpicker (cause I'm lazy) edits by me.
@@ -63,7 +55,7 @@ public class FileSystem {
     public static Collection<URL> getURLs(Path path, String blob) {
         final List<URL> result = new ArrayList<>();
         try (DirectoryStream<Path> stream = Files.newDirectoryStream(path, blob)) {
-            for (Path entry: stream) {
+            for (Path entry : stream) {
                 result.add(entry.toUri().toURL());
             }
         } catch (IOException ex) {
@@ -72,7 +64,17 @@ public class FileSystem {
         return Collections.unmodifiableCollection(result);
     }
 
+    /** Utility Methods */
+
     public static URL[] asArray(Collection<URL> collection) {
         return collection.stream().toArray(URL[]::new);
+    }
+
+    public void init() throws IOException {
+        if (!Files.exists(PLUGINS_PATH)) {
+            game.logger
+                    .warn("Plugins directory was not found. Ignore this is this is your first time running Ember. Otherwise, this may be a problem.");
+            Files.createDirectory(PLUGINS_PATH);
+        }
     }
 }

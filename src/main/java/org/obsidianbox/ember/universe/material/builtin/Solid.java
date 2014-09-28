@@ -21,31 +21,34 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.obsidianbox.ember.player;
+package org.obsidianbox.ember.universe.material.builtin;
 
-import org.obsidianbox.ember.component.IComponent;
-import org.obsidianbox.ember.event.ComponentEvent;
+import org.obsidianbox.ember.universe.level.World;
+import org.obsidianbox.ember.universe.material.IMaterial;
+import org.spout.physics.body.RigidBody;
+import org.spout.physics.collision.shape.BoxShape;
+import org.spout.physics.math.Quaternion;
+import org.spout.physics.math.Transform;
+import org.spout.physics.math.Vector3;
 
-import java.util.Optional;
+public class Solid implements IMaterial {
 
-public abstract class PlayerComponent implements IComponent<Player> {
-    private Optional<Player> holder = Optional.empty();
+    public static final BoxShape PHYSICS_CUBE_SHAPE = new BoxShape(1f, 1f, 1f);
+    public static final float MASS = 1f;
+    private static RigidBody body;
 
     @Override
-    public final Optional<Player> getHolder() {
-        return holder;
+    public String getName() {
+        return "solid";
     }
 
     @Override
-    public final void attach(Player holder) {
-        this.holder = Optional.of(holder);
-        holder.game.getEventManager().registerEvents(this, this);
-        holder.game.getEventManager().callEvent(new ComponentEvent.Attached(holder.game, this));
-    }
-
-    @Override
-    public final void detach() {
-        holder.get().game.getEventManager().callEvent(new ComponentEvent.Detach(holder.get().game, this));
-        holder.get().game.getEventManager().unRegisterEventsByListener(this);
+    public RigidBody getBody(World world, int vx, int vy, int vz) {
+        if (body == null) {
+            body = world.physicsWorld.createRigidBody(new Transform(new Vector3(vx, vy, vz), Quaternion.identity()), MASS, PHYSICS_CUBE_SHAPE);
+        } else {
+            body.getTransform().setPosition(new Vector3(vx, vy, vz));
+        }
+        return body;
     }
 }

@@ -28,6 +28,7 @@ import org.obsidianbox.ember.Game;
 import org.obsidianbox.ember.plugin.GameContext;
 
 public abstract class PluginEvent extends GameEvent {
+
     public final Plugin<GameContext> plugin;
 
     public PluginEvent(Game game, Plugin<GameContext> plugin) {
@@ -39,6 +40,7 @@ public abstract class PluginEvent extends GameEvent {
      * Fired when a {@link com.flowpowered.plugins.Plugin} is disabled.
      */
     public static class Disabled extends PluginEvent {
+
         public Disabled(Game game, Plugin<GameContext> plugin) {
             super(game, plugin);
         }
@@ -48,6 +50,7 @@ public abstract class PluginEvent extends GameEvent {
      * Fired when a {@link com.flowpowered.plugins.Plugin} is enabled.
      */
     public static class Enabled extends PluginEvent {
+
         public Enabled(Game game, Plugin<GameContext> plugin) {
             super(game, plugin);
         }

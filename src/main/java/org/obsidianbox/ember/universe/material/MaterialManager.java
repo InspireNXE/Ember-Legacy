@@ -21,29 +21,32 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.obsidianbox.ember.universe.voxel.material;
+package org.obsidianbox.ember.universe.material;
 
 import com.flowpowered.commons.StringToUniqueIntegerMap;
+import org.obsidianbox.ember.universe.material.builtin.None;
+import org.obsidianbox.ember.universe.material.builtin.Solid;
 
 import java.util.LinkedList;
 import java.util.Optional;
 
 public class MaterialManager {
+
+    public final None NONE;
+    public final Solid SOLID;
     private final StringToUniqueIntegerMap materialIdMap = new StringToUniqueIntegerMap("Material ID Map");
     private final LinkedList<IMaterial> instances = new LinkedList<>();
     private boolean locked = false;
 
-    public final IMaterial NONE;
-    public final IMaterial SOLID;
-
     public MaterialManager() {
         try {
-            NONE = register(() -> "ember:none");
-            SOLID = register(() -> "ember:solid");
+            NONE = (None) register(new None());
+            SOLID = (Solid) register(new Solid());
         } catch (MaterialRegistrationException e) {
             throw new RuntimeException("Should never be possible to reach here...");
         }
     }
+
     public IMaterial register(IMaterial material) throws MaterialRegistrationException {
         if (locked) {
             throw new MaterialRegistrationException("Registering a material is not possible as the manager has been locked!");

@@ -21,14 +21,39 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.obsidianbox.ember.component;
+package org.obsidianbox.ember.universe.level;
 
+import java.lang.ref.WeakReference;
 import java.util.Optional;
 
-public interface IComponent<T extends IComponentHolder> {
-    public Optional<T> getHolder();
+public final class ChunkReference {
 
-    public void attach(T holder);
+    private final Location location;
+    private WeakReference<Chunk> reference;
 
-    public void detach();
+    public ChunkReference(Chunk referent) {
+        reference = new WeakReference<>(referent);
+        location = referent.location;
+    }
+
+    protected void setReference(Chunk chunk) {
+        if (location != chunk.location) {
+            throw new RuntimeException("Attempted to update chunk reference with incorrect location!");
+        }
+        reference = new WeakReference<>(chunk);
+    }
+
+    public Optional<Chunk> getChunk() {
+        return Optional.ofNullable(reference.get());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return this == o || !(o == null || getClass() != o.getClass()) && location.equals(((ChunkReference) o).location);
+    }
+
+    @Override
+    public int hashCode() {
+        return location.hashCode();
+    }
 }

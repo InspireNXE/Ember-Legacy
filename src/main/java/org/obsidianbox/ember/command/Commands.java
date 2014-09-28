@@ -23,17 +23,17 @@
  */
 package org.obsidianbox.ember.command;
 
-import java.net.InetSocketAddress;
-
 import com.flowpowered.commands.CommandArguments;
 import com.flowpowered.commands.CommandException;
 import com.flowpowered.commands.CommandSender;
 import com.flowpowered.commands.annotated.CommandDescription;
 import com.flowpowered.commands.annotated.Permissible;
-
 import org.obsidianbox.ember.Game;
 
+import java.net.InetSocketAddress;
+
 public class Commands {
+
     private final Game game;
 
     public Commands(Game game) {
@@ -41,36 +41,37 @@ public class Commands {
     }
 
     @CommandDescription(name = "stop", usage = "stop", desc = "Stops the game", help = "Use this command only when you" +
-            " want to stop the game")
+                                                                                       " want to stop the game")
     @Permissible("game.command.stop")
     private void onCommandStop(CommandSender sender, CommandArguments args) throws CommandException {
         game.close();
     }
 
     @CommandDescription(name = "listen", usage = "listen [address] <port>", desc = "Listens for connections",
-            help = "Use this command only when you want the game to listen for connections. Submitting this command" +
-                    " with active connections will cause those connections to cease.")
+                        help = "Use this command only when you want the game to listen for connections. Submitting this command" +
+                               " with active connections will cause those connections to cease.")
     @Permissible("game.command.listen")
     private void onCommandListen(CommandSender sender, CommandArguments args) throws CommandException {
         game.network.bind(new InetSocketAddress(args.popInteger("address", 25500)));
     }
 
     @CommandDescription(name = "connect", usage = "connect [address] <port>", desc = "Connects to an address",
-            help = "Use this command only when you want to connect to an address. This will end any connections you" +
-                    " have currently open")
+                        help = "Use this command only when you want to connect to an address. This will end any connections you" +
+                               " have currently open")
     @Permissible("game.command.connect")
     private void onCommandConnect(CommandSender sender, CommandArguments args) throws CommandException {
         game.network.connect(new InetSocketAddress(args.popInteger("address", 25500)));
     }
 
     @CommandDescription(name = "disconnect", usage = "disconnect", desc = "Disconnects from an address",
-            help = "Use this command only when you want to disconnect.")
+                        help = "Use this command only when you want to disconnect.")
     @Permissible("game.command.connect")
     private void onCommandDisconnect(CommandSender sender, CommandArguments args) throws CommandException {
         game.network.disconnect();
     }
 
-    @CommandDescription(name = "version", usage = "version", desc = "Displays the version of Ember in use", help = "Use this command to display the version of Ember in use.")
+    @CommandDescription(name = "version", usage = "version", desc = "Displays the version of Ember in use",
+                        help = "Use this command to display the version of Ember in use.")
     @Permissible("game.command.version")
     private void onCommandVersion(CommandSender sender, CommandArguments args) throws CommandException {
         sender.sendMessage("Running Ember version: " + (Game.VERSION.isPresent() ? Game.VERSION.get() : "UNKNOWN"));

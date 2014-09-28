@@ -27,10 +27,10 @@ import com.flowpowered.chat.ChatReceiver;
 import com.flowpowered.events.SimpleEvent;
 import com.flowpowered.permissions.PermissionDomain;
 import com.flowpowered.permissions.PermissionSubject;
-
 import org.obsidianbox.ember.Game;
 
 public abstract class GameEvent extends SimpleEvent {
+
     public final Game game;
 
     public GameEvent(Game game) {
@@ -41,6 +41,7 @@ public abstract class GameEvent extends SimpleEvent {
      * Fired when the {@link org.obsidianbox.ember.Game} starts.
      */
     public static class Start extends GameEvent {
+
         public Start(Game game) {
             super(game);
         }
@@ -50,6 +51,7 @@ public abstract class GameEvent extends SimpleEvent {
      * Fired when the {@link org.obsidianbox.ember.Game} stops.
      */
     public static class Stop extends GameEvent {
+
         public Stop(Game game) {
             super(game);
         }
@@ -60,6 +62,7 @@ public abstract class GameEvent extends SimpleEvent {
      * the message not being sent to the {@link com.flowpowered.chat.ChatReceiver}.
      */
     public static class Chat extends GameEvent {
+
         public final ChatReceiver receiver;
         public final ChatReceiver sender;
         public String message;
@@ -86,6 +89,7 @@ public abstract class GameEvent extends SimpleEvent {
      * passing in true will result in the permission being denied.
      */
     public static class Permission extends GameEvent {
+
         public final PermissionSubject subject;
         public final String permission;
         public final PermissionDomain domain;
@@ -111,6 +115,7 @@ public abstract class GameEvent extends SimpleEvent {
      * Fired at various spots in the {@link org.obsidianbox.ember.Game} loop.
      */
     public static class Tick extends GameEvent {
+
         public final Phase phase;
         public final long dt;
 

@@ -23,25 +23,24 @@
  */
 package org.obsidianbox.ember.player;
 
-import java.util.*;
-
 import com.flowpowered.chat.ChatReceiver;
 import com.flowpowered.commands.CommandArguments;
 import com.flowpowered.commands.CommandException;
 import com.flowpowered.commands.CommandSender;
 import com.flowpowered.permissions.PermissionDomain;
-
 import org.obsidianbox.ember.Game;
 import org.obsidianbox.ember.IGameObject;
-import org.obsidianbox.ember.component.IComponentHolder;
 import org.obsidianbox.ember.event.GameEvent;
 import org.obsidianbox.ember.network.GameSession;
 
-public final class Player implements CommandSender, IComponentHolder<PlayerComponent>, IGameObject {
+import java.util.Collections;
+import java.util.Set;
+
+public final class Player implements CommandSender, IGameObject {
+
     public final Game game;
     public final String name;
     public final GameSession session;
-    private final Set<PlayerComponent> components = new HashSet<>();
 
     public Player(Game game, String name, GameSession session) {
         this.game = game;
@@ -122,16 +121,11 @@ public final class Player implements CommandSender, IComponentHolder<PlayerCompo
     }
 
     @Override
-    public Collection<PlayerComponent> getComponents() {
-        return components;
-    }
-
-    @Override
     public String toString() {
         return "Player{" +
-                "game=" + game +
-                ", name='" + name + '\'' +
-                ", session=" + session +
-                '}';
+               "game=" + game +
+               ", name='" + name + '\'' +
+               ", session=" + session +
+               '}';
     }
 }
