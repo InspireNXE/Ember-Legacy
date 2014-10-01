@@ -75,6 +75,8 @@ shadowJar {
 // License header formatting
 import nl.javadude.gradle.plugins.license.License
 tasks.withType(License).each { licenseTask ->
+    licenseTask.exclude '**/*.frag'
+    licenseTask.exclude '**/*.vert'
     licenseTask.exclude '**/*.xml'
     licenseTask.exclude '**/*.yml'
 }
@@ -86,6 +88,10 @@ license {
     header rootProject.file('HEADER.txt')
     ignoreFailures true
     strictCheck true
+    exclude '**/*.frag'
+    exclude '**/*.vert'
+    exclude '**/*.xml'
+    exclude '**/*.yml'
 }
 
 // JAR manifest configuration
