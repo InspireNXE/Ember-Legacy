@@ -88,10 +88,7 @@ license {
     header rootProject.file('HEADER.txt')
     ignoreFailures true
     strictCheck true
-    exclude '**/*.frag'
-    exclude '**/*.vert'
-    exclude '**/*.xml'
-    exclude '**/*.yml'
+    excludes(["**/*.frag", "**/*.vert", "**/*.xml", "**/*.yml"])
 }
 
 // JAR manifest configuration
