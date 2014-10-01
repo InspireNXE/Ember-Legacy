@@ -28,6 +28,7 @@ import com.flowpowered.networking.session.BasicSession;
 import com.flowpowered.networking.session.PulsingSession;
 import io.netty.channel.ChannelFuture;
 import org.obsidianbox.ember.Game;
+import org.obsidianbox.ember.network.protocol.NullProtocol;
 
 import java.net.SocketAddress;
 
@@ -36,12 +37,14 @@ public class Network extends TickingElement {
     public final Game game;
     protected final GameNetworkClient client;
     protected final GameNetworkServer server;
+    protected final NullProtocol nullProtocol;
 
     public Network(Game game) {
         super("network", 20);
         this.game = game;
         server = new GameNetworkServer(this);
         client = new GameNetworkClient(this);
+        nullProtocol = new NullProtocol(game);
     }
 
     @Override

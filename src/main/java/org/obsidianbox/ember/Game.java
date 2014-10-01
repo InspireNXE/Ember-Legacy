@@ -31,9 +31,11 @@ import org.obsidianbox.ember.console.GameConsole;
 import org.obsidianbox.ember.event.GameEvent;
 import org.obsidianbox.ember.network.Network;
 import org.obsidianbox.ember.plugin.GamePluginManager;
+import org.obsidianbox.ember.renderer.Renderer;
 import org.obsidianbox.ember.universe.material.MaterialManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.spout.renderer.api.GLVersioned;
 
 import java.util.Optional;
 import java.util.concurrent.Semaphore;
@@ -45,6 +47,7 @@ public final class Game extends TickingElement {
     public static final Logger LOGGER = LoggerFactory.getLogger("Ember");
 
     public final Network network;
+    public final Renderer renderer;
     private final Configuration configuration;
     private final Semaphore semaphore = new Semaphore(0);
     private final AtomicBoolean running = new AtomicBoolean(false);
@@ -58,6 +61,7 @@ public final class Game extends TickingElement {
         super("game", 20);
         this.configuration = configuration;
         this.network = new Network(this);
+        this.renderer = new Renderer(GLVersioned.GLVersion.GL30, true);
     }
 
     @Override
@@ -80,6 +84,7 @@ public final class Game extends TickingElement {
         commandManager.create(new Commands(this));
         eventManager.registerEvents(commandManager, commandManager);
         network.start();
+        renderer.start();
         materialManager = new MaterialManager();
         pluginManager = new GamePluginManager(this);
         pluginManager.enable();

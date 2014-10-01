@@ -23,6 +23,8 @@
  */
 package org.obsidianbox.ember;
 
+import org.spout.renderer.lwjgl.LWJGLUtil;
+
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.DirectoryStream;
@@ -41,6 +43,9 @@ public class FileSystem {
     public static final Path WORLDS_PATH = Paths.get("worlds");
     public static final Path CONFIG_PATH = Paths.get("config");
     public static final Path CONFIG_SETTINGS_PATH = Paths.get(CONFIG_PATH.toString(), "settings.yml");
+    public static final Path SHADERS_PATH = Paths.get("shaders");
+    public static final Path SHADERS_GL120_PATH = Paths.get(SHADERS_PATH.toString(), "120");
+    public static final Path SHADERS_GL330_PATH = Paths.get(SHADERS_PATH.toString(), "330");
 
     protected FileSystem() {}
 
@@ -82,5 +87,20 @@ public class FileSystem {
             Game.LOGGER.warn("Worlds directory was not found. Ignore this is this is your first time running Ember. Otherwise, this may be a problem.");
             Files.createDirectory(WORLDS_PATH);
         }
+        if (Files.notExists(SHADERS_PATH)) {
+            Game.LOGGER.warn("Shaders directory was not found. Ignore this is this is your first time running Ember. Otherwise, this may be a problem.");
+            Files.createDirectory(SHADERS_PATH);
+        }
+        if (Files.notExists(SHADERS_GL120_PATH)) {
+            Game.LOGGER.warn("Shaders directory for GL20 was not found. Ignore this is this is your first time running Ember. Otherwise, this may be a problem.");
+            Files.createDirectory(SHADERS_GL120_PATH);
+            //Files.copy(FileSystem.class.getResourceAsStream("/shaders/120"), SHADERS_GL120_PATH);
+        }
+        if (Files.notExists(SHADERS_GL330_PATH)) {
+            Game.LOGGER.warn("Shaders directory for GL3.0 was not found. Ignore this is this is your first time running Ember. Otherwise, this may be a problem.");
+            Files.createDirectory(SHADERS_GL330_PATH);
+            //Files.copy(FileSystem.class.getResourceAsStream("/shaders/330"), SHADERS_GL330_PATH);
+        }
+        LWJGLUtil.deployNatives(null);
     }
 }

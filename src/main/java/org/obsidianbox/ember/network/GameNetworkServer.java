@@ -23,11 +23,18 @@
  */
 package org.obsidianbox.ember.network;
 
+import com.flowpowered.networking.Codec;
+import com.flowpowered.networking.Message;
+import com.flowpowered.networking.MessageHandler;
 import com.flowpowered.networking.NetworkServer;
+import com.flowpowered.networking.exception.UnknownPacketException;
 import com.flowpowered.networking.session.BasicSession;
 import com.flowpowered.networking.session.Session;
+import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
+import io.netty.util.concurrent.Future;
+import io.netty.util.concurrent.GenericFutureListener;
 import org.obsidianbox.ember.Game;
 import org.obsidianbox.ember.event.NetworkEvent;
 
@@ -46,10 +53,12 @@ public final class GameNetworkServer extends NetworkServer {
 
     @Override
     public Session newSession(Channel c) {
-        final GameProtocol protocol = network.game.getEventManager().callEvent(new NetworkEvent.PreSessionCreate(network, c)).protocol;
+        GameProtocol protocol = network.game.getEventManager().callEvent(new NetworkEvent.PreSessionCreate(network, c)).protocol;
         if (protocol == null) {
-            Game.LOGGER.error("No protocol provided for channel [" + c + "], disconnecting...");
-            c.disconnect();
+            protocol = network.nullProtocol;
+            c.disconnect().addListener(future -> {
+                Game.LOGGER.error("No plugin provided a suitable protocol for channel [" + c + "] and therefore has been closed");
+            });
         }
         final GameSession session = new GameSession(network, c, protocol);
         sessions.add(session);
