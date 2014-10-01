@@ -28,9 +28,11 @@ import com.flowpowered.commands.CommandException;
 import com.flowpowered.commands.CommandSender;
 import com.flowpowered.commands.annotated.CommandDescription;
 import com.flowpowered.commands.annotated.Permissible;
+import io.netty.util.concurrent.GenericFutureListener;
 import org.obsidianbox.ember.Game;
 
 import java.net.InetSocketAddress;
+import java.util.concurrent.Future;
 
 public class Commands {
 
@@ -52,7 +54,10 @@ public class Commands {
                                " with active connections will cause those connections to cease.")
     @Permissible("game.command.listen")
     private void onCommandListen(CommandSender sender, CommandArguments args) throws CommandException {
-        game.network.bind(new InetSocketAddress(args.popInteger("address", 25500)));
+        final int port = args.popInteger("port", 25500);
+        final InetSocketAddress address = new InetSocketAddress(port);
+
+        game.network.bind(address);
     }
 
     @CommandDescription(name = "connect", usage = "connect [address] <port>", desc = "Connects to an address",

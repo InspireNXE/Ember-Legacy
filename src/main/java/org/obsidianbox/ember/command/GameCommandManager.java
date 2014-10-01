@@ -42,7 +42,7 @@ public class GameCommandManager extends CommandManager {
         this.game = game;
         final CommandProvider provider = () -> "game";
         setRootCommand(getCommand(provider, "root"));
-        factory = new AnnotatedCommandExecutorFactory(this, provider, game.logger);
+        factory = new AnnotatedCommandExecutorFactory(this, provider, Game.LOGGER);
     }
 
     @EventHandler(order = Order.EARLIEST)
@@ -53,7 +53,7 @@ public class GameCommandManager extends CommandManager {
                 try {
                     game.getConsole().processCommand(rawCommand);
                 } catch (CommandException e) {
-                    game.logger.error("Exception caught processing command: " + rawCommand, e);
+                    Game.LOGGER.error("Exception caught processing command: " + rawCommand, e);
                 }
             }
         }

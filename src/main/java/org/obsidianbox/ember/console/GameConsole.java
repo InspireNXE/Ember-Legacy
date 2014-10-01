@@ -58,7 +58,7 @@ public class GameConsole extends Log4j2JLineConsole implements CommandSender {
     private final GameCommandCallback callback;
 
     public GameConsole(Game game) throws IllegalAccessException {
-        super(new GameCommandCallback(), new GameCommandCompleter(), game.logger, game.getConfiguration().isDebug() ? 10 : -2, System.out, System.in);
+        super(new GameCommandCallback(), new GameCommandCompleter(), Game.LOGGER, game.getConfiguration().isDebug() ? 10 : -2, System.out, System.in);
         this.game = game;
 
         COMMAND_CALLBACK_FIELD.setAccessible(true);
@@ -79,7 +79,7 @@ public class GameConsole extends Log4j2JLineConsole implements CommandSender {
     public void sendMessage(String message) {
         final GameEvent.Chat event = new GameEvent.Chat(game, this, message);
         if (!game.getEventManager().callEvent(event).isCancelled()) {
-            game.logger.info(event.message);
+            Game.LOGGER.info(event.message);
         }
     }
 
@@ -87,7 +87,7 @@ public class GameConsole extends Log4j2JLineConsole implements CommandSender {
     public void sendMessage(ChatReceiver from, String message) {
         final GameEvent.Chat event = new GameEvent.Chat(game, this, from, message);
         if (!game.getEventManager().callEvent(event).isCancelled()) {
-            game.logger.info(event.message);
+            Game.LOGGER.info(event.message);
         }
     }
 
@@ -95,7 +95,7 @@ public class GameConsole extends Log4j2JLineConsole implements CommandSender {
     public void sendMessageRaw(String message, String type) {
         final GameEvent.Chat event = new GameEvent.Chat(game, this, message);
         if (!game.getEventManager().callEvent(event).isCancelled()) {
-            game.logger.info(event.message);
+            Game.LOGGER.info(event.message);
         }
     }
 

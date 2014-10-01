@@ -59,7 +59,7 @@ public final class Player implements CommandSender, IGameObject {
 
     public void disconnect() {
         if (!session.isActive()) {
-            game.logger.error("Player [" + name + "] is still in the game with an inactive session! This could be bad!");
+            Game.LOGGER.error("Player [" + name + "] is still in the game with an inactive session! This could be bad!");
         } else {
             session.disconnect();
         }

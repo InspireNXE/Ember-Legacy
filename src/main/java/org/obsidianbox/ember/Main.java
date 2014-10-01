@@ -34,7 +34,7 @@ import java.nio.file.Paths;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        FileSystem.init();
+        FileSystem.deploy();
         final Configuration configuration = new Configuration(FileSystem.CONFIG_SETTINGS_PATH);
         configuration.load();
         parseArgs(args, configuration);

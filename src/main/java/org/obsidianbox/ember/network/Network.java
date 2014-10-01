@@ -38,7 +38,7 @@ public class Network extends TickingElement {
     protected final GameNetworkServer server;
 
     public Network(Game game) {
-        super("ember - network", 20);
+        super("network", 20);
         this.game = game;
         server = new GameNetworkServer(this);
         client = new GameNetworkClient(this);
@@ -46,7 +46,7 @@ public class Network extends TickingElement {
 
     @Override
     public void onStart() {
-        game.logger.info("Starting network");
+        Game.LOGGER.info("Starting network");
     }
 
     @Override
@@ -59,7 +59,7 @@ public class Network extends TickingElement {
 
     @Override
     public void onStop() {
-        game.logger.info("Stopping network");
+        Game.LOGGER.info("Stopping network");
         client.shutdown();
         server.shutdown();
     }

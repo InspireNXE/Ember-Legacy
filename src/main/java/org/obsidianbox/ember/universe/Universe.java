@@ -39,7 +39,7 @@ public class Universe extends TickingElement {
     private final ConcurrentHashMap<UUID, World> worlds = new ConcurrentHashMap<>();
 
     public Universe(Game game) {
-        super("ember - universe", 20);
+        super("universe", 20);
         this.game = game;
     }
 

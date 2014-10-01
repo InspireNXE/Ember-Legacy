@@ -54,7 +54,7 @@ public final class World extends TickingElement {
     }
 
     protected World(Game game, Plugin plugin, String identifier, WorldGenerator generator, UUID uuid) {
-        super("ember - universe [" + identifier + "]", 20);
+        super("world [" + identifier + "]", 20);
         this.game = game;
         this.plugin = plugin;
         this.identifier = identifier;

@@ -42,8 +42,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public final class Game extends TickingElement {
 
     public static final Optional<String> VERSION = Optional.ofNullable(Game.class.getPackage().getImplementationVersion());
-    public static final Logger logger = LoggerFactory.getLogger("Ember");
-    // Modules
+    public static final Logger LOGGER = LoggerFactory.getLogger("Ember");
+
     public final Network network;
     private final Configuration configuration;
     private final Semaphore semaphore = new Semaphore(0);
@@ -55,18 +55,18 @@ public final class Game extends TickingElement {
     private MaterialManager materialManager;
 
     public Game(Configuration configuration) {
-        super("ember - game", 20);
+        super("game", 20);
         this.configuration = configuration;
         this.network = new Network(this);
     }
 
     @Override
     public void onStart() {
-        logger.info("Starting Ember, please wait a moment");
-        logger.info("Ember is ALPHA software and as such things may not work correctly or at all. Help out the team and " +
+        LOGGER.info("Starting Ember, please wait a moment");
+        LOGGER.info("Ember is ALPHA software and as such things may not work correctly or at all. Help out the team and " +
                     "report all issues to https://github.com/InspireNXE/Ember/issues");
         if (configuration.isDebug()) {
-            logger.info("Running in debug mode");
+            LOGGER.info("Running in debug mode");
         }
 
         running.set(true);
@@ -75,7 +75,7 @@ public final class Game extends TickingElement {
         } catch (IllegalAccessException e) {
             throw new RuntimeException(e);
         }
-        eventManager = new SimpleEventManager(logger);
+        eventManager = new SimpleEventManager(LOGGER);
         commandManager = new GameCommandManager(this);
         commandManager.create(new Commands(this));
         eventManager.registerEvents(commandManager, commandManager);

@@ -29,6 +29,6 @@ import org.obsidianbox.ember.Game;
 public abstract class GameProtocol extends AbstractProtocol {
 
     public GameProtocol(Game game, String name) {
-        super(name, game.logger);
+        super(name, Game.LOGGER);
     }
 }

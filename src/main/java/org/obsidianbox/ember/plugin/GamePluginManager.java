@@ -37,6 +37,7 @@ import org.slf4j.LoggerFactory;
 
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.nio.file.Paths;
 
 public class GamePluginManager extends PluginManager<GameContext> {
 
@@ -44,7 +45,7 @@ public class GamePluginManager extends PluginManager<GameContext> {
     protected final ContextCreator<GameContext> creator;
 
     public GamePluginManager(Game game) {
-        super(game.logger, new GamePluginLoggerFactory());
+        super(Game.LOGGER, new GamePluginLoggerFactory());
         this.game = game;
 
         this.creator = plugin -> new GameContext(game, plugin);
@@ -78,7 +79,7 @@ public class GamePluginManager extends PluginManager<GameContext> {
             try {
                 plugin.enable();
             } catch (Exception e) {
-                game.logger.error("Could not enable plugin [" + plugin.getName() + "]", e);
+                Game.LOGGER.error("Could not enable plugin [" + plugin.getName() + "]", e);
             }
         }
     }
@@ -88,7 +89,7 @@ public class GamePluginManager extends PluginManager<GameContext> {
             try {
                 plugin.disable();
             } catch (Exception e) {
-                game.logger.error("Could not disable plugin [" + plugin.getName() + "]", e);
+                Game.LOGGER.error("Could not disable plugin [" + plugin.getName() + "]", e);
             }
         }
     }

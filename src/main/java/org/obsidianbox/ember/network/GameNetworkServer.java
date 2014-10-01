@@ -28,6 +28,7 @@ import com.flowpowered.networking.session.BasicSession;
 import com.flowpowered.networking.session.Session;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
+import org.obsidianbox.ember.Game;
 import org.obsidianbox.ember.event.NetworkEvent;
 
 import java.net.SocketAddress;
@@ -47,7 +48,7 @@ public final class GameNetworkServer extends NetworkServer {
     public Session newSession(Channel c) {
         final GameProtocol protocol = network.game.getEventManager().callEvent(new NetworkEvent.PreSessionCreate(network, c)).protocol;
         if (protocol == null) {
-            network.game.logger.error("No protocol provided for channel [" + c + "], disconnecting...");
+            Game.LOGGER.error("No protocol provided for channel [" + c + "], disconnecting...");
             c.disconnect();
         }
         final GameSession session = new GameSession(network, c, protocol);
@@ -64,26 +65,23 @@ public final class GameNetworkServer extends NetworkServer {
     @Override
     public ChannelFuture bind(SocketAddress address) {
         if (!network.isRunning()) {
-            throw new IllegalStateException("Attempt made to bind network to address [" + address + "] but network is not running!");
+            Game.LOGGER.warn("Binding to address " + address + " but network thread isn't running. No messages will be processed!");
         }
         return super.bind(address);
     }
 
     @Override
     public void onBindSuccess(SocketAddress address) {
-        network.game.logger.info("Bound to address [" + address + "]. Ready for connections...");
+        Game.LOGGER.info("Bound to address [" + address + "]. Awaiting connections...");
     }
 
     @Override
     public void onBindFailure(SocketAddress address, Throwable t) {
-        network.game.logger.info("Exception caught while binding to address [" + address + "]. Do you have another instance of Ember running?", t);
+        Game.LOGGER.info("Exception caught while binding to address [" + address + "]. Do you have another instance of Ember running?", t);
     }
 
     @Override
     public void shutdown() {
-        if (!network.isRunning()) {
-            throw new IllegalStateException("Attempt made to shutdown binding adapter but network is not running!");
-        }
         sessions.stream().filter(BasicSession::isActive).forEach(BasicSession::disconnect);
         super.shutdown();
     }

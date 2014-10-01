@@ -27,6 +27,7 @@ import com.flowpowered.networking.NetworkClient;
 import com.flowpowered.networking.session.Session;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
+import org.obsidianbox.ember.Game;
 import org.obsidianbox.ember.event.NetworkEvent;
 
 import java.net.SocketAddress;
@@ -44,7 +45,7 @@ public final class GameNetworkClient extends NetworkClient {
     public Session newSession(Channel c) {
         final GameProtocol protocol = network.game.getEventManager().callEvent(new NetworkEvent.PreSessionCreate(network, c)).protocol;
         if (protocol == null) {
-            network.game.logger.error("No protocol provided for channel [" + c + "], disconnecting...");
+            Game.LOGGER.error("No protocol provided for channel [" + c + "], disconnecting...");
             c.disconnect();
         }
         session = new GameSession(network, c, protocol);
@@ -60,7 +61,7 @@ public final class GameNetworkClient extends NetworkClient {
     @Override
     public ChannelFuture connect(SocketAddress address) {
         if (!network.isRunning()) {
-            throw new IllegalStateException("Attempt made to connect to address [" + address + "] but network is not running!");
+            Game.LOGGER.warn("connecting to address " + address + " but network thread isn't running. No messages will be processed!");
         }
         session = null;
         return super.connect(address);
@@ -68,19 +69,16 @@ public final class GameNetworkClient extends NetworkClient {
 
     @Override
     public void onConnectSuccess(SocketAddress address) {
-        network.game.logger.info("Connected to address [" + address + "]");
+        Game.LOGGER.info("Connected to address [" + address + "]");
     }
 
     @Override
     public void onConnectFailure(SocketAddress address, Throwable t) {
-        network.game.logger.error("Exception caught while connecting to address [" + address + "]", t);
+        Game.LOGGER.error("Exception caught while connecting to address [" + address + "]", t);
     }
 
     @Override
     public void shutdown() {
-        if (!network.isRunning()) {
-            throw new IllegalStateException("Attempt made to shutdown listening adapter but network is not running!");
-        }
         if (session != null) {
             session.disconnect();
         }
