@@ -1,57 +1,15 @@
-// Default tasks
-defaultTasks 'licenseFormat', 'clean', 'build', 'shadowJar'
-
-// Apply plugin
-apply plugin: 'application'
-apply plugin: 'cobertura'
-apply plugin: 'com.github.johnrengelman.shadow'
-apply plugin: 'coveralls'
-apply plugin: 'java'
-apply plugin: 'license'
-apply plugin: 'maven'
-apply plugin: 'signing'
-
-// Basic project information
-group = 'org.obsidianbox'
-archivesBaseName = 'ember'
-version = '1.0.0-SNAPSHOT'
-mainClassName = 'org.obsidianbox.ember.Main'
-
-// Java version target/source compatibility
-sourceCompatibility = '1.8'
-targetCompatibility = '1.8'
-
-// Extended project information
-ext.projectName = 'Ember'
-ext.inceptionYear = '2014'
-ext.currentYear = '2014'
-ext.packaging = 'jar'
-ext.url = 'http://obsidianbox.org'
-ext.description = 'Ember is a voxel engine, built for Java, developed as a hobby project to tackle the unique challenges associated with game development'
-ext.organization = 'ObsidianBox'
-
-// Define variables
-ext.buildNumber = project.hasProperty("buildNumber") ? buildNumber : '0'
-ext.ciSystem = project.hasProperty("ciSystem") ? ciSystem : 'unknown'
-ext.commit = project.hasProperty("commit") ? commit : 'unknown'
-
-// Gradle repositories and dependencies
-buildscript {
-    repositories {
-        mavenCentral()
-        maven {
-            name = 'sonatype-nexus-public'
-            url = 'https://oss.sonatype.org/content/repositories/public/'
-        }
-        jcenter()
-    }
-    dependencies {
-        classpath 'nl.javadude.gradle.plugins:license-gradle-plugin:0.9.0'
-        classpath 'net.saliman:gradle-cobertura-plugin:2.2.4'
-        classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:0.5.0'
-        classpath 'com.github.jengelman.gradle.plugins:shadow:1.0.2'
-    }
+// Gradle plugins
+plugins {
+    id "application"
+    id "com.github.hierynomus.license" version "0.11.0"
+    id "com.github.johnrengelman.shadow" version "1.1.2"
+    id "java"
+    id "maven"
+    id "signing"
 }
+
+// Gradle default tasks
+defaultTasks 'licenseFormat', 'clean', 'build', 'shadowJar'
 
 // Project repositories
 repositories {
@@ -65,25 +23,53 @@ repositories {
 
 // Project dependencies
 dependencies {
-    compile 'com.flowpowered:flow-chat-commands:0.1.0-SNAPSHOT'
+    compile 'com.flowpowered:flow-cerealization:0.1.0-SNAPSHOT'
+    compile 'com.flowpowered:flow-chat:0.1.0-SNAPSHOT'
+    compile 'com.flowpowered:flow-commands:0.1.0-SNAPSHOT'
     compile 'com.flowpowered:flow-commons:0.1.0-SNAPSHOT'
     compile 'com.flowpowered:flow-events:0.1.0-SNAPSHOT'
     compile 'com.flowpowered:flow-plugins:0.1.0-SNAPSHOT'
     compile 'com.flowpowered:flow-math:0.1.0-SNAPSHOT'
     compile 'com.flowpowered:flow-networking:1.0.0-SNAPSHOT'
+    compile 'com.flowpowered:flow-render:0.1.0-SNAPSHOT'
     compile 'com.github.wolf480pl:jline-log4j2-appender:1.0.0-SNAPSHOT'
     compile 'net.sf.jopt-simple:jopt-simple:4.6'
-    compile 'org.apache.logging.log4j:log4j-api:2.0-rc2'
-    compile 'org.apache.logging.log4j:log4j-core:2.0-rc2'
-    compile 'org.apache.logging.log4j:log4j-slf4j-impl:2.0-rc2'
+    compile 'org.apache.logging.log4j:log4j-api:2.0.1'
+    compile 'org.apache.logging.log4j:log4j-core:2.0.1'
+    compile 'org.apache.logging.log4j:log4j-slf4j-impl:2.0.1'
     compile 'org.spout:react:1.0.0-SNAPSHOT'
     compile 'junit:junit:4.11'
 }
+
+// Basic project information
+group = 'org.obsidianbox'
+archivesBaseName = 'ember'
+version = '1.0.0-SNAPSHOT'
+mainClassName = 'org.obsidianbox.ember.Main'
+ext.inceptionYear = '2014'
+ext.currentYear = '2014'
+ext.packaging = 'jar'
+
+// Extended project information
+ext.projectName = 'Ember'
+ext.description = 'Ember is a voxel engine, built for Java, developed as a hobby project to tackle the unique challenges associated with game development'
+ext.url = 'http://obsidianbox.org'
+ext.organization = 'ObsidianBox'
+
+// Java version target/source compatibility
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
+
+// Compilation variables
+ext.buildNumber = project.hasProperty("buildNumber") ? buildNumber : '0'
+ext.ciSystem = project.hasProperty("ciSystem") ? ciSystem : 'unknown'
+ext.commit = project.hasProperty("commit") ? commit : 'unknown'
 
 // Include dependencies in the final JAR
 shadowJar {
     classifier = ''
     destinationDir = file("build/distributions")
+    exclude 'shaders/'
 }
 
 // License header formatting
@@ -92,7 +78,6 @@ tasks.withType(License).each { licenseTask ->
     licenseTask.exclude '**/*.xml'
     licenseTask.exclude '**/*.yml'
 }
-
 license {
     ext.name = project.name
     ext.organization = organization
@@ -111,6 +96,3 @@ jar.manifest.mainAttributes(
         "Implementation-Title": name,
         "Implementation-Version": version + "+" + ciSystem + "-b" + buildNumber + ".git-" + commit,
         "Implementation-Vendor": url)
-
-// Coveralls report configuration
-cobertura.coverageFormats = [ 'html', 'xml' ]
