@@ -69,17 +69,9 @@ ext.commit = project.hasProperty("commit") ? commit : 'unknown'
 shadowJar {
     classifier = ''
     destinationDir = file("build/distributions")
-    exclude 'shaders/'
 }
 
 // License header formatting
-import nl.javadude.gradle.plugins.license.License
-tasks.withType(License).each { licenseTask ->
-    licenseTask.exclude '**/*.frag'
-    licenseTask.exclude '**/*.vert'
-    licenseTask.exclude '**/*.xml'
-    licenseTask.exclude '**/*.yml'
-}
 license {
     ext.name = project.name
     ext.organization = organization
