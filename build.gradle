@@ -8,9 +8,6 @@ plugins {
     id "signing"
 }
 
-// Gradle default tasks
-defaultTasks 'licenseFormat', 'clean', 'build', 'shadowJar'
-
 // Project repositories
 repositories {
     mavenLocal()
@@ -40,6 +37,9 @@ dependencies {
     compile 'org.spout:react:1.0.0-SNAPSHOT'
     compile 'junit:junit:4.11'
 }
+
+// Gradle default tasks
+defaultTasks 'licenseFormat', 'clean', 'build', 'shadowJar'
 
 // Basic project information
 group = 'org.obsidianbox'
