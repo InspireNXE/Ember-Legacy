@@ -67,9 +67,9 @@ public final class Ember extends TickingElement implements Game {
     public Ember(Configuration configuration) {
         super("game", 20);
         this.configuration = configuration;
-        this.universe = new UniverseImpl(this);
         this.network = new Network(this);
         this.renderer = new Renderer(GLVersioned.GLVersion.GL30, true);
+        this.universe = new UniverseImpl(this);
     }
 
     @Override
@@ -91,9 +91,10 @@ public final class Ember extends TickingElement implements Game {
         commandManager = new GameCommandManager(this);
         commandManager.create(new Commands(this));
         eventManager.registerEvents(commandManager, commandManager);
+        materialStore = new MaterialStoreImpl();
         network.start();
         renderer.start();
-        materialStore = new MaterialStoreImpl();
+        universe.start();
         pluginManager = new GamePluginManager(this);
         pluginManager.enable();
         eventManager.callEvent(new GameEvent.Start(this));

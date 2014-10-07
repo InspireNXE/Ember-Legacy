@@ -93,11 +93,12 @@ public class Renderer extends TickingElement {
         }
         this.graph = new RenderGraph(context, FileSystem.SHADERS_GL330_PATH.toString());
         this.cullBackFaces = cullBackFaces;
-        constructRenderer();
     }
 
     @Override
     public void onStart() {
+        Ember.LOGGER.info("Starting renderer");
+        constructRenderer();
     }
 
     @Override

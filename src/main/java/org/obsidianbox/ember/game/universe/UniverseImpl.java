@@ -46,7 +46,7 @@ public class UniverseImpl extends TickingElement implements Universe {
 
     @Override
     public void onStart() {
-
+        Ember.LOGGER.info("Starting universe");
     }
 
     @Override
