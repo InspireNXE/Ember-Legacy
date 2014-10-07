@@ -21,40 +21,26 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.obsidianbox.ember;
+package org.obsidianbox.ember.game;
 
-import static java.util.Arrays.asList;
+import com.flowpowered.cerealization.config.yaml.YamlConfiguration;
 
-import joptsimple.OptionParser;
-import joptsimple.OptionSet;
+import java.nio.file.Path;
 
-public class Main {
-    public static void main(String[] args) throws Exception {
-        FileSystem.deploy();
-        final Configuration configuration = new Configuration(FileSystem.CONFIG_SETTINGS_PATH);
-        configuration.load();
-        parseArgs(args, configuration);
-        final Ember game = new Ember(configuration);
-        game.open();
+public class Configuration extends YamlConfiguration {
+
+    private static final String DEBUG_KEY = "debug";
+
+    public Configuration(Path configPath) {
+        super(configPath.toFile());
     }
 
-    public static void parseArgs(String[] args, Configuration configuration) throws Exception {
-        final OptionParser parser = new OptionParser() {
-            {
-                acceptsAll(asList("l", "listen"))
-                        .withOptionalArg()
-                        .ofType(String.class);
-                acceptsAll(asList("p", "port"))
-                        .withOptionalArg()
-                        .ofType(Integer.class);
-                acceptsAll(asList("debug"))
-                        .withOptionalArg();
-            }
-        };
+    public boolean isDebug() {
+        return getChild(DEBUG_KEY).getBoolean();
+    }
 
-        final OptionSet options = parser.parse(args);
-        if (options.has("debug")) {
-            configuration.setDebug(true);
-        }
+    protected Configuration setDebug(boolean debug) {
+        getChild(DEBUG_KEY, true).setValue(Boolean.class, debug);
+        return this;
     }
 }

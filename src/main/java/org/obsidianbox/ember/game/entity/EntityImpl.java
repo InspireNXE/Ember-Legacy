@@ -23,27 +23,30 @@
  */
 package org.obsidianbox.ember.game.entity;
 
-import org.obsidianbox.ember.Ember;
+import org.obsidianbox.ember.api.physics.Entity;
+import org.obsidianbox.ember.game.Ember;
 import org.obsidianbox.ember.api.GameObject;
 import org.obsidianbox.ember.api.physics.Transform;
 import org.obsidianbox.ember.api.physics.TransformProvider;
+import org.spout.physics.body.RigidBody;
 
 import java.util.Optional;
 import java.util.UUID;
 
-public final class Entity implements GameObject {
+public final class EntityImpl implements Entity {
 
     public final Ember game;
     public final UUID uuid;
     public final int id;
     private Optional<TransformProvider> provider;
+    private Optional<RigidBody> physics;
     private boolean isSavable = false;
 
-    public Entity(Ember game, int id) {
+    public EntityImpl(Ember game, int id) {
         this(game, UUID.randomUUID(), id);
     }
 
-    protected Entity(Ember game, UUID uuid, int id) {
+    protected EntityImpl(Ember game, UUID uuid, int id) {
         this.game = game;
         this.uuid = uuid;
         this.id = id;
@@ -64,12 +67,25 @@ public final class Entity implements GameObject {
         return game;
     }
 
+    @Override
     public Optional<Transform> getTransform() {
         return !provider.isPresent() ? Optional.empty() : provider.get().getTransform();
     }
 
+    @Override
     public void setTransformProvider(TransformProvider provider) {
         this.provider = Optional.ofNullable(provider);
+    }
+
+    @Override
+    public Optional<RigidBody> getPhysicsBody() {
+        return physics;
+    }
+
+    public Optional<RigidBody> setPhysicsBody(RigidBody physics) {
+        final Optional<RigidBody> previous = this.physics;
+        this.physics = Optional.ofNullable(physics);
+        return previous;
     }
 
     public boolean isSavable() {
@@ -97,6 +113,6 @@ public final class Entity implements GameObject {
 
     @Override
     public boolean equals(Object o) {
-        return this == o || !(o == null || getClass() != o.getClass()) && uuid.equals(((Entity) o).uuid);
+        return this == o || !(o == null || getClass() != o.getClass()) && uuid.equals(((EntityImpl) o).uuid);
     }
 }

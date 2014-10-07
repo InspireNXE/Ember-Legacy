@@ -27,7 +27,7 @@ import com.flowpowered.chat.ChatReceiver;
 import com.flowpowered.events.SimpleEvent;
 import com.flowpowered.permissions.PermissionDomain;
 import com.flowpowered.permissions.PermissionSubject;
-import org.obsidianbox.ember.Ember;
+import org.obsidianbox.ember.game.Ember;
 
 public abstract class GameEvent extends SimpleEvent {
 

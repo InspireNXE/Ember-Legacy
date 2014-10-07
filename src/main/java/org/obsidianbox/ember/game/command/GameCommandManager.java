@@ -30,7 +30,7 @@ import com.flowpowered.commands.CommandProvider;
 import com.flowpowered.commands.annotated.AnnotatedCommandExecutorFactory;
 import com.flowpowered.events.EventHandler;
 import com.flowpowered.events.Order;
-import org.obsidianbox.ember.Ember;
+import org.obsidianbox.ember.game.Ember;
 import org.obsidianbox.ember.game.event.GameEvent;
 
 public class GameCommandManager extends CommandManager {

@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.obsidianbox.ember.util;
+package org.obsidianbox.ember.api.util;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -37,6 +37,12 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
+/**
+ * Based off of the work by Amaranth (Travis Watkins).
+ *
+ * TODO Verify permissive license with him
+ * @param <V>
+ */
 @SuppressWarnings("unchecked")
 public class LongObjectHashMap<V> implements Cloneable, Serializable {
 

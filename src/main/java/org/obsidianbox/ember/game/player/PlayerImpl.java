@@ -26,33 +26,34 @@ package org.obsidianbox.ember.game.player;
 import com.flowpowered.chat.ChatReceiver;
 import com.flowpowered.commands.CommandArguments;
 import com.flowpowered.commands.CommandException;
-import com.flowpowered.commands.CommandSender;
 import com.flowpowered.permissions.PermissionDomain;
-import org.obsidianbox.ember.Ember;
-import org.obsidianbox.ember.api.GameObject;
+import org.obsidianbox.ember.api.network.Session;
+import org.obsidianbox.ember.api.player.Player;
+import org.obsidianbox.ember.game.Ember;
 import org.obsidianbox.ember.game.event.GameEvent;
 import org.obsidianbox.ember.game.network.GameSession;
 
 import java.util.Collections;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
-public final class Player implements CommandSender, GameObject {
+public final class PlayerImpl implements Player {
 
     public final Ember game;
     public final String name;
-    public final GameSession session;
+    public final Optional<Session> session;
     public final UUID uuid;
     public final int id;
 
-    public Player(Ember game, String name, GameSession session, int id) {
+    public PlayerImpl(Ember game, String name, GameSession session, int id) {
         this(game, name, session, UUID.randomUUID(), id);
     }
 
-    public Player(Ember game, String name, GameSession session, UUID uuid, int id) {
+    public PlayerImpl(Ember game, String name, GameSession session, UUID uuid, int id) {
         this.game = game;
         this.name = name;
-        this.session = session;
+        this.session = Optional.ofNullable(session);
         this.uuid = uuid;
         this.id = id;
     }
@@ -72,15 +73,16 @@ public final class Player implements CommandSender, GameObject {
         return game;
     }
 
-    public GameSession getSession() {
+    @Override
+    public Optional<Session> getSession() {
         return session;
     }
 
     public void disconnect() {
-        if (!session.isActive()) {
+        if (!((GameSession) session.get()).isActive()) {
             Ember.LOGGER.error("Player [" + name + "] is still in the game with an inactive session! This could be bad!");
         } else {
-            session.disconnect();
+            session.get().disconnect();
         }
     }
 
@@ -141,7 +143,7 @@ public final class Player implements CommandSender, GameObject {
 
     @Override
     public boolean equals(Object o) {
-        return this == o || !(o == null || getClass() != o.getClass()) && uuid.equals(((Player) o).uuid);
+        return this == o || !(o == null || getClass() != o.getClass()) && uuid.equals(((PlayerImpl) o).uuid);
     }
 
     @Override

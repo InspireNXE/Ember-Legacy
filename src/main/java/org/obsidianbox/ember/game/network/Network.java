@@ -27,7 +27,7 @@ import com.flowpowered.commons.ticking.TickingElement;
 import com.flowpowered.networking.session.BasicSession;
 import com.flowpowered.networking.session.PulsingSession;
 import io.netty.channel.ChannelFuture;
-import org.obsidianbox.ember.Ember;
+import org.obsidianbox.ember.game.Ember;
 import org.obsidianbox.ember.game.network.protocol.NullProtocol;
 
 import java.net.SocketAddress;

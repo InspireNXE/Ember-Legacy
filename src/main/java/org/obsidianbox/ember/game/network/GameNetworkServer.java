@@ -28,7 +28,7 @@ import com.flowpowered.networking.session.BasicSession;
 import com.flowpowered.networking.session.Session;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
-import org.obsidianbox.ember.Ember;
+import org.obsidianbox.ember.game.Ember;
 import org.obsidianbox.ember.game.event.NetworkEvent;
 
 import java.net.SocketAddress;

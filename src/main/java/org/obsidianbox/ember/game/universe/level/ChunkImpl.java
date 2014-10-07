@@ -28,7 +28,7 @@ import org.obsidianbox.ember.api.universe.level.Chunk;
 import org.obsidianbox.ember.api.universe.level.Location;
 import org.obsidianbox.ember.api.universe.material.Material;
 import org.obsidianbox.ember.game.universe.material.MaterialStoreImpl;
-import org.obsidianbox.ember.util.atomic.AtomicPaletteStringStore;
+import org.obsidianbox.ember.api.util.atomic.AtomicPaletteStringStore;
 
 import java.util.Optional;
 

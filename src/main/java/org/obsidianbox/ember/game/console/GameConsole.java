@@ -32,7 +32,7 @@ import com.flowpowered.commons.console.JLineConsole;
 import com.flowpowered.commons.console.Log4j2JLineConsole;
 import com.flowpowered.permissions.PermissionDomain;
 import jline.console.completer.Completer;
-import org.obsidianbox.ember.Ember;
+import org.obsidianbox.ember.game.Ember;
 import org.obsidianbox.ember.game.event.GameEvent;
 
 import java.lang.reflect.Field;

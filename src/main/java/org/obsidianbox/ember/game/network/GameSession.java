@@ -28,11 +28,13 @@ import com.flowpowered.networking.MessageHandler;
 import com.flowpowered.networking.protocol.AbstractProtocol;
 import com.flowpowered.networking.session.PulsingSession;
 import io.netty.channel.Channel;
+import org.obsidianbox.ember.api.network.Session;
 import org.obsidianbox.ember.game.event.NetworkEvent;
 
-public final class GameSession extends PulsingSession {
+public final class GameSession extends PulsingSession implements Session {
 
     private final Network network;
+    private String identifier;
 
     public GameSession(Network network, Channel channel, AbstractProtocol protocol) {
         super(channel, protocol);
@@ -68,5 +70,14 @@ public final class GameSession extends PulsingSession {
     @Override
     public void onHandlerThrowable(Message message, MessageHandler<?, ?> handle, Throwable throwable) {
         getLogger().warn("Exception caught handling message [" + message + "] using handler [" + handle + "]", throwable);
+    }
+
+    @Override
+    public String getIdentifier() {
+        return identifier;
+    }
+
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
     }
 }

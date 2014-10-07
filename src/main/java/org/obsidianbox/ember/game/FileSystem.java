@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.obsidianbox.ember;
+package org.obsidianbox.ember.game;
 
 import org.spout.renderer.lwjgl.LWJGLUtil;
 

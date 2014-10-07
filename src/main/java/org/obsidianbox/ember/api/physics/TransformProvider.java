@@ -23,14 +23,14 @@
  */
 package org.obsidianbox.ember.api.physics;
 
-import org.obsidianbox.ember.game.entity.Entity;
+import org.obsidianbox.ember.game.entity.EntityImpl;
 
 import java.util.Optional;
 
 /**
  * Specifies an object that can provide a {@link Transform}
  *
- * Used in physics to give {@link Entity}s their transforms (but can have uses elsewhere)
+ * Used in physics to give {@link EntityImpl}s their transforms (but can have uses elsewhere)
  */
 public interface TransformProvider {
 

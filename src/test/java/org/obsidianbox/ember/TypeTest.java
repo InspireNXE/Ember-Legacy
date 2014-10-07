@@ -29,7 +29,7 @@ import static org.junit.Assert.assertTrue;
 import com.flowpowered.commons.BitSize;
 import com.flowpowered.commons.StringToUniqueIntegerMap;
 import org.junit.Test;
-import org.obsidianbox.ember.util.atomic.AtomicPaletteStringStore;
+import org.obsidianbox.ember.api.util.atomic.AtomicPaletteStringStore;
 
 public class TypeTest {
 

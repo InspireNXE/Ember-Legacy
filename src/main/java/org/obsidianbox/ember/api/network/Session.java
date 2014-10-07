@@ -21,26 +21,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.obsidianbox.ember;
+package org.obsidianbox.ember.api.network;
 
-import com.flowpowered.cerealization.config.yaml.YamlConfiguration;
-
-import java.nio.file.Path;
-
-public class Configuration extends YamlConfiguration {
-
-    private static final String DEBUG_KEY = "debug";
-
-    public Configuration(Path configPath) {
-        super(configPath.toFile());
-    }
-
-    public boolean isDebug() {
-        return getChild(DEBUG_KEY).getBoolean();
-    }
-
-    protected Configuration setDebug(boolean debug) {
-        getChild(DEBUG_KEY, true).setValue(Boolean.class, debug);
-        return this;
-    }
+public interface Session extends com.flowpowered.networking.session.Session {
+    String getIdentifier();
 }

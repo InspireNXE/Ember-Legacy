@@ -28,7 +28,7 @@ import com.flowpowered.commands.CommandException;
 import com.flowpowered.commands.CommandSender;
 import com.flowpowered.commands.annotated.CommandDescription;
 import com.flowpowered.commands.annotated.Permissible;
-import org.obsidianbox.ember.Ember;
+import org.obsidianbox.ember.game.Ember;
 
 import java.net.InetSocketAddress;
 

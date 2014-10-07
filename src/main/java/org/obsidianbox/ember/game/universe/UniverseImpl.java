@@ -25,7 +25,7 @@ package org.obsidianbox.ember.game.universe;
 
 import com.flowpowered.commons.ticking.TickingElement;
 import com.flowpowered.plugins.Plugin;
-import org.obsidianbox.ember.Ember;
+import org.obsidianbox.ember.game.Ember;
 import org.obsidianbox.ember.api.universe.Universe;
 import org.obsidianbox.ember.game.event.WorldEvent;
 import org.obsidianbox.ember.api.universe.generator.WorldGenerator;

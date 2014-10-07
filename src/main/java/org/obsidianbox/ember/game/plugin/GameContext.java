@@ -25,7 +25,7 @@ package org.obsidianbox.ember.game.plugin;
 
 import com.flowpowered.plugins.Context;
 import com.flowpowered.plugins.Plugin;
-import org.obsidianbox.ember.Ember;
+import org.obsidianbox.ember.game.Ember;
 
 public class GameContext extends Context {
 

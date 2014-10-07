@@ -21,17 +21,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.obsidianbox.ember.game.event;
+package org.obsidianbox.ember.api.player;
 
-import org.obsidianbox.ember.game.Ember;
-import org.obsidianbox.ember.game.entity.EntityImpl;
+import com.flowpowered.commands.CommandSender;
+import org.obsidianbox.ember.api.GameObject;
+import org.obsidianbox.ember.api.network.Session;
 
-public abstract class EntityEvent extends GameEvent {
+import java.util.Optional;
 
-    public final EntityImpl entity;
-
-    public EntityEvent(Ember game, EntityImpl entity) {
-        super(game);
-        this.entity = entity;
-    }
+public interface Player extends GameObject, CommandSender {
+    Optional<Session> getSession();
 }

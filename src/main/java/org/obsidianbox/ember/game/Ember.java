@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.obsidianbox.ember;
+package org.obsidianbox.ember.game;
 
 import com.flowpowered.commons.ticking.TickingElement;
 import com.flowpowered.events.SimpleEventManager;

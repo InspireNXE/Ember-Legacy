@@ -21,18 +21,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.obsidianbox.ember.util.atomic;
+package org.obsidianbox.ember.api.util.atomic;
 
 import com.flowpowered.commons.BitSize;
 import com.flowpowered.commons.StringToUniqueIntegerMap;
 import com.flowpowered.math.vector.Vector3f;
 import com.flowpowered.math.vector.Vector3i;
-import org.obsidianbox.ember.util.ITypeStore;
+import org.obsidianbox.ember.api.util.ITypeStore;
 
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicIntegerArray;
 
+/**
+ * TODO StringToUniqueIntegerMap isn't atomic, needs to be
+ *
+ * TODO Need to make accessing parts of this atomic...
+ */
 public class AtomicPaletteStringStore implements ITypeStore<String> {
 
     private final BitSize bits;

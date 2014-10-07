@@ -29,8 +29,8 @@ import com.flowpowered.plugins.PluginLoggerFactory;
 import com.flowpowered.plugins.PluginManager;
 import com.flowpowered.plugins.annotated.AnnotatedPluginLoader;
 import com.flowpowered.plugins.simple.SimplePluginLoader;
-import org.obsidianbox.ember.Ember;
-import org.obsidianbox.ember.FileSystem;
+import org.obsidianbox.ember.game.Ember;
+import org.obsidianbox.ember.game.FileSystem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -28,7 +28,7 @@ import com.flowpowered.networking.Message;
 import com.flowpowered.networking.MessageHandler;
 import com.flowpowered.networking.exception.UnknownPacketException;
 import io.netty.buffer.ByteBuf;
-import org.obsidianbox.ember.Ember;
+import org.obsidianbox.ember.game.Ember;
 import org.obsidianbox.ember.game.network.GameProtocol;
 
 import java.io.IOException;

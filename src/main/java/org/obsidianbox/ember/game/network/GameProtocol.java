@@ -24,7 +24,7 @@
 package org.obsidianbox.ember.game.network;
 
 import com.flowpowered.networking.protocol.AbstractProtocol;
-import org.obsidianbox.ember.Ember;
+import org.obsidianbox.ember.game.Ember;
 
 public abstract class GameProtocol extends AbstractProtocol {
 

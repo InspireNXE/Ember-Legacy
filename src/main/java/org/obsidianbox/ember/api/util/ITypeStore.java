@@ -21,17 +21,39 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.obsidianbox.ember.game.event;
+package org.obsidianbox.ember.api.util;
 
-import org.obsidianbox.ember.game.Ember;
-import org.obsidianbox.ember.game.entity.EntityImpl;
+import com.flowpowered.math.vector.Vector3f;
+import com.flowpowered.math.vector.Vector3i;
 
-public abstract class EntityEvent extends GameEvent {
+import java.util.Optional;
 
-    public final EntityImpl entity;
+/**
+ * Stores a {@link T} at a x, y, z
+ */
+public interface ITypeStore<T> {
 
-    public EntityEvent(Ember game, EntityImpl entity) {
-        super(game);
-        this.entity = entity;
-    }
+    public Optional<T> get(int x, int y, int z);
+
+    public Optional<T> get(Vector3i position);
+
+    public Optional<T> get(Vector3f position);
+
+    public Optional<T> getAndSet(int x, int y, int z, T value);
+
+    public Optional<T> getAndSet(Vector3i position, T value);
+
+    public Optional<T> getAndSet(Vector3f position, T value);
+
+    public boolean set(int x, int y, int z, T value);
+
+    public boolean set(Vector3i position, T value);
+
+    public boolean set(Vector3f position, T value);
+
+    public boolean isUniform();
+
+    public boolean isDirty();
+
+    public boolean setDirty(boolean dirty);
 }

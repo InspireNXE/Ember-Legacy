@@ -21,17 +21,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.obsidianbox.ember.game.event;
+package org.obsidianbox.ember.api.physics;
 
-import org.obsidianbox.ember.game.Ember;
-import org.obsidianbox.ember.game.entity.EntityImpl;
+import org.obsidianbox.ember.api.GameObject;
+import org.spout.physics.body.RigidBody;
 
-public abstract class EntityEvent extends GameEvent {
+import java.util.Optional;
 
-    public final EntityImpl entity;
+public interface Entity extends GameObject {
+    Optional<Transform> getTransform();
 
-    public EntityEvent(Ember game, EntityImpl entity) {
-        super(game);
-        this.entity = entity;
-    }
+    void setTransformProvider(TransformProvider provider);
+
+    /**
+     * TODO Wrap this to prevent API access?
+     * @return
+     */
+    Optional<RigidBody> getPhysicsBody();
 }

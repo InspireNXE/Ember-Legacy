@@ -23,7 +23,7 @@
  */
 package org.obsidianbox.ember.game.event;
 
-import org.obsidianbox.ember.Ember;
+import org.obsidianbox.ember.game.Ember;
 import org.obsidianbox.ember.game.universe.level.WorldImpl;
 
 public abstract class WorldEvent extends GameEvent {

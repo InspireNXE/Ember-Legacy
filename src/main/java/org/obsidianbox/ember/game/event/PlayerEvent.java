@@ -23,21 +23,21 @@
  */
 package org.obsidianbox.ember.game.event;
 
-import org.obsidianbox.ember.Ember;
-import org.obsidianbox.ember.game.player.Player;
+import org.obsidianbox.ember.game.Ember;
+import org.obsidianbox.ember.game.player.PlayerImpl;
 
 public abstract class PlayerEvent extends GameEvent {
 
-    public final Player player;
+    public final PlayerImpl player;
 
-    public PlayerEvent(Ember game, Player player) {
+    public PlayerEvent(Ember game, PlayerImpl player) {
         super(game);
         this.player = player;
     }
 
     public static class Login extends PlayerEvent {
 
-        public Login(Ember game, Player player) {
+        public Login(Ember game, PlayerImpl player) {
             super(game, player);
         }
     }
