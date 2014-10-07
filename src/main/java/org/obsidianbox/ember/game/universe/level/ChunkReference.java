@@ -21,40 +21,42 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.obsidianbox.ember;
+package org.obsidianbox.ember.game.universe.level;
 
-import static java.util.Arrays.asList;
+import org.obsidianbox.ember.api.universe.level.Chunk;
+import org.obsidianbox.ember.api.universe.level.Location;
 
-import joptsimple.OptionParser;
-import joptsimple.OptionSet;
+import java.lang.ref.WeakReference;
+import java.util.Optional;
 
-public class Main {
-    public static void main(String[] args) throws Exception {
-        FileSystem.deploy();
-        final Configuration configuration = new Configuration(FileSystem.CONFIG_SETTINGS_PATH);
-        configuration.load();
-        parseArgs(args, configuration);
-        final Ember game = new Ember(configuration);
-        game.open();
+public final class ChunkReference {
+
+    private final Location location;
+    private WeakReference<Chunk> reference;
+
+    public ChunkReference(Chunk referent) {
+        reference = new WeakReference<>(referent);
+        location = referent.getLocation();
     }
 
-    public static void parseArgs(String[] args, Configuration configuration) throws Exception {
-        final OptionParser parser = new OptionParser() {
-            {
-                acceptsAll(asList("l", "listen"))
-                        .withOptionalArg()
-                        .ofType(String.class);
-                acceptsAll(asList("p", "port"))
-                        .withOptionalArg()
-                        .ofType(Integer.class);
-                acceptsAll(asList("debug"))
-                        .withOptionalArg();
-            }
-        };
-
-        final OptionSet options = parser.parse(args);
-        if (options.has("debug")) {
-            configuration.setDebug(true);
+    protected void setReference(ChunkImpl chunk) {
+        if (location != chunk.location) {
+            throw new RuntimeException("Attempted to update chunk reference with incorrect location!");
         }
+        reference = new WeakReference<>(chunk);
+    }
+
+    public Optional<Chunk> getChunk() {
+        return Optional.ofNullable(reference.get());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return this == o || !(o == null || getClass() != o.getClass()) && location.equals(((ChunkReference) o).location);
+    }
+
+    @Override
+    public int hashCode() {
+        return location.hashCode();
     }
 }

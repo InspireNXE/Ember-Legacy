@@ -21,40 +21,28 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.obsidianbox.ember;
+package org.obsidianbox.ember.api;
 
-import static java.util.Arrays.asList;
+import java.util.UUID;
 
-import joptsimple.OptionParser;
-import joptsimple.OptionSet;
+public interface GameObject {
 
-public class Main {
-    public static void main(String[] args) throws Exception {
-        FileSystem.deploy();
-        final Configuration configuration = new Configuration(FileSystem.CONFIG_SETTINGS_PATH);
-        configuration.load();
-        parseArgs(args, configuration);
-        final Ember game = new Ember(configuration);
-        game.open();
-    }
+    /**
+     * Gets the {@link UUID} of this game object. Guaranteed to be unique.
+     * @return The uuid
+     */
+    UUID getUUID();
 
-    public static void parseArgs(String[] args, Configuration configuration) throws Exception {
-        final OptionParser parser = new OptionParser() {
-            {
-                acceptsAll(asList("l", "listen"))
-                        .withOptionalArg()
-                        .ofType(String.class);
-                acceptsAll(asList("p", "port"))
-                        .withOptionalArg()
-                        .ofType(Integer.class);
-                acceptsAll(asList("debug"))
-                        .withOptionalArg();
-            }
-        };
+    /**
+     * Gets the id represented as an integer of this game object. Not guaranteed to be unique
+     * and can change between game sessions.
+     * @return The id
+     */
+    int getID();
 
-        final OptionSet options = parser.parse(args);
-        if (options.has("debug")) {
-            configuration.setDebug(true);
-        }
-    }
+    /**
+     * Provides easy access to the {@link Game} object.
+     * @return The game
+     */
+    Game getGame();
 }

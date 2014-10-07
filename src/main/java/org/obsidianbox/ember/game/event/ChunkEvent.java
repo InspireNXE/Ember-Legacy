@@ -21,40 +21,32 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.obsidianbox.ember;
+package org.obsidianbox.ember.game.event;
 
-import static java.util.Arrays.asList;
+import org.obsidianbox.ember.Ember;
+import org.obsidianbox.ember.game.universe.level.ChunkImpl;
+import org.obsidianbox.ember.game.universe.level.WorldImpl;
 
-import joptsimple.OptionParser;
-import joptsimple.OptionSet;
+public abstract class ChunkEvent extends WorldEvent {
 
-public class Main {
-    public static void main(String[] args) throws Exception {
-        FileSystem.deploy();
-        final Configuration configuration = new Configuration(FileSystem.CONFIG_SETTINGS_PATH);
-        configuration.load();
-        parseArgs(args, configuration);
-        final Ember game = new Ember(configuration);
-        game.open();
+    public final ChunkImpl chunk;
+
+    public ChunkEvent(Ember game, WorldImpl world, ChunkImpl chunk) {
+        super(game, world);
+        this.chunk = chunk;
     }
 
-    public static void parseArgs(String[] args, Configuration configuration) throws Exception {
-        final OptionParser parser = new OptionParser() {
-            {
-                acceptsAll(asList("l", "listen"))
-                        .withOptionalArg()
-                        .ofType(String.class);
-                acceptsAll(asList("p", "port"))
-                        .withOptionalArg()
-                        .ofType(Integer.class);
-                acceptsAll(asList("debug"))
-                        .withOptionalArg();
-            }
-        };
+    public static class Load extends ChunkEvent {
 
-        final OptionSet options = parser.parse(args);
-        if (options.has("debug")) {
-            configuration.setDebug(true);
+        public Load(Ember game, WorldImpl world, ChunkImpl chunk) {
+            super(game, world, chunk);
+        }
+    }
+
+    public static class Unload extends ChunkEvent {
+
+        public Unload(Ember game, WorldImpl world, ChunkImpl chunk) {
+            super(game, world, chunk);
         }
     }
 }

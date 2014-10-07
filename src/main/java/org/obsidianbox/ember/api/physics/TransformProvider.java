@@ -21,40 +21,22 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.obsidianbox.ember;
+package org.obsidianbox.ember.api.physics;
 
-import static java.util.Arrays.asList;
+import org.obsidianbox.ember.game.entity.Entity;
 
-import joptsimple.OptionParser;
-import joptsimple.OptionSet;
+import java.util.Optional;
 
-public class Main {
-    public static void main(String[] args) throws Exception {
-        FileSystem.deploy();
-        final Configuration configuration = new Configuration(FileSystem.CONFIG_SETTINGS_PATH);
-        configuration.load();
-        parseArgs(args, configuration);
-        final Ember game = new Ember(configuration);
-        game.open();
-    }
+/**
+ * Specifies an object that can provide a {@link Transform}
+ *
+ * Used in physics to give {@link Entity}s their transforms (but can have uses elsewhere)
+ */
+public interface TransformProvider {
 
-    public static void parseArgs(String[] args, Configuration configuration) throws Exception {
-        final OptionParser parser = new OptionParser() {
-            {
-                acceptsAll(asList("l", "listen"))
-                        .withOptionalArg()
-                        .ofType(String.class);
-                acceptsAll(asList("p", "port"))
-                        .withOptionalArg()
-                        .ofType(Integer.class);
-                acceptsAll(asList("debug"))
-                        .withOptionalArg();
-            }
-        };
-
-        final OptionSet options = parser.parse(args);
-        if (options.has("debug")) {
-            configuration.setDebug(true);
-        }
-    }
+    /**
+     * Gets the {@link Transform} as an {@link Optional}.
+     * @return The transform
+     */
+    Optional<Transform> getTransform();
 }

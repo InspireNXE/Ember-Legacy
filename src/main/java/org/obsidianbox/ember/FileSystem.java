@@ -73,33 +73,33 @@ public class FileSystem {
      */
     public static void deploy() throws IOException {
         if (Files.notExists(CONFIG_PATH)) {
-            Game.LOGGER.warn("Config directory was not found. Ignore this is this is your first time running Ember. Otherwise, this may be a problem.");
+            Ember.LOGGER.warn("Config directory was not found. Ignore this is this is your first time running Ember. Otherwise, this may be a problem.");
             Files.createDirectory(CONFIG_PATH);
         }
         if (Files.notExists(CONFIG_SETTINGS_PATH)) {
             Files.copy(FileSystem.class.getResourceAsStream("/config/settings.yml"), CONFIG_SETTINGS_PATH);
         }
         if (Files.notExists(PLUGINS_PATH)) {
-            Game.LOGGER.warn("Plugins directory was not found. Ignore this is this is your first time running Ember. Otherwise, this may be a problem.");
+            Ember.LOGGER.warn("Plugins directory was not found. Ignore this is this is your first time running Ember. Otherwise, this may be a problem.");
             Files.createDirectory(PLUGINS_PATH);
         }
         if (Files.notExists(WORLDS_PATH)) {
-            Game.LOGGER.warn("Worlds directory was not found. Ignore this is this is your first time running Ember. Otherwise, this may be a problem.");
+            Ember.LOGGER.warn("Worlds directory was not found. Ignore this is this is your first time running Ember. Otherwise, this may be a problem.");
             Files.createDirectory(WORLDS_PATH);
         }
         if (Files.notExists(SHADERS_PATH)) {
-            Game.LOGGER.warn("Shaders directory was not found. Ignore this is this is your first time running Ember. Otherwise, this may be a problem.");
+            Ember.LOGGER.warn("Shaders directory was not found. Ignore this is this is your first time running Ember. Otherwise, this may be a problem.");
             Files.createDirectory(SHADERS_PATH);
         }
         if (Files.notExists(SHADERS_GL120_PATH)) {
-            Game.LOGGER.warn("Shaders directory for GL20 was not found. Ignore this is this is your first time running Ember. Otherwise, this may be a problem.");
+            Ember.LOGGER.warn("Shaders directory for GL20 was not found. Ignore this is this is your first time running Ember. Otherwise, this may be a problem.");
             Files.createDirectory(SHADERS_GL120_PATH);
             //Files.copy(FileSystem.class.getResourceAsStream("/shaders/120"), SHADERS_GL120_PATH);
         }
         if (Files.notExists(SHADERS_GL330_PATH)) {
-            Game.LOGGER.warn("Shaders directory for GL3.0 was not found. Ignore this is this is your first time running Ember. Otherwise, this may be a problem.");
+            Ember.LOGGER.warn("Shaders directory for GL3.0 was not found. Ignore this is this is your first time running Ember. Otherwise, this may be a problem.");
             Files.createDirectory(SHADERS_GL330_PATH);
-            //Files.copy(FileSystem.class.getResourceAsStream("/shaders/330"), SHADERS_GL330_PATH);
+            Files.copy(FileSystem.class.getResourceAsStream("/shaders/330"), SHADERS_GL330_PATH);
         }
         LWJGLUtil.deployNatives(null);
     }

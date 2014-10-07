@@ -28,29 +28,29 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import org.junit.Test;
-import org.obsidianbox.ember.universe.level.World;
-import org.obsidianbox.ember.universe.material.IMaterial;
-import org.obsidianbox.ember.universe.material.MaterialManager;
-import org.obsidianbox.ember.universe.material.MaterialRegistrationException;
+import org.obsidianbox.ember.api.universe.level.World;
+import org.obsidianbox.ember.api.universe.material.Material;
+import org.obsidianbox.ember.game.universe.material.MaterialStoreImpl;
+import org.obsidianbox.ember.api.universe.material.MaterialRegistrationException;
 import org.spout.physics.body.RigidBody;
 
 public class WorldTest {
 
-    private final MaterialManager materialManager = new MaterialManager();
+    private final MaterialStoreImpl materialStore = new MaterialStoreImpl();
 
     @Test
     public void testMaterialManager() {
-        assertFalse(materialManager.get((String) null).isPresent());
-        assertTrue(materialManager.get("none").isPresent());
+        assertFalse(materialStore.get((String) null).isPresent());
+        assertTrue(materialStore.get("none").isPresent());
         try {
-            materialManager.register(new TestMaterial());
+            materialStore.register(new TestMaterial());
         } catch (MaterialRegistrationException e) {
             fail("Material registration failed!");
         }
 
         boolean failed = false;
         try {
-            materialManager.register(null);
+            materialStore.register(null);
         } catch (MaterialRegistrationException e) {
             failed = true;
         }
@@ -60,7 +60,7 @@ public class WorldTest {
 
         failed = false;
         try {
-            materialManager.register(new IMaterial() {
+            materialStore.register(new Material() {
                 @Override
                 public String getName() {
                     return null;
@@ -80,7 +80,7 @@ public class WorldTest {
 
         failed = false;
         try {
-            materialManager.register(new IMaterial() {
+            materialStore.register(new Material() {
                 @Override
                 public String getName() {
                     return "";
@@ -98,10 +98,10 @@ public class WorldTest {
             fail("Registering a material with an empty name should have failed!");
         }
 
-        assertFalse(materialManager.NONE.getName().equals(materialManager.get("test").get().getName()));
+        assertFalse(materialStore.NONE.getName().equals(materialStore.get("test").get().getName()));
     }
 
-    private final class TestMaterial implements IMaterial {
+    private final class TestMaterial implements Material {
 
         @Override
         public String getName() {

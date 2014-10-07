@@ -21,40 +21,24 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.obsidianbox.ember;
+package org.obsidianbox.ember.api.universe.level;
 
-import static java.util.Arrays.asList;
+import com.flowpowered.plugins.Plugin;
+import org.obsidianbox.ember.api.Game;
+import org.spout.physics.engine.DynamicsWorld;
 
-import joptsimple.OptionParser;
-import joptsimple.OptionSet;
+import java.util.Optional;
+import java.util.UUID;
 
-public class Main {
-    public static void main(String[] args) throws Exception {
-        FileSystem.deploy();
-        final Configuration configuration = new Configuration(FileSystem.CONFIG_SETTINGS_PATH);
-        configuration.load();
-        parseArgs(args, configuration);
-        final Ember game = new Ember(configuration);
-        game.open();
-    }
+public interface World {
+    UUID getUUID();
 
-    public static void parseArgs(String[] args, Configuration configuration) throws Exception {
-        final OptionParser parser = new OptionParser() {
-            {
-                acceptsAll(asList("l", "listen"))
-                        .withOptionalArg()
-                        .ofType(String.class);
-                acceptsAll(asList("p", "port"))
-                        .withOptionalArg()
-                        .ofType(Integer.class);
-                acceptsAll(asList("debug"))
-                        .withOptionalArg();
-            }
-        };
+    Game getGame();
 
-        final OptionSet options = parser.parse(args);
-        if (options.has("debug")) {
-            configuration.setDebug(true);
-        }
-    }
+    Plugin getPlugin();
+
+    //TODO Wrap this so API has no access
+    DynamicsWorld getPhysics();
+
+    Optional<Chunk> getChunk(int vx, int vy, int vz, LoadOption option);
 }

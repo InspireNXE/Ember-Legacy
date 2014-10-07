@@ -21,40 +21,34 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.obsidianbox.ember;
+package org.obsidianbox.ember.api.universe.material.builtin;
 
-import static java.util.Arrays.asList;
+import org.obsidianbox.ember.api.universe.level.World;
+import org.obsidianbox.ember.api.universe.material.Material;
+import org.spout.physics.body.RigidBody;
+import org.spout.physics.collision.shape.BoxShape;
+import org.spout.physics.math.Quaternion;
+import org.spout.physics.math.Transform;
+import org.spout.physics.math.Vector3;
 
-import joptsimple.OptionParser;
-import joptsimple.OptionSet;
+public class Solid implements Material {
 
-public class Main {
-    public static void main(String[] args) throws Exception {
-        FileSystem.deploy();
-        final Configuration configuration = new Configuration(FileSystem.CONFIG_SETTINGS_PATH);
-        configuration.load();
-        parseArgs(args, configuration);
-        final Ember game = new Ember(configuration);
-        game.open();
+    public static final BoxShape PHYSICS_CUBE_SHAPE = new BoxShape(1f, 1f, 1f);
+    public static final float MASS = 1f;
+    private static RigidBody body;
+
+    @Override
+    public String getName() {
+        return "solid";
     }
 
-    public static void parseArgs(String[] args, Configuration configuration) throws Exception {
-        final OptionParser parser = new OptionParser() {
-            {
-                acceptsAll(asList("l", "listen"))
-                        .withOptionalArg()
-                        .ofType(String.class);
-                acceptsAll(asList("p", "port"))
-                        .withOptionalArg()
-                        .ofType(Integer.class);
-                acceptsAll(asList("debug"))
-                        .withOptionalArg();
-            }
-        };
-
-        final OptionSet options = parser.parse(args);
-        if (options.has("debug")) {
-            configuration.setDebug(true);
+    @Override
+    public RigidBody getBody(World world, int vx, int vy, int vz) {
+        if (body == null) {
+            body = world.getPhysics().createRigidBody(new Transform(new Vector3(vx, vy, vz), Quaternion.identity()), MASS, PHYSICS_CUBE_SHAPE);
+        } else {
+            body.getTransform().setPosition(new Vector3(vx, vy, vz));
         }
+        return body;
     }
 }
