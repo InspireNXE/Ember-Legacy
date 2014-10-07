@@ -111,6 +111,8 @@ public final class Ember extends TickingElement implements Game {
         eventManager.callEvent(new GameEvent.Stop(this));
         pluginManager.disable();
         network.stop();
+        universe.stop();
+        renderer.stop();
         console.close();
     }
 

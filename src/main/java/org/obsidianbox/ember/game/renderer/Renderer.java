@@ -108,6 +108,8 @@ public class Renderer extends TickingElement {
 
     @Override
     public void onStop() {
+        graph.destroy();
+        context.destroy();
     }
 
     private void constructRenderer() {
