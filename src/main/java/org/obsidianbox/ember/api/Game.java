@@ -23,6 +23,11 @@
  */
 package org.obsidianbox.ember.api;
 
-public interface Game {
+import org.obsidianbox.ember.api.universe.Universe;
+import org.obsidianbox.ember.api.universe.material.MaterialStore;
 
+public interface Game {
+    Universe getUniverse();
+
+    MaterialStore getMaterialStore();
 }

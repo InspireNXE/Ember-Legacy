@@ -26,6 +26,8 @@ package org.obsidianbox.ember;
 import com.flowpowered.commons.ticking.TickingElement;
 import com.flowpowered.events.SimpleEventManager;
 import org.obsidianbox.ember.api.Game;
+import org.obsidianbox.ember.api.universe.Universe;
+import org.obsidianbox.ember.api.universe.material.MaterialStore;
 import org.obsidianbox.ember.game.command.Commands;
 import org.obsidianbox.ember.game.command.GameCommandManager;
 import org.obsidianbox.ember.game.console.GameConsole;
@@ -33,6 +35,7 @@ import org.obsidianbox.ember.game.event.GameEvent;
 import org.obsidianbox.ember.game.network.Network;
 import org.obsidianbox.ember.game.plugin.GamePluginManager;
 import org.obsidianbox.ember.game.renderer.Renderer;
+import org.obsidianbox.ember.game.universe.UniverseImpl;
 import org.obsidianbox.ember.game.universe.material.MaterialStoreImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,8 +50,11 @@ public final class Ember extends TickingElement implements Game {
     public static final Optional<String> VERSION = Optional.ofNullable(Ember.class.getPackage().getImplementationVersion());
     public static final Logger LOGGER = LoggerFactory.getLogger("Ember");
 
+    //Modules
+    public final UniverseImpl universe;
     public final Network network;
     public final Renderer renderer;
+    //
     private final Configuration configuration;
     private final Semaphore semaphore = new Semaphore(0);
     private final AtomicBoolean running = new AtomicBoolean(false);
@@ -61,6 +67,7 @@ public final class Ember extends TickingElement implements Game {
     public Ember(Configuration configuration) {
         super("game", 20);
         this.configuration = configuration;
+        this.universe = new UniverseImpl(this);
         this.network = new Network(this);
         this.renderer = new Renderer(GLVersioned.GLVersion.GL30, true);
     }
@@ -137,7 +144,13 @@ public final class Ember extends TickingElement implements Game {
         return eventManager;
     }
 
-    public MaterialStoreImpl getMaterialStore() {
+    @Override
+    public Universe getUniverse() {
+        return universe;
+    }
+
+    @Override
+    public MaterialStore getMaterialStore() {
         return materialStore;
     }
 }
