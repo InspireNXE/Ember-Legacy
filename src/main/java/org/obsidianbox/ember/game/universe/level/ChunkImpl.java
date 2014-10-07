@@ -27,6 +27,7 @@ import com.flowpowered.commons.BitSize;
 import org.obsidianbox.ember.api.universe.level.Chunk;
 import org.obsidianbox.ember.api.universe.level.Location;
 import org.obsidianbox.ember.api.universe.material.Material;
+import org.obsidianbox.ember.game.universe.material.MaterialStoreImpl;
 import org.obsidianbox.ember.util.atomic.AtomicPaletteStringStore;
 
 import java.util.Optional;
@@ -39,7 +40,7 @@ public class ChunkImpl implements Chunk {
 
     public ChunkImpl(LocationImpl location) {
         this.location = location;
-        store = new AtomicPaletteStringStore(BITS, location.world.game.getMaterialStore().getMaterialIdMap());
+        store = new AtomicPaletteStringStore(BITS, ((MaterialStoreImpl) location.world.game.getMaterialStore()).getMaterialIdMap());
     }
 
     @Override
