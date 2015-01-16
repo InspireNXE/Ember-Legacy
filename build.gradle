@@ -2,7 +2,7 @@
 plugins {
     id "application"
     id "com.github.hierynomus.license" version "0.11.0"
-    id "com.github.johnrengelman.shadow" version "1.1.2"
+    id "com.github.johnrengelman.shadow" version "1.2.0"
     id "java"
     id "maven"
     id "signing"
@@ -13,8 +13,12 @@ repositories {
     mavenLocal()
     mavenCentral()
     maven {
-        name = 'sonatype-nexus-public'
+        name = 'oss-sonatype'
         url = 'https://oss.sonatype.org/content/repositories/public/'
+    }
+    maven {
+        name = 'spongepowered-sonatype'
+        url = 'http://repo.spongepowered.org/maven/'
     }
 }
 
@@ -23,18 +27,19 @@ dependencies {
     compile 'com.flowpowered:flow-cerealization:0.1.0-SNAPSHOT'
     compile 'com.flowpowered:flow-chat:0.1.0-SNAPSHOT'
     compile 'com.flowpowered:flow-commands:0.1.0-SNAPSHOT'
-    compile 'com.flowpowered:flow-commons:0.1.0-SNAPSHOT'
+    compile 'com.flowpowered:flow-commons:1.0.1-SNAPSHOT'
     compile 'com.flowpowered:flow-events:0.1.0-SNAPSHOT'
     compile 'com.flowpowered:flow-plugins:0.1.0-SNAPSHOT'
-    compile 'com.flowpowered:flow-math:0.1.0-SNAPSHOT'
+    compile 'com.flowpowered:flow-math:1.0.1-SNAPSHOT'
     compile 'com.flowpowered:flow-networking:1.0.0-SNAPSHOT'
     compile 'com.flowpowered:flow-render:0.1.0-SNAPSHOT'
-    compile 'com.github.wolf480pl:jline-log4j2-appender:1.0.0-SNAPSHOT'
+    compile 'com.flowpowered:react:1.0.1-SNAPSHOT'
+    compile 'com.github.wolf480pl:jline-log4j2-appender:1.0.0'
     compile 'net.sf.jopt-simple:jopt-simple:4.6'
     compile 'org.apache.logging.log4j:log4j-api:2.0.1'
     compile 'org.apache.logging.log4j:log4j-core:2.0.1'
     compile 'org.apache.logging.log4j:log4j-slf4j-impl:2.0.1'
-    compile 'org.spout:react:1.0.0-SNAPSHOT'
+    compile 'org.spongepowered:spongeapi:1.1-SNAPSHOT'
     compile 'junit:junit:4.11'
 }
 
@@ -42,19 +47,19 @@ dependencies {
 defaultTasks 'licenseFormat', 'clean', 'build', 'shadowJar'
 
 // Basic project information
-group = 'org.obsidianbox'
+group = 'org.inspirenxe'
 archivesBaseName = 'ember'
 version = '1.0.0-SNAPSHOT'
 mainClassName = 'org.obsidianbox.ember.game.Main'
 ext.inceptionYear = '2014'
-ext.currentYear = '2014'
+ext.currentYear = '2015'
 ext.packaging = 'jar'
 
 // Extended project information
 ext.projectName = 'Ember'
 ext.description = 'Ember is a voxel engine, built for Java, developed as a hobby project to tackle the unique challenges associated with game development'
-ext.url = 'http://obsidianbox.org'
-ext.organization = 'ObsidianBox'
+ext.url = 'http://inspirenxe.org'
+ext.organization = 'InspireNXE'
 
 // Java version target/source compatibility
 sourceCompatibility = '1.8'
@@ -62,13 +67,12 @@ targetCompatibility = '1.8'
 
 // Compilation variables
 ext.buildNumber = project.hasProperty("buildNumber") ? buildNumber : '0'
-ext.ciSystem = project.hasProperty("ciSystem") ? ciSystem : 'unknown'
 ext.commit = project.hasProperty("commit") ? commit : 'unknown'
 
 // Include dependencies in the final JAR
 shadowJar {
     classifier = ''
-    destinationDir = file("build/distributions")
+    destinationDir = file("build/shaded")
 }
 
 // License header formatting
@@ -80,7 +84,7 @@ license {
     header rootProject.file('HEADER.txt')
     ignoreFailures true
     strictCheck true
-    excludes(["**/*.frag", "**/*.vert", "**/*.xml", "**/*.yml"])
+    includes(["**/*.java"])
 }
 
 // JAR manifest configuration
@@ -89,5 +93,5 @@ jar.manifest.mainAttributes(
         "Built-By": System.properties['user.name'],
         "Created-By": System.properties['java.vm.version'] + " (" + System.properties['java.vm.vendor'] + ")",
         "Implementation-Title": name,
-        "Implementation-Version": version + "+" + ciSystem + "-b" + buildNumber + ".git-" + commit,
+        "Implementation-Version": version + "-b" + buildNumber + ".git-" + commit,
         "Implementation-Vendor": url)
